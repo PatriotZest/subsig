@@ -1,4 +1,10 @@
 .DS_Store
 __pycache__
 .env
+<<<<<<< HEAD
 .venv/
+=======
+.env.*
+tests
+
+>>>>>>> main

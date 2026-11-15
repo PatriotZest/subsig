@@ -1,0 +1,221 @@
+{
+ "id": "prealg-3",
+ "name": "Pre-algebra · Section 3",
+ "term": "Fall 2026",
+ "sample": true,
+ "gradescope": {
+  "connected": true,
+  "course_name": "MATH 095 Sec 3 (sample)",
+  "last_sync": "2026-11-13T16:20:00"
+ },
+ "skills": [
+  {
+   "id": "frac",
+   "name": "Fractions"
+  },
+  {
+   "id": "neg",
+   "name": "Negative numbers"
+  },
+  {
+   "id": "order",
+   "name": "Order of operations"
+  }
+ ],
+ "students": [
+  {
+   "id": "ana",
+   "name": "Ana"
+  },
+  {
+   "id": "ben",
+   "name": "Ben"
+  },
+  {
+   "id": "dev",
+   "name": "Dev"
+  },
+  {
+   "id": "mai",
+   "name": "Mai"
+  },
+  {
+   "id": "sam",
+   "name": "Sam"
+  },
+  {
+   "id": "lia",
+   "name": "Lia"
+  },
+  {
+   "id": "omar",
+   "name": "Omar"
+  },
+  {
+   "id": "kai",
+   "name": "Kai"
+  },
+  {
+   "id": "zoe",
+   "name": "Zoe"
+  },
+  {
+   "id": "raj",
+   "name": "Raj"
+  },
+  {
+   "id": "eli",
+   "name": "Eli"
+  },
+  {
+   "id": "noa",
+   "name": "Noa"
+  },
+  {
+   "id": "ivy",
+   "name": "Ivy"
+  },
+  {
+   "id": "leo",
+   "name": "Leo"
+  },
+  {
+   "id": "ada",
+   "name": "Ada"
+  },
+  {
+   "id": "max",
+   "name": "Max"
+  },
+  {
+   "id": "tess",
+   "name": "Tess"
+  },
+  {
+   "id": "jon",
+   "name": "Jon"
+  },
+  {
+   "id": "uma",
+   "name": "Uma"
+  },
+  {
+   "id": "theo",
+   "name": "Theo"
+  },
+  {
+   "id": "rosa",
+   "name": "Rosa"
+  },
+  {
+   "id": "finn",
+   "name": "Finn"
+  },
+  {
+   "id": "nia",
+   "name": "Nia"
+  },
+  {
+   "id": "cal",
+   "name": "Cal"
+  },
+  {
+   "id": "wes",
+   "name": "Wes"
+  },
+  {
+   "id": "ines",
+   "name": "Ines"
+  },
+  {
+   "id": "hugo",
+   "name": "Hugo"
+  },
+  {
+   "id": "mila",
+   "name": "Mila"
+  },
+  {
+   "id": "yuki",
+   "name": "Yuki"
+  },
+  {
+   "id": "ezra",
+   "name": "Ezra"
+  },
+  {
+   "id": "june",
+   "name": "June"
+  },
+  {
+   "id": "pax",
+   "name": "Pax"
+  },
+  {
+   "id": "remy",
+   "name": "Remy"
+  },
+  {
+   "id": "sol",
+   "name": "Sol"
+  },
+  {
+   "id": "vera",
+   "name": "Vera"
+  },
+  {
+   "id": "ike",
+   "name": "Ike"
+  },
+  {
+   "id": "lou",
+   "name": "Lou"
+  },
+  {
+   "id": "bea",
+   "name": "Bea"
+  }
+ ],
+ "exams": [
+  {
+   "id": "midterm",
+   "name": "Midterm",
+   "date": "2026-11-12",
+   "status": "needs_tags",
+   "n_students": 38,
+   "n_items": 14,
+   "report_id": null,
+   "source": "Gradescope export"
+  },
+  {
+   "id": "quiz-3",
+   "name": "Quiz 3",
+   "date": "2026-10-31",
+   "status": "analyzed",
+   "n_students": 38,
+   "n_items": 9,
+   "report_id": "quiz-3",
+   "source": "Gradescope export"
+  },
+  {
+   "id": "quiz-2",
+   "name": "Quiz 2",
+   "date": "2026-10-10",
+   "status": "analyzed",
+   "n_students": 38,
+   "n_items": 9,
+   "report_id": "quiz-2",
+   "source": "Gradescope export"
+  },
+  {
+   "id": "quiz-1",
+   "name": "Quiz 1",
+   "date": "2026-09-19",
+   "status": "analyzed",
+   "n_students": 38,
+   "n_items": 8,
+   "report_id": "quiz-1",
+   "source": "Gradescope export"
+  }
+ ]
+}
