@@ -89,6 +89,25 @@ a.row:hover, .row.click:hover { background: var(--bg-2); cursor: pointer; }
 .r-skill { grid-template-columns: minmax(0, 1.4fr) 110px minmax(0, 1fr) 150px; }
 .r-grp { grid-template-columns: minmax(0, 1fr) 100px minmax(0, 3fr); align-items: start; }
 
+.r-step { grid-template-columns: 20px 170px minmax(0, 1fr); align-items: start; }
+.r-step .n { color: var(--text-3); font-family: var(--mono); font-size: 13px; padding-top: 1px; }
+.r-step .s b { color: var(--text); font-weight: 600; }
+.lede { color: var(--text-2); max-width: 640px; margin: 20px 0 0; font-size: 15px; }
+.lede b { color: var(--text); font-weight: 600; }
+.up { color: var(--green); }
+/* grade → true score */
+.db { position: relative; display: block; width: 140px; height: 14px; }
+.db::before { content: ""; position: absolute; left: 0; right: 0; top: 6.5px; height: 1px; background: var(--line); }
+.db i { position: absolute; top: 3px; width: 8px; height: 8px; margin-left: -4px; border-radius: 50%; }
+.db i.ln { top: 6px; height: 2px; margin: 0; border-radius: 0; width: 0; background: var(--green); opacity: .55; }
+.db i.ln.dn { background: var(--amber); }
+.db i.g { background: var(--panel); box-shadow: inset 0 0 0 1.5px var(--text-3); }
+.db i.t { background: var(--text); }
+.legend { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; margin-bottom: 10px; font-size: 13px; color: var(--text-2); }
+.legend i { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; vertical-align: 0; }
+.legend i.g { box-shadow: inset 0 0 0 1.5px var(--text-3); }
+.legend i.t { background: var(--text); }
+.legend .m { color: var(--text-3); }
 /* stats strip */
 .strip { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border: 1px solid var(--line); border-radius: 12px; margin-top: 32px; background: var(--panel); }
 .strip div { padding: 16px 18px; border-left: 1px solid var(--line); }
@@ -159,6 +178,8 @@ tr.det td { padding: 0 18px 14px; background: var(--bg-2); border-top: 0; }
   .r-grp { grid-template-columns: 1fr 90px; }
   .r-grp > :nth-child(3) { grid-column: 1 / -1; }
   .search { width: 100%; }
+  .r-step { grid-template-columns: 20px 1fr; }
+  .r-step .s { grid-column: 2; }
 }
 </style>
 </head>

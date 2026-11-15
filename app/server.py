@@ -175,6 +175,10 @@ def build_report(exam, job):
             frac[(r["student"], r["question_id"])] = max(0.0, min(1.0, (r.get("earned") or 0) / p))
         earned[(r["student"], r["question_id"])] = r.get("earned") or 0
     names = [s["student"] for s in job.get("students", [])]
+    # IRT layer from the job: Rasch ability and expected score over the modeled questions
+    irt = {s["student"]: {"ability": round(s["proficiency"], 2), "score": round(s["estimated_true_score"], 2),
+                          "max": s.get("modeled_max_points")}
+           for s in job.get("students", []) if s.get("proficiency") is not None and s.get("estimated_true_score") is not None}
 
     # Per-skill DINA-style estimate: a student with the skill answers right unless they slip (s);
     # without it, right only by guessing (g). Partial credit counts as a fractional right answer.
@@ -225,6 +229,7 @@ def build_report(exam, job):
         guesses = sum(a["label"] == "guess" for a in answers)
         students.append({"id": slug(n), "name": n, "score": round(sum(a["points"] for a in answers), 2),
                          "max_score": round(sum(a["max_points"] for a in answers), 2), "mastery": mastery, "answers": answers,
+                         "irt": irt.get(n),
                          "score_note": "understated" if slips >= 2 and gaps == 0 else "overstated" if guesses >= 2 else None})
 
     items = []
@@ -325,7 +330,7 @@ def student(cid, sid):
         s = next((x for x in r["students"] if x["id"] == sid), None)
         if s:
             exams.append({"exam_id": e["id"], "name": e["name"], "date": e["date"], "score": s["score"], "max_score": s["max_score"],
-                          "mastery": s["mastery"], "score_note": s["score_note"],
+                          "mastery": s["mastery"], "score_note": s["score_note"], "skills": r["skills"],
                           "answers": [{**a, "prompt": next((i["prompt"] for i in r["items"] if i["id"] == a["item"]), "")} for a in s["answers"]]})
     skills = report(exams[-1]["exam_id"])["skills"] if exams else c["skills"]
     name = next((s["name"] for s in c["students"] if s["id"] == sid), None)

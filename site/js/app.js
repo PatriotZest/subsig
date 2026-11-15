@@ -18,11 +18,22 @@
   const head = (title, meta, right = '') => `<div class="head"><div><h1>${title}</h1>${meta ? `<div class="meta">${meta}</div>` : ''}</div>${right ? `<div class="actions" style="margin:0">${right}</div>` : ''}</div>`;
   const sec = (title, body, extra = '') => `<section><div class="sh"><h2>${title}</h2>${extra ? `<span class="x">${extra}</span>` : ''}</div>${body}</section>`;
   const dots = parts => parts.filter(Boolean).join('<span class="d">·</span>');
+  // True score: points a student would get if every answer matched their skills (DINA: a question counts
+  // as right exactly when the student has all the skills it needs). No slips, no lucky guesses.
+  const trueScore = (st, R) => {
+    const by = k => R.items.reduce((t, i) => t + i.max_points * i.skills.reduce((q, sk) => q * (st.mastery[sk]?.[k] ?? .5), 1), 0);
+    return { p: by('p'), lo: by('lo'), hi: by('hi'), max: R.items.reduce((t, i) => t + i.max_points, 0) };
+  };
+  const fmt = x => (Math.round(x * 10) / 10).toString();
+  const isUpload = e => e.id.startsWith('up-');
+  // grade (hollow) and true score (filled) on one 0–100% track
+  const dumbbell = (g, t) => { const a = Math.min(g, t) * 100, b = Math.max(g, t) * 100, up = t >= g;
+    return `<span class="db" aria-label="grade ${pct(g)}, true score ${pct(t)}"><i class="ln${up ? '' : ' dn'}" style="left:${a}%;width:${b - a}%"></i><i class="g" style="left:${g * 100}%"></i><i class="t${up ? '' : ' dn'}" style="left:${t * 100}%"></i></span>`; };
   const nameList = (ids, R, max = 10) => { const n = ids.map(id => R.students.find(s => s.id === id)?.name || id); return n.length ? esc(n.slice(0, max).join(', ')) + (n.length > max ? ` and ${n.length - max} more` : '') : 'Nobody'; };
 
   async function loadCourse() {
     course = await API.getCourse('prealg-3');
-    document.getElementById('crumb').textContent = course.name;
+    document.getElementById('crumb').textContent = 'Exams';
     document.getElementById('mode').hidden = API.live;
   }
 
@@ -66,51 +77,39 @@
     }
   }
 
-  /* ---------- course home ---------- */
+  /* ---------- home: uploaded exams, then the sample class ---------- */
   async function home() {
-    const ex = analyzed();
+    const ex = analyzed().filter(e => !isUpload(e));
     const reps = await Promise.all(ex.map(e => API.getReport(e.report_id)));
-    const sname = (r, id) => r.skills.find(s => s.id === id)?.name || skillName(id);
-    const biggest = r => [...r.groups].sort((x, y) => y.students.length - x.students.length)[0];
-    // the sample course's quizzes share one skill list, so the term trend uses those reports
-    const courseIdx = reps.map((r, i) => i).filter(i => course.skills.every(k => reps[i].skills.some(s => s.id === k.id)));
-    const cr = courseIdx.map(i => reps[i]), cx = courseIdx.map(i => ex[i]);
-    const R = reps[reps.length - 1], E = ex[ex.length - 1];
     const has = (r, k) => r.students.filter(s => s.mastery[k]?.p >= .5).length / Math.max(1, r.students.length);
-    const big = R && biggest(R);
-    const under = R ? R.students.filter(s => s.score_note === 'understated') : [];
-    const todo = course.exams.filter(e => e.status === 'needs_tags');
-    const running = course.exams.filter(e => e.status === 'analyzing');
+    const ups = course.exams.filter(isUpload), samples = course.exams.filter(e => !isUpload(e));
+    const upReps = await Promise.all(ups.map(e => e.status === 'analyzed' && e.report_id ? API.getReport(e.report_id) : null));
+    const running = ups.filter(e => e.status === 'analyzing');
 
-    const att = [
-      ...running.map(e => [`#/exams/${e.id}`, `${esc(e.name)} is being analyzed`, 'job running in Databricks']),
-      ...todo.map(e => [`#/exams/${e.id}`, `${esc(e.name)} needs skill tags`, `${e.n_items} questions synced from Gradescope`]),
-      ...(big && big.students.length ? [[`#/exams/${E.id}`, `Reteach ${esc(sname(R, big.skill).toLowerCase())}`, `${big.students.length} students after ${esc(E.name)}`]] : []),
-      ...(under.length ? [[`#/exams/${E.id}`, `${under.length} scores lower than what students know`, `${esc(E.name)}`]] : [])
-    ].map(([h, t, m]) => `<a class="row r-att" href="${h}"><span class="st warn"></span><span><span class="t">${t}</span> <span class="m">· ${m}</span></span><span class="chev">›</span></a>`).join('');
-
-    const skills = cr.length ? course.skills.map(k => {
-      const first = has(cr[0], k.id), last = has(cr[cr.length - 1], k.id), d = Math.round((last - first) * 100);
-      return `<div class="row r-skill"><span class="t">${esc(k.name)}</span>${bar(last)}<span class="m">of students have it</span><span class="m num" style="justify-self:end">${d >= 0 ? '+' : ''}${d} since ${esc(cx[0].name)}</span></div>`;
-    }).join('') : '';
-
-    const exams = course.exams.map(e => {
+    const row = (e, r) => {
       let sum = '';
-      const i = ex.findIndex(x => x.id === e.id);
-      if (e.status === 'analyzed' && i >= 0) {
-        const r = reps[i], g = biggest(r);
-        sum = g && g.students.length ? `${g.students.length} missing ${esc(sname(r, g.skill).toLowerCase())}` : `${r.test.n_students} students · no missing skill found`;
-      } else if (e.status === 'needs_tags') sum = 'Review the tags to run the analysis';
+      if (r) {
+        const g = r.students.map(st => trueScore(st, r).p / trueScore(st, r).max - st.score / st.max_score);
+        const off = g.filter(d => Math.abs(d) >= .1).length;
+        sum = `${off} of ${r.students.length} grades off from the true score by 10+ points`;
+      } else if (e.status === 'needs_tags') sum = 'Review the skill tags to run the analysis';
       else if (e.status === 'analyzing') sum = 'Analysis job running in Databricks';
       else if (e.status === 'failed') sum = 'The analysis job failed';
       return `<a class="row r-exam" href="#/exams/${esc(e.id)}"><span><span class="t">${esc(e.name)}</span> <span class="m">${date(e.date)}</span></span>${status(e)}<span class="s">${sum}</span><span class="chev">›</span></a>`;
-    }).join('');
+    };
 
-    const conn = course.databricks?.connected ? 'Databricks connected' : `Gradescope synced ${ago(course.gradescope.last_sync)}`;
-    view.innerHTML = head(esc(course.name), dots([esc(course.term), `${course.students.length} students`, conn, `<a class="btn" href="#/import" style="height:26px;padding:0 8px;font-size:13px">Upload CSV</a>`]))
-      + (att ? sec('Needs attention', `<div class="list">${att}</div>`) : '')
-      + sec('Exams', `<div class="list">${exams}</div>`)
-      + (skills ? sec('Skills', `<div class="list">${skills}</div>`, `sample class · as of ${esc(cx[cx.length - 1].name)}`) : '');
+    const skills = reps.length ? course.skills.map(k => {
+      const first = has(reps[0], k.id), last = has(reps[reps.length - 1], k.id), d = Math.round((last - first) * 100);
+      return `<div class="row r-skill"><span class="t">${esc(k.name)}</span>${bar(last)}<span class="m">of students have it</span><span class="m num" style="justify-self:end">${d >= 0 ? '+' : ''}${d} since ${esc(ex[0].name)}</span></div>`;
+    }).join('') : '';
+
+    const conn = course.databricks?.connected ? 'Databricks connected' : 'Sample data only: no backend connected';
+    view.innerHTML = head('Exams', dots([conn, `<a class="btn" href="#/import" style="height:26px;padding:0 8px;font-size:13px">Upload CSV</a>`]))
+      + `<p class="lede">Upload a graded exam. Subsigmoid works out which skills each student actually has, and gives each one a <b>true score</b>: the score they'd get with no careless slips and no lucky guesses.</p>`
+      + sec('Your uploads', ups.length ? `<div class="list">${ups.map((e, i) => row(e, upReps[i])).join('')}</div>`
+          : `<a class="list row" href="#/import" style="grid-template-columns:1fr auto;display:grid"><span class="s">No uploads yet. Upload a graded CSV, or try the sample file.</span><span class="chev">›</span></a>`)
+      + sec(`Sample class · ${esc(course.name)}`, `<div class="list">${samples.map(e => { const i = ex.findIndex(x => x.id === e.id); return row(e, i >= 0 ? reps[i] : null); }).join('')}</div>`, `${course.students.length} made-up students, to show the dashboard`)
+      + (skills ? sec('Sample class skills over the term', `<div class="list">${skills}</div>`, `as of ${esc(ex[ex.length - 1].name)}`) : '');
     if (running.length) liveTimer = setInterval(async () => { if (location.hash.replace(/^#\/?/, '') !== '') return clearInterval(liveTimer); const before = running.map(e => e.id).join(); await loadCourse(); if (course.exams.filter(e => e.status === 'analyzing').map(e => e.id).join() !== before) render(); }, 4000);
   }
 
@@ -134,7 +133,7 @@
   async function exam(id) {
     const e = course.exams.find(x => x.id === id);
     if (!e) { view.innerHTML = `<div class="empty">No exam “${esc(id)}”. <a href="#/">Back</a></div>`; return; }
-    const back = `<a class="back" href="#/">← ${esc(course.name)}</a>`;
+    const back = `<a class="back" href="#/">← Exams</a>`;
     const meta = dots([date(e.date), `${e.n_items} questions`, `${e.n_students} students`, status(e), e.report_note ? `<span class="lo">${esc(e.report_note)}</span>` : '']);
     if (e.status === 'analyzing') return analyzing(e, back, meta);
     if (e.status === 'failed') { view.innerHTML = back + head(esc(e.name), meta) + `<section style="margin-top:32px"><div class="callout">The Databricks run failed: ${esc(e.error || 'unknown error')}${e.run_url ? ` · <a href="${esc(e.run_url)}" target="_blank" rel="noopener">open the run ↗</a>` : ''}</div></section>`; return; }
@@ -142,31 +141,52 @@
 
     const R = await API.getReport(e.report_id);
     curSkills = R.skills;
-    const mean = R.students.reduce((t, s) => t + s.score / s.max_score, 0) / R.students.length;
-    const withGap = R.students.filter(s => Object.values(s.mastery).some(m => m.p < .3));
-    const under = R.students.filter(s => s.score_note === 'understated'), over = R.students.filter(s => s.score_note === 'overstated');
+    const T = new Map(R.students.map(st => [st.id, trueScore(st, R)]));
+    const gr = st => st.score / st.max_score, tr = st => T.get(st.id).p / T.get(st.id).max;
+    const avg = f => R.students.reduce((t, st) => t + f(st), 0) / R.students.length;
+    const under = R.students.filter(st => tr(st) - gr(st) >= .1), over = R.students.filter(st => gr(st) - tr(st) >= .1);
     const weak = R.items.filter(i => i.flags.length);
+    const G = R.items.reduce((t, i) => t + i.guess, 0) / R.items.length, S = R.items.reduce((t, i) => t + i.slip, 0) / R.items.length;
+
+    // worked example: two students with the same grade whose true scores differ the most
+    let pair = null;
+    for (const a of R.students) for (const b of R.students)
+      if (a.score === b.score && tr(b) - tr(a) > (pair ? tr(pair[1]) - tr(pair[0]) : .05)) pair = [a, b];
+    const missed = st => st.answers.filter(x => x.points < x.max_points);
+    const why = st => { const g = missed(st).filter(x => x.label === 'gap'), sl = missed(st).filter(x => x.label === 'slip');
+      if (g.length <= sl.length) return 'missed questions on skills they get right elsewhere, so those look like slips';
+      const k = R.skills.map(x => x.id).sort((a, b) => g.filter(x => R.items.find(i => i.id === x.item).skills.includes(b)).length - g.filter(x => R.items.find(i => i.id === x.item).skills.includes(a)).length)[0];
+      const need = R.items.filter(i => i.skills.includes(k)), wrong = need.filter(i => st.answers.find(x => x.item === i.id)?.points < i.max_points);
+      return `missed ${wrong.length === need.length ? 'all ' : ''}${wrong.length} of the ${need.length} questions that need ${esc(skillName(k).toLowerCase())}, so that skill is probably missing`.replace(' of the ' + need.length + ' questions', wrong.length === need.length ? ' questions' : ' of the ' + need.length + ' questions'); };
+    const irtAb = st => st.irt ? (st.irt.ability > 0 ? '+' : '') + st.irt.ability.toFixed(2) : null;
+    const steps = [
+      ['1', 'IRT (Rasch model)', `Fits how hard each question is and each student's overall ability.${R.tag_source ? ' Runs as a Databricks job.' : ''} It only counts points, so everyone with the same grade gets the same ability${pair && pair[0].irt ? `: ${esc(pair[0].name)} and ${esc(pair[1].name)} both get ${irtAb(pair[0])}` : ''}.`],
+      ['2', 'DINA (skill model)', `Each question needs certain skills${R.tag_source === 'ai' ? ' (tagged by AI from the question text)' : ''}. A student with the skills gets it right unless they slip (about ${pct(S)} of the time); without them, only by guessing (about ${pct(G)}). From <i>which</i> questions were missed, it estimates the chance each student has each skill.${pair ? ` ${esc(pair[0].name)} ${why(pair[0])}; ${esc(pair[1].name)} ${why(pair[1])}.` : ''}`],
+      ['3', 'True score', `Each question scored as right only if the student has its skills: no slips, no lucky guesses.${pair ? ` Both scored ${fmt(pair[0].score)}/${fmt(pair[0].max_score)}; true scores are <b>${fmt(T.get(pair[0].id).p)}</b> and <b>${fmt(T.get(pair[1].id).p)}</b>.` : ''}`]
+    ].map(([n, t, d]) => `<div class="row r-step"><span class="n">${n}</span><span class="t">${t}</span><span class="s">${d}</span></div>`).join('');
 
     const groups = [...R.groups.map(g => [`Reteach ${esc(skillName(g.skill).toLowerCase())}`, g.students]),
-      ['Scored lower than they know', under.map(s => s.id)], ['Scored higher than they know', over.map(s => s.id)]]
+      ['Grade undersells them', under.map(st => st.id)], ['Grade oversells them', over.map(st => st.id)]]
       .map(([t, ids]) => `<div class="row r-grp"><span class="t">${t}</span><span class="m num">${ids.length} students</span><span class="s">${nameList(ids, R)}</span></div>`).join('');
 
-    const studentRows = [...R.students].sort((a, b) => a.score - b.score).map(s => `
-      <tr class="go" data-s="${esc(s.id)}" data-name="${esc(s.name.toLowerCase())}"><td class="w">${esc(s.name)}</td><td class="num">${s.score}/${s.max_score}</td>
-        ${R.skills.map(k => `<td>${bar(s.mastery[k.id].p)}</td>`).join('')}
-        <td class="s" style="color:var(--text-2)">${s.score_note === 'understated' ? 'Score too low' : s.score_note === 'overstated' ? 'Score too high' : ''}</td>
-        <td class="r"><a href="#/students/${esc(s.id)}" style="color:var(--text-3)">Open ›</a></td></tr>
-      <tr class="det" data-for="${esc(s.id)}" hidden><td colspan="${R.skills.length + 4}"><div class="alist">${s.answers.map(a => `<div><span>${esc(a.item)} · ${esc(R.items.find(i => i.id === a.item)?.prompt)}</span><span class="${a.label === 'gap' || a.label === 'guess' ? 'lo' : ''}">${LABEL[a.label]}</span></div>`).join('')}</div></td></tr>`).join('');
+    const studentRows = [...R.students].sort((a, b) => gr(a) - gr(b) || tr(a) - tr(b)).map(st => { const t = T.get(st.id), d = t.p - st.score; return `
+      <tr class="go" data-s="${esc(st.id)}" data-name="${esc(st.name.toLowerCase())}"><td class="w">${esc(st.name)}</td><td class="num">${fmt(st.score)}/${fmt(st.max_score)}</td>
+        <td class="num" style="white-space:nowrap"><b style="font-weight:600">${fmt(t.p)}</b>/${fmt(t.max)} <span class="${d <= -1 ? 'lo' : d >= 1 ? 'up' : 'm'}" style="font-size:13px">${d >= .05 ? '+' : ''}${fmt(d)}</span></td>
+        <td>${dumbbell(gr(st), tr(st))}</td>
+        ${R.skills.map(k => `<td>${bar(st.mastery[k.id].p)}</td>`).join('')}
+        <td class="r"><a href="#/students/${esc(st.id)}?exam=${esc(e.id)}" style="color:var(--text-3)" aria-label="Open ${esc(st.name)}">›</a></td></tr>
+      <tr class="det" data-for="${esc(st.id)}" hidden><td colspan="${R.skills.length + 5}"><div class="alist">${st.answers.map(a => `<div><span>${esc(a.item)} · ${esc(R.items.find(i => i.id === a.item)?.prompt)}</span><span class="${a.label === 'gap' || a.label === 'guess' ? 'lo' : ''}">${LABEL[a.label]}</span></div>`).join('')}</div></td></tr>`; }).join('');
 
     view.innerHTML = back + head(esc(e.name), meta) + `
-      <div class="strip"><div><span>Average score</span><b>${pct(mean)}</b></div><div><span>Missing a skill</span><b class="${withGap.length ? 'lo' : ''}">${withGap.length}</b></div>
-        <div><span>Score too low</span><b>${under.length}</b></div><div><span>Weak questions</span><b>${weak.length}</b></div></div>`
-      + sec('Groups', `<div class="list">${groups}</div>`)
-      + sec('Students', `<div class="list tscroll"><table class="tbl"><thead><tr><th>Name</th><th>Score</th>${R.skills.map(k => `<th>${esc(k.name)}</th>`).join('')}<th>Note</th><th></th></tr></thead><tbody id="srows">${studentRows}</tbody></table></div>`,
+      <div class="strip"><div><span>Average grade</span><b>${pct(avg(gr))}</b></div><div><span>Average true score</span><b>${pct(avg(tr))}</b></div>
+        <div><span>Grade undersells them</span><b>${under.length}</b></div><div><span>Grade oversells them</span><b class="${over.length ? 'lo' : ''}">${over.length}</b></div></div>`
+      + sec('How the true score is worked out', `<div class="list">${steps}</div>`, '<a href="method.html" style="color:var(--text-2)">Full method ›</a>')
+      + sec('Students', `<div class="legend"><span><i class="g"></i>Grade</span><span><i class="t"></i>True score</span><span class="m">Undersells/oversells = 10+ points apart. Click a row for each answer.</span></div><div class="list tscroll"><table class="tbl"><thead><tr><th>Name</th><th>Grade</th><th>True score</th><th>Grade → true</th>${R.skills.map(k => `<th>${esc(k.name)}</th>`).join('')}<th></th></tr></thead><tbody id="srows">${studentRows}</tbody></table></div>`,
         '<input class="search" id="find" placeholder="Search students" aria-label="Search students">')
-      + sec('Questions', `<div class="list tscroll"><table class="tbl"><thead><tr><th></th><th>Question</th><th>Skills</th><th class="r">Right</th><th class="r">Discrimination</th></tr></thead><tbody>
-          ${R.items.map(i => `<tr><td class="q">${esc(i.id)}</td><td class="w">${esc(i.prompt)}${i.flags.length ? `<div class="lo" style="font-weight:400;font-size:13px">${esc(i.flags[0])}</div>` : ''}</td><td style="color:var(--text-2)">${i.skills.map(skillName).map(esc).join(', ')}</td><td class="r num">${pct(i.percent_correct)}</td><td class="r num${i.flags.length ? ' lo' : ''}">${i.discrimination.toFixed(2)}</td></tr>`).join('')}
-        </tbody></table></div>`, 'Discrimination: how well a question separates students who know it from those who don’t')
+      + sec('Who to reteach', `<div class="list">${groups}</div>`, 'skill groups use the chance of having each skill, under 30% = missing')
+      + sec('Questions', `<div class="list tscroll"><table class="tbl"><thead><tr><th></th><th>Question</th><th>Skills</th><th class="r">Right</th><th class="r">Difficulty (IRT)</th><th class="r">Discrimination</th></tr></thead><tbody>
+          ${R.items.map(i => `<tr><td class="q">${esc(i.id)}</td><td class="w">${esc(i.prompt)}${i.flags.length ? `<div class="lo" style="font-weight:400;font-size:13px">${esc(i.flags[0])}</div>` : ''}</td><td style="color:var(--text-2)">${i.skills.map(skillName).map(esc).join(', ')}</td><td class="r num">${pct(i.percent_correct)}</td><td class="r num">${i.difficulty > 0 ? '+' : ''}${(+i.difficulty).toFixed(2)}</td><td class="r num${i.flags.length ? ' lo' : ''}">${i.discrimination.toFixed(2)}</td></tr>`).join('')}
+        </tbody></table></div>`, `${weak.length} weak question${weak.length === 1 ? '' : 's'} · difficulty: higher is harder · discrimination: how well it separates students who know it`)
       + (R.warnings.filter(w => !w.skill && !w.item).length ? sec('Notes from the analysis', `<div class="list">${R.warnings.filter(w => !w.skill && !w.item).map(w => `<div class="row" style="grid-template-columns:1fr"><span class="s">${esc(w.text)}</span></div>`).join('')}</div>`, R.tag_source === 'ai' ? 'skills tagged by AI from question text · stats from the Databricks job' : '') : '');
 
     const rows = document.getElementById('srows');
@@ -207,15 +227,28 @@
     const H = await API.getStudent(course.id, sid);
     if (!H.student) { view.innerHTML = `<div class="empty">No student “${esc(sid)}”. <a href="#/">Back</a></div>`; return; }
     const want = new URLSearchParams(location.hash.split('?')[1] || '').get('exam');
-    const cur = H.exams.find(x => x.exam_id === want) || H.exams[H.exams.length - 1], last = H.exams[H.exams.length - 1];
+    const pick = H.exams.find(x => x.exam_id === want) || H.exams[H.exams.length - 1];
+    // only compare exams that use the same skills (an upload has its own AI-tagged list)
+    const key = x => (x.skills || H.skills).map(k => k.id).sort().join();
+    H.exams = H.exams.filter(x => key(x) === key(pick)); H.skills = pick.skills || H.skills;
+    const cur = pick, last = H.exams[H.exams.length - 1];
     const missing = H.skills.filter(s => last.mastery[s.id].p < .3).map(s => s.name.toLowerCase());
     view.innerHTML = `<a class="back" href="#/exams/${esc(last.exam_id)}">← ${esc(last.name)}</a>`
-      + head(esc(H.student.name), dots([missing.length ? `<span class="lo">Probably missing ${esc(missing.join(' and '))}</span>` : 'No missing skill', last.score_note === 'understated' ? 'Latest score lower than what they know' : '']))
+      + head(esc(H.student.name), dots([missing.length ? `<span class="lo">Probably missing ${esc(missing.join(' and '))}</span>` : 'No missing skill']))
+      + await trueStrip(sid, cur)
       + sec('Skills', `<div class="list tscroll"><table class="tbl"><thead><tr><th>Skill</th>${H.exams.map(x => `<th>${esc(x.name)}</th>`).join('')}</tr></thead><tbody>
           ${H.skills.map(s => `<tr><td class="w">${esc(s.name)}</td>${H.exams.map(x => `<td>${bar(x.mastery[s.id].p)}</td>`).join('')}</tr>`).join('')}
           <tr><td style="color:var(--text-2)">Score</td>${H.exams.map(x => `<td class="num" style="color:var(--text-2)">${x.score}/${x.max_score}</td>`).join('')}</tr></tbody></table></div>`, 'chance of having each skill')
       + sec('Answers', `<div class="list tscroll"><table class="tbl"><tbody>${cur.answers.map(a => `<tr><td class="q">${esc(a.item)}</td><td class="w">${esc(a.prompt)}</td><td style="color:var(--text-2)">${a.points === a.max_points ? 'Correct' : esc(a.rubric)}</td><td class="r ${a.label === 'gap' || a.label === 'guess' ? 'lo' : ''}" style="white-space:nowrap">${LABEL[a.label]} <span style="color:var(--text-3)">${pct(a.p)}</span></td></tr>`).join('')}</tbody></table></div>`,
         `<span class="seg">${H.exams.map(x => `<a href="#/students/${esc(sid)}?exam=${esc(x.exam_id)}"${x === cur ? ' aria-current="page"' : ''}>${esc(x.name)}</a>`).join('')}</span>`);
+  }
+
+  async function trueStrip(sid, cur) {
+    const R = await API.getReport(course.exams.find(e => e.id === cur.exam_id)?.report_id || cur.exam_id).catch(() => null);
+    const st = R?.students.find(x => x.id === sid); if (!st) return '';
+    const t = trueScore(st, R), ab = st.irt ? (st.irt.ability > 0 ? '+' : '') + st.irt.ability.toFixed(2) : '—';
+    return `<div class="strip"><div><span>Grade · ${esc(cur.name)}</span><b>${fmt(st.score)}/${fmt(st.max_score)}</b></div><div><span>True score</span><b>${fmt(t.p)}/${fmt(t.max)}</b></div>
+      <div><span>True score range</span><b>${fmt(t.lo)}–${fmt(t.hi)}</b></div><div><span>IRT ability</span><b>${ab}</b></div></div>`;
   }
 
   /* ---------- live session ---------- */

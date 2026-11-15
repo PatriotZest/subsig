@@ -58,7 +58,7 @@
         const r = await data(`reports/${e.report_id}.json`);
         const s = r.students.find(x => x.id === sid);
         if (s) exams.push({ exam_id: e.id, name: e.name, date: e.date, score: s.score, max_score: s.max_score,
-          mastery: s.mastery, score_note: s.score_note, answers: s.answers.map(a => ({ ...a, prompt: r.items.find(i => i.id === a.item)?.prompt })) });
+          mastery: s.mastery, score_note: s.score_note, skills: r.skills, answers: s.answers.map(a => ({ ...a, prompt: r.items.find(i => i.id === a.item)?.prompt })) });
       }
       return { student: c.students.find(s => s.id === sid), skills: c.skills, exams };
     },

@@ -89,7 +89,10 @@ type Report = { id: string;
   students: { id: string; name: string; score: number; max_score: number;
               mastery: Record<string, { p: number; lo: number; hi: number }>;
               answers: { item: string; points: number; max_points: number; rubric: string; label: Label; p: number }[];
-              score_note: 'understated' | 'overstated' | null }[];
+              score_note: 'understated' | 'overstated' | null;
+              irt?: { ability: number; score: number } }[];        // Rasch ability and expected score from the job
+// The dashboard's "true score" is computed in the browser: sum over questions of
+// max_points × product of mastery[skill].p for the skills the question needs (DINA, slips and guesses removed).
   groups: { skill: string; students: string[] }[];          // reteach groups
   mistakes: { skill: string; gaps: number; slips: number }[];
   warnings: { item?: string; skill?: string; kind: string; text: string }[] };

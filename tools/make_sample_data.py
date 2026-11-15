@@ -105,6 +105,12 @@ def make_report(t, exam_id, exam_name, date, ITEMS):
         items.append({"id": it[0], "prompt": it[1], "skills": it[2], "max_points": 2, "percent_correct": round(pv, 2),
                       "difficulty": round(-math.log((pv * len(col) + .5) / ((1 - pv) * len(col) + .5)), 2),
                       "discrimination": round(disc, 2), "guess": it[4], "slip": it[5], "flags": flags})
+    # IRT layer: Rasch ability and expected ("IRT true") score from the same answers
+    th, bs, mu = rasch([[a["points"] / a["max_points"] for a in s["answers"]] for s in students])
+    for s, t, row in zip(students, th, mu):
+        s["irt"] = {"ability": round(t, 2), "score": round(sum(q * a["max_points"] for q, a in zip(row, s["answers"])), 2)}
+    for i, bj in zip(items, bs):
+        i["difficulty"] = round(bj, 2)
     warnings = [{"item": i["id"], "kind": "low_discrimination", "text": f} for i in items for f in i["flags"]]
     for s, nm in SKILLS:
         solo = [i for i in items if i["skills"] == [s]]
@@ -118,6 +124,25 @@ def make_report(t, exam_id, exam_name, date, ITEMS):
                      "n_students": len(students), "n_items": len(items)},
             "skills": [{"id": s, "name": n} for s, n in SKILLS],
             "items": items, "students": students, "groups": groups, "mistakes": mistakes, "warnings": warnings}
+
+def rasch(F, theta_sd=1.0, b_sd=2.0, sweeps=500):
+    """Regularized Rasch fit on fractional credit, same model as notebooks/assessment.ipynb:
+    p_ij = sigmoid(theta_i - b_j), theta ~ N(0, 1), b ~ N(0, 4). F[i][j] in [0, 1]."""
+    n, m = len(F), len(F[0]); th, b = [0.0] * n, [0.0] * m
+    sig = lambda x: 1 / (1 + math.exp(-x))
+    for _ in range(sweeps):
+        for i in range(n):  # one Newton step per coordinate
+            ps = [sig(th[i] - b[j]) for j in range(m)]
+            g = sum(F[i][j] - ps[j] for j in range(m)) - th[i] / theta_sd ** 2
+            h = sum(q * (1 - q) for q in ps) + 1 / theta_sd ** 2
+            th[i] += g / h
+        for j in range(m):
+            ps = [sig(th[i] - b[j]) for i in range(n)]
+            g = -sum(F[i][j] - ps[i] for i in range(n)) - b[j] / b_sd ** 2
+            h = sum(q * (1 - q) for q in ps) + 1 / b_sd ** 2
+            b[j] += g / h
+    return th, b, [[sig(th[i] - b[j]) for j in range(m)] for i in range(n)]
+
 
 os.makedirs(os.path.join(ROOT, "reports"), exist_ok=True)
 exams = []

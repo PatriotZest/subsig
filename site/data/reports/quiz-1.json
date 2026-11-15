@@ -32,7 +32,7 @@
    ],
    "max_points": 2,
    "percent_correct": 0.61,
-   "difficulty": -0.42,
+   "difficulty": -0.48,
    "discrimination": 0.59,
    "guess": 0.15,
    "slip": 0.15,
@@ -46,7 +46,7 @@
    ],
    "max_points": 2,
    "percent_correct": 0.42,
-   "difficulty": 0.31,
+   "difficulty": 0.34,
    "discrimination": 0.2,
    "guess": 0.25,
    "slip": 0.12,
@@ -60,7 +60,7 @@
    ],
    "max_points": 2,
    "percent_correct": 0.58,
-   "difficulty": -0.31,
+   "difficulty": -0.36,
    "discrimination": 0.34,
    "guess": 0.15,
    "slip": 0.12,
@@ -74,7 +74,7 @@
    ],
    "max_points": 2,
    "percent_correct": 0.53,
-   "difficulty": -0.1,
+   "difficulty": -0.13,
    "discrimination": 0.68,
    "guess": 0.2,
    "slip": 0.15,
@@ -88,7 +88,7 @@
    ],
    "max_points": 2,
    "percent_correct": 0.32,
-   "difficulty": 0.75,
+   "difficulty": 0.84,
    "discrimination": 0.18,
    "guess": 0.2,
    "slip": 0.14,
@@ -102,7 +102,7 @@
    ],
    "max_points": 2,
    "percent_correct": 0.45,
-   "difficulty": 0.21,
+   "difficulty": 0.22,
    "discrimination": 0.26,
    "guess": 0.2,
    "slip": 0.15,
@@ -116,7 +116,7 @@
    ],
    "max_points": 2,
    "percent_correct": 0.58,
-   "difficulty": -0.31,
+   "difficulty": -0.36,
    "discrimination": 0.28,
    "guess": 0.3,
    "slip": 0.1,
@@ -131,7 +131,7 @@
    ],
    "max_points": 2,
    "percent_correct": 0.24,
-   "difficulty": 1.13,
+   "difficulty": 1.26,
    "discrimination": 0.31,
    "guess": 0.12,
    "slip": 0.18,
@@ -227,7 +227,11 @@
      "p": 0.99
     }
    ],
-   "score_note": null
+   "score_note": null,
+   "irt": {
+    "ability": 0.45,
+    "score": 9.09
+   }
   },
   {
    "id": "ben",
@@ -317,7 +321,11 @@
      "p": 0.99
     }
    ],
-   "score_note": null
+   "score_note": null,
+   "irt": {
+    "ability": 1.2,
+    "score": 11.59
+   }
   },
   {
    "id": "dev",
@@ -407,7 +415,11 @@
      "p": 0.92
     }
    ],
-   "score_note": "overstated"
+   "score_note": "overstated",
+   "irt": {
+    "ability": -0.25,
+    "score": 6.5
+   }
   },
   {
    "id": "mai",
@@ -497,7 +509,11 @@
      "p": 0.86
     }
    ],
-   "score_note": null
+   "score_note": null,
+   "irt": {
+    "ability": 0.45,
+    "score": 9.09
+   }
   },
   {
    "id": "sam",
@@ -587,7 +603,11 @@
      "p": 0.99
     }
    ],
-   "score_note": null
+   "score_note": null,
+   "irt": {
+    "ability": 0.45,
+    "score": 9.09
+   }
   },
   {
    "id": "lia",
@@ -677,7 +697,11 @@
      "p": 0.98
     }
    ],
-   "score_note": null
+   "score_note": null,
+   "irt": {
+    "ability": -1.01,
+    "score": 4.02
+   }
   },
   {
    "id": "omar",
@@ -767,7 +791,11 @@
      "p": 0.84
     }
    ],
-   "score_note": "overstated"
+   "score_note": "overstated",
+   "irt": {
+    "ability": -0.25,
+    "score": 6.5
+   }
   },
   {
    "id": "kai",
@@ -857,7 +885,11 @@
      "p": 0.99
     }
    ],
-   "score_note": null
+   "score_note": null,
+   "irt": {
+    "ability": 0.45,
+    "score": 9.09
+   }
   },
   {
    "id": "zoe",
@@ -947,7 +979,11 @@
      "p": 0.99
     }
    ],
-   "score_note": null
+   "score_note": null,
+   "irt": {
+    "ability": -1.01,
+    "score": 4.02
+   }
   },
   {
    "id": "raj",
@@ -1037,7 +1073,11 @@
      "p": 0.92
     }
    ],
-   "score_note": null
+   "score_note": null,
+   "irt": {
+    "ability": -0.62,
+    "score": 5.24
+   }
   },
   {
    "id": "eli",
@@ -1127,7 +1167,11 @@
      "p": 0.99
     }
    ],
-   "score_note": null
+   "score_note": null,
+   "irt": {
+    "ability": 1.63,
+    "score": 12.74
+   }
   },
   {
    "id": "noa",
@@ -1217,7 +1261,11 @@
      "p": 0.99
     }
    ],
-   "score_note": null
+   "score_note": null,
+   "irt": {
+    "ability": 0.45,
+    "score": 9.09
+   }
   },
   {
    "id": "ivy",
@@ -1307,7 +1355,11 @@
      "p": 0.85
     }
    ],
-   "score_note": null
+   "score_note": null,
+   "irt": {
+    "ability": 0.82,
+    "score": 10.36
+   }
   },
   {
    "id": "leo",
@@ -1397,7 +1449,11 @@
      "p": 0.99
     }
    ],
-   "score_note": null
+   "score_note": null,
+   "irt": {
+    "ability": -0.62,
+    "score": 5.24
+   }
   },
   {
    "id": "ada",
@@ -1487,7 +1543,11 @@
      "p": 0.99
     }
    ],
-   "score_note": null
+   "score_note": null,
+   "irt": {
+    "ability": -1.01,
+    "score": 4.02
+   }
   },
   {
    "id": "max",
@@ -1577,7 +1637,11 @@
      "p": 1.0
     }
    ],
-   "score_note": null
+   "score_note": null,
+   "irt": {
+    "ability": -1.01,
+    "score": 4.02
+   }
   },
   {
    "id": "tess",
@@ -1667,7 +1731,11 @@
      "p": 0.69
     }
    ],
-   "score_note": null
+   "score_note": null,
+   "irt": {
+    "ability": 0.45,
+    "score": 9.09
+   }
   },
   {
    "id": "jon",
@@ -1757,7 +1825,11 @@
      "p": 1.0
     }
    ],
-   "score_note": null
+   "score_note": null,
+   "irt": {
+    "ability": -0.25,
+    "score": 6.5
+   }
   },
   {
    "id": "uma",
@@ -1847,7 +1919,11 @@
      "p": 0.86
     }
    ],
-   "score_note": "understated"
+   "score_note": "understated",
+   "irt": {
+    "ability": 0.82,
+    "score": 10.36
+   }
   },
   {
    "id": "theo",
@@ -1937,7 +2013,11 @@
      "p": 1.0
     }
    ],
-   "score_note": null
+   "score_note": null,
+   "irt": {
+    "ability": 0.1,
+    "score": 7.8
+   }
   },
   {
    "id": "rosa",
@@ -2027,7 +2107,11 @@
      "p": 0.99
     }
    ],
-   "score_note": null
+   "score_note": null,
+   "irt": {
+    "ability": 0.1,
+    "score": 7.8
+   }
   },
   {
    "id": "finn",
@@ -2117,7 +2201,11 @@
      "p": 0.69
     }
    ],
-   "score_note": null
+   "score_note": null,
+   "irt": {
+    "ability": 0.82,
+    "score": 10.36
+   }
   },
   {
    "id": "nia",
@@ -2207,7 +2295,11 @@
      "p": 0.94
     }
    ],
-   "score_note": null
+   "score_note": null,
+   "irt": {
+    "ability": 1.2,
+    "score": 11.59
+   }
   },
   {
    "id": "cal",
@@ -2297,7 +2389,11 @@
      "p": 0.99
     }
    ],
-   "score_note": null
+   "score_note": null,
+   "irt": {
+    "ability": 0.1,
+    "score": 7.8
+   }
   },
   {
    "id": "wes",
@@ -2387,7 +2483,11 @@
      "p": 0.9
     }
    ],
-   "score_note": null
+   "score_note": null,
+   "irt": {
+    "ability": 1.2,
+    "score": 11.59
+   }
   },
   {
    "id": "ines",
@@ -2477,7 +2577,11 @@
      "p": 0.99
     }
    ],
-   "score_note": null
+   "score_note": null,
+   "irt": {
+    "ability": 0.1,
+    "score": 7.8
+   }
   },
   {
    "id": "hugo",
@@ -2567,7 +2671,11 @@
      "p": 0.99
     }
    ],
-   "score_note": null
+   "score_note": null,
+   "irt": {
+    "ability": -1.01,
+    "score": 4.02
+   }
   },
   {
    "id": "mila",
@@ -2657,7 +2765,11 @@
      "p": 0.99
     }
    ],
-   "score_note": null
+   "score_note": null,
+   "irt": {
+    "ability": 0.1,
+    "score": 7.8
+   }
   },
   {
    "id": "yuki",
@@ -2747,7 +2859,11 @@
      "p": 0.99
     }
    ],
-   "score_note": null
+   "score_note": null,
+   "irt": {
+    "ability": 0.1,
+    "score": 7.8
+   }
   },
   {
    "id": "ezra",
@@ -2837,7 +2953,11 @@
      "p": 0.69
     }
    ],
-   "score_note": null
+   "score_note": null,
+   "irt": {
+    "ability": -0.25,
+    "score": 6.5
+   }
   },
   {
    "id": "june",
@@ -2927,7 +3047,11 @@
      "p": 0.99
     }
    ],
-   "score_note": null
+   "score_note": null,
+   "irt": {
+    "ability": 0.45,
+    "score": 9.09
+   }
   },
   {
    "id": "pax",
@@ -3017,7 +3141,11 @@
      "p": 0.8
     }
    ],
-   "score_note": "understated"
+   "score_note": "understated",
+   "irt": {
+    "ability": 0.82,
+    "score": 10.36
+   }
   },
   {
    "id": "remy",
@@ -3107,7 +3235,11 @@
      "p": 1.0
     }
    ],
-   "score_note": null
+   "score_note": null,
+   "irt": {
+    "ability": -0.62,
+    "score": 5.24
+   }
   },
   {
    "id": "sol",
@@ -3197,7 +3329,11 @@
      "p": 0.99
     }
    ],
-   "score_note": null
+   "score_note": null,
+   "irt": {
+    "ability": -1.01,
+    "score": 4.02
+   }
   },
   {
    "id": "vera",
@@ -3287,7 +3423,11 @@
      "p": 0.85
     }
    ],
-   "score_note": null
+   "score_note": null,
+   "irt": {
+    "ability": -0.25,
+    "score": 6.5
+   }
   },
   {
    "id": "ike",
@@ -3377,7 +3517,11 @@
      "p": 1.0
     }
    ],
-   "score_note": null
+   "score_note": null,
+   "irt": {
+    "ability": -1.45,
+    "score": 2.89
+   }
   },
   {
    "id": "lou",
@@ -3467,7 +3611,11 @@
      "p": 0.99
     }
    ],
-   "score_note": null
+   "score_note": null,
+   "irt": {
+    "ability": -1.01,
+    "score": 4.02
+   }
   },
   {
    "id": "bea",
@@ -3557,7 +3705,11 @@
      "p": 1.0
     }
    ],
-   "score_note": null
+   "score_note": null,
+   "irt": {
+    "ability": -1.01,
+    "score": 4.02
+   }
   }
  ],
  "groups": [
