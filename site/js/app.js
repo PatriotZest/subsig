@@ -171,7 +171,7 @@
 
     const studentRows = [...R.students].sort((a, b) => gr(a) - gr(b) || tr(a) - tr(b)).map(st => { const t = T.get(st.id), d = t.p - st.score; return `
       <tr class="go" data-s="${esc(st.id)}" data-name="${esc(st.name.toLowerCase())}"><td class="w">${esc(st.name)}</td><td class="num">${fmt(st.score)}/${fmt(st.max_score)}</td>
-        <td class="num" style="white-space:nowrap"><b style="font-weight:600">${fmt(t.p)}</b>/${fmt(t.max)} <span class="${d <= -1 ? 'lo' : d >= 1 ? 'up' : 'm'}" style="font-size:13px">${d >= .05 ? '+' : ''}${fmt(d)}</span></td>
+        <td class="num" style="white-space:nowrap"><b style="font-weight:600">${fmt(t.p)}</b>/${fmt(t.max)} <span class="${d <= -.05 ? 'down' : d >= .05 ? 'up' : 'm'}" style="font-size:13px">${d >= .05 ? '+' : d <= -.05 ? '−' : ''}${fmt(Math.abs(d))}</span></td>
         <td>${dumbbell(gr(st), tr(st))}</td>
         ${R.skills.map(k => `<td>${bar(st.mastery[k.id].p)}</td>`).join('')}
         <td class="r"><a href="#/students/${esc(st.id)}?exam=${esc(e.id)}" style="color:var(--text-3)" aria-label="Open ${esc(st.name)}">›</a></td></tr>

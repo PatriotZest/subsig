@@ -20,7 +20,7 @@
   /* warm palette sampled from the front-page painting */
   --bg: #F3EFE6; --bg-2: #EEE8DB; --panel: #FBF9F4; --line: #E2DBCB; --line-2: #D5CDBB;
   --text: #26231E; --text-2: #5F5A50; --text-3: #8E877A;
-  --amber: #EF9F27; --amber-text: #A35F00; --green: #2C9A47;
+  --amber: #EF9F27; --amber-text: #A35F00; --green: #2C9A47; --red: #C23B2A;
   --sans: "Geist", ui-sans-serif, system-ui, sans-serif; --mono: "Geist Mono", ui-monospace, Menlo, monospace;
 }
 * { box-sizing: border-box; }
@@ -95,12 +95,13 @@ a.row:hover, .row.click:hover { background: var(--bg-2); cursor: pointer; }
 .lede { color: var(--text-2); max-width: 640px; margin: 20px 0 0; font-size: 15px; }
 .lede b { color: var(--text); font-weight: 600; }
 .up { color: var(--green); }
+.down { color: var(--red); }
 /* grade → true score */
 .db { position: relative; display: block; width: 140px; height: 14px; }
 .db::before { content: ""; position: absolute; left: 0; right: 0; top: 6.5px; height: 1px; background: var(--line); }
 .db i { position: absolute; top: 3px; width: 8px; height: 8px; margin-left: -4px; border-radius: 50%; }
 .db i.ln { top: 6px; height: 2px; margin: 0; border-radius: 0; width: 0; background: var(--green); opacity: .55; }
-.db i.ln.dn { background: var(--amber); }
+.db i.ln.dn { background: var(--red); }
 .db i.g { background: var(--panel); box-shadow: inset 0 0 0 1.5px var(--text-3); }
 .db i.t { background: var(--text); }
 .legend { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; margin-bottom: 10px; font-size: 13px; color: var(--text-2); }
