@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Quiz · Subsigmoid</title>
+<meta name="description" content="Seven questions. Before the seventh, Subsigmoid predicts which answer you will pick.">
+<!-- <meta name="subsigmoid-api" content="https://YOUR-APP.databricksapps.com"> -->
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+.stage { max-width: 760px; margin: 0 auto; padding: 72px var(--gutter) 0; min-height: 70vh; }
+.progress { display: flex; gap: 6px; margin-bottom: 40px; align-items: center; }
+.progress i { width: 26px; height: 4px; background: var(--rule); }
+.progress i.done { background: var(--ink); }
+.progress i.now { background: var(--ink-3); }
+.progress i.pred { background: none; border: 1px solid var(--amber); height: 6px; }
+.progress i.pred.done { background: var(--amber); }
+.progress span { margin-left: 12px; color: var(--ink-3); }
+
+.screen h1 { font-size: clamp(36px, 4.6vw, 56px); }
+.screen .sub { font-size: 20px; margin-top: 18px; max-width: 30em; }
+.facts { margin: 36px 0; border-top: 1px solid var(--rule); }
+.facts div { display: grid; grid-template-columns: 40px 1fr; padding: 14px 0; border-bottom: 1px solid var(--rule); color: var(--ink-2); font-size: 17px; }
+.facts span { font-family: var(--mono); font-size: 12px; color: var(--ink-3); padding-top: 3px; }
+
+.prompt { font-size: clamp(40px, 6vw, 64px); font-weight: 600; letter-spacing: -.02em; line-height: 1.1; margin: 8px 0 36px; }
+.opts { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.opt { border-radius: 10px; display: flex; align-items: baseline; gap: 16px; text-align: left; padding: 18px 20px; background: var(--sheet); border: 1px solid var(--rule); cursor: pointer; font-size: 26px; font-family: var(--serif); transition: border-color .15s; }
+.opt:hover { border-color: var(--ink); }
+.opt span { font-family: var(--mono); font-size: 12px; color: var(--ink-3); }
+.opt.picked { border-color: var(--ink); background: var(--ink); color: var(--paper); }
+.opt.picked span { color: #8C8981; }
+.opt.was-pred { box-shadow: inset 0 0 0 2px var(--amber); }
+.opts.locked .opt { cursor: default; }
+
+.seal { border-radius: 8px; display: flex; gap: 14px; align-items: center; border: 1px dashed var(--amber); padding: 14px 16px; margin-bottom: 28px; font-family: var(--mono); font-size: 12px; color: var(--amber-ink); background: var(--amber-wash); }
+.seal .box { width: 10px; height: 10px; background: var(--amber); flex: none; }
+.seal.wait { border-color: var(--rule); background: transparent; color: var(--ink-3); }
+.seal.wait .box { background: var(--ink-3); animation: pulse 1s steps(2, jump-none) infinite; }
+@keyframes pulse { 50% { opacity: .2; } }
+
+.reveal { margin-top: 28px; border-top: 1px solid var(--ink); padding-top: 22px; }
+.reveal h2 { font-size: 34px; }
+.reveal p { margin-top: 12px; font-size: 18px; }
+.reveal .row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 20px; }
+.reveal .cellx { border-radius: 10px; border: 1px solid var(--rule); background: var(--sheet); padding: 14px 16px; }
+.reveal .cellx b { display: block; font-family: var(--serif); font-weight: 300; font-size: 30px; }
+.reveal .cellx.am { border-color: var(--amber); }
+.next { margin-top: 32px; }
+
+.res h2 { font-size: 30px; margin-bottom: 18px; }
+.res + .res { margin-top: 56px; }
+.bar-row { display: grid; grid-template-columns: 170px 1fr 48px; align-items: center; gap: 14px; padding: 8px 0; font-family: var(--mono); font-size: 12px; color: var(--ink-2); }
+.bar-row .v { text-align: right; color: var(--ink); }
+.ans { border-top: 1px solid var(--rule); }
+.ans div { display: grid; grid-template-columns: 40px 1fr 90px 1.4fr; gap: 14px; padding: 12px 0; border-bottom: 1px solid var(--rule); align-items: baseline; font-size: 17px; }
+.ans .q { font-family: var(--mono); font-size: 12px; color: var(--ink-3); }
+.ans .ok { font-family: var(--mono); font-size: 12px; color: var(--ink-2); }
+.ans .why { font-size: 15px; color: var(--ink-2); }
+.mock { margin-top: 40px; padding: 14px 16px; border: 1px dashed var(--rule); font-family: var(--mono); font-size: 12px; color: var(--ink-3); }
+.err { color: var(--amber-ink); font-family: var(--mono); font-size: 12px; margin-top: 16px; }
+
+@media (max-width: 720px) {
+  .stage { padding-top: 40px; }
+  .opts { grid-template-columns: 1fr; }
+  .opt { font-size: 22px; padding: 14px 16px; }
+  .progress i { width: 18px; }
+  .bar-row { grid-template-columns: 120px 1fr 40px; }
+  .ans div { grid-template-columns: 32px 1fr 64px; }
+  .ans .why { grid-column: 2 / -1; }
+  .reveal .row { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<header class="top" data-page="quiz"></header>
+
+<main class="stage" id="app" aria-live="polite"></main>
+
+<footer></footer>
+
+<script src="js/api.js"></script>
+<script src="js/site.js"></script>
+<script>
+(() => {
+  const app = document.getElementById('app');
+  const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  const pct = p => Math.round(p * 100) + '%';
+  const S = { quiz: null, session: null, i: 0, answers: {}, prediction: null, madeAt: null };
+
+  const progress = () => {
+    const n = S.quiz.items.length;
+    return `<div class="progress" aria-hidden="true">${S.quiz.items.map((it, k) =>
+      `<i class="${it.id === S.quiz.predict_item ? 'pred ' : ''}${k < S.i ? 'done' : k === S.i ? 'now' : ''}"></i>`).join('')}
+      <span class="mono">${Math.min(S.i + 1, n)} / ${n}</span></div>`;
+  };
+
+  function intro() {
+    const n = S.quiz.items.length;
+    app.innerHTML = `<section class="screen">
+      <div class="label">Live demo</div>
+      <h1 style="margin-top:14px">Seven questions. We predict your answer to the last one.</h1>
+      <p class="sub">After your sixth answer, Subsigmoid commits to a prediction for question seven: which option you will choose, including which wrong answer if it expects one. You will see it after you answer.</p>
+      <div class="facts">
+        <div><span>1</span>Short arithmetic: fractions, negative numbers, order of operations.</div>
+        <div><span>2</span>No sign-in. Your answers are saved anonymously and added to the class data.</div>
+        <div><span>3</span>At the end you see your skills, and which of your mistakes look like slips.</div>
+      </div>
+      <button class="btn solid" id="go">Start</button>
+      <p class="mono" style="margin-top:18px;color:var(--ink-3)">${n} questions &middot; about 3 minutes</p>
+    </section>`;
+    document.getElementById('go').onclick = async () => {
+      try { S.session = (await Subsigmoid.startSession()).session_id; question(); }
+      catch (e) { app.insertAdjacentHTML('beforeend', `<p class="err">Could not start: ${esc(e.message)}</p>`); }
+    };
+  }
+
+  async function question() {
+    const it = S.quiz.items[S.i];
+    const isPred = it.id === S.quiz.predict_item;
+    app.innerHTML = `<section class="screen">${progress()}
+      ${isPred ? `<div class="seal wait" id="seal"><i class="box"></i><span>Making a prediction for this question&hellip;</span></div>` : ''}
+      <div class="label">${esc(it.id)}${isPred ? ' &middot; predicted question' : ''}</div>
+      <div class="prompt">${esc(it.prompt)} <span style="color:var(--ink-3)">?</span></div>
+      <div class="opts" id="opts">${it.options.map(o => `<button class="opt" data-id="${esc(o.id)}"><span>${esc(o.id)}</span>${esc(o.text)}</button>`).join('')}</div>
+      <div id="after"></div></section>`;
+    const opts = document.getElementById('opts');
+    if (isPred) {
+      opts.classList.add('locked');
+      try {
+        S.prediction = await Subsigmoid.getPrediction(S.session, it.id);
+        S.madeAt = new Date();
+        const seal = document.getElementById('seal');
+        seal.classList.remove('wait');
+        seal.querySelector('span').textContent = `Prediction locked at ${S.madeAt.toLocaleTimeString()}. Hidden until you answer.`;
+        opts.classList.remove('locked');
+      } catch (e) { document.getElementById('seal').querySelector('span').textContent = 'Prediction unavailable: ' + e.message; opts.classList.remove('locked'); }
+    }
+    opts.addEventListener('click', async ev => {
+      const b = ev.target.closest('.opt');
+      if (!b || opts.classList.contains('locked')) return;
+      opts.classList.add('locked');
+      b.classList.add('picked');
+      S.answers[it.id] = b.dataset.id;
+      try { await Subsigmoid.submitAnswer(S.session, it.id, b.dataset.id); }
+      catch (e) { document.getElementById('after').innerHTML = `<p class="err">Could not save the answer: ${esc(e.message)}</p>`; }
+      if (isPred && S.prediction) return reveal(it, b.dataset.id);
+      setTimeout(() => { S.i++; S.i < S.quiz.items.length ? question() : results(); }, 260);
+    });
+  }
+
+  function reveal(it, chosen) {
+    const p = S.prediction, hit = p.option === chosen;
+    const pOpt = it.options.find(o => o.id === p.option), cOpt = it.options.find(o => o.id === chosen);
+    document.querySelector(`.opt[data-id="${CSS.escape(p.option)}"]`)?.classList.add('was-pred');
+    const seal = document.getElementById('seal');
+    seal.querySelector('span').textContent = `Prediction made at ${S.madeAt.toLocaleTimeString()}, before you answered.`;
+    document.getElementById('after').innerHTML = `<div class="reveal">
+      <h2>${hit ? 'The prediction was right.' : 'The prediction missed.'}</h2>
+      <div class="row">
+        <div class="cellx am"><span class="label">Predicted</span><b>${esc(p.option)} &nbsp;${esc(pOpt?.text)}</b><span class="mono" style="color:var(--ink-2)">${p.correct ? 'the right answer' : esc(p.mistake_text || 'a wrong answer')} &middot; ${pct(p.p)} sure</span></div>
+        <div class="cellx"><span class="label">You chose</span><b>${esc(chosen)} &nbsp;${esc(cOpt?.text)}</b></div>
+      </div>
+      <button class="btn solid next" id="toResults">See your results</button></div>`;
+    document.getElementById('toResults').onclick = () => { S.i++; results(); };
+  }
+
+  async function results() {
+    app.innerHTML = `<section class="screen">${progress()}<p class="mono" style="color:var(--ink-3)">Scoring&hellip;</p></section>`;
+    let r;
+    try { r = await Subsigmoid.getResult(S.session); }
+    catch (e) { app.innerHTML = `<p class="err">Could not load results: ${esc(e.message)}</p>`; return; }
+    const why = a => a.label === 'knew' ? '' : a.mistake ? esc(r.mistakes[a.mistake]) : 'Wrong answer without a known pattern.';
+    app.innerHTML = `<section class="screen">
+      <div class="label">Your results</div>
+      <h1 style="margin-top:14px">${r.answers.filter(a => a.right).length} of ${r.answers.length} right.</h1>
+      <p class="sub">Here is what is behind that number. You are one of ${r.participants} people in the class data so far.</p>
+      <div class="res" style="margin-top:44px"><h2>Skills</h2>
+        ${r.mastery.map(m => `<div class="bar-row"><span>${esc(m.name)}</span><span class="bar${m.p < .4 ? ' low' : ''}"><i class="fill" style="width:${m.p * 100}%"></i></span><span class="v">${pct(m.p)}</span></div>`).join('')}
+        <p class="mono" style="color:var(--ink-3);margin-top:10px">How likely it is that you have each skill.</p></div>
+      <div class="res"><h2>Each answer</h2><div class="ans">
+        ${r.answers.map(a => `<div><span class="q">${esc(a.item)}</span><span>${esc(a.option || '–')} &nbsp;${esc(S.quiz.items.find(i => i.id === a.item)?.options.find(o => o.id === a.option)?.text || '')}</span><span class="ok">${a.right ? 'right' : 'wrong'}</span><span><span class="lbl ${esc(a.label)}">${esc(a.label)} &middot; ${pct(a.p)}</span><br><span class="why">${why(a)}</span></span></div>`).join('')}
+      </div></div>
+      ${Subsigmoid.live ? '' : '<div class="mock">Sample mode: the backend is not connected yet, so the prediction and labels on this page come from a simple placeholder rule, not the real model.</div>'}
+      <div style="margin-top:40px;display:flex;gap:20px;flex-wrap:wrap;align-items:center"><a class="btn" href="app.html#/live">See the live results</a><button class="textlink" id="again">Take it again</button></div>
+    </section>`;
+    document.getElementById('again').onclick = () => { Object.assign(S, { i: 0, answers: {}, prediction: null }); intro(); };
+  }
+
+  Subsigmoid.getQuiz().then(q => { S.quiz = q; intro(); })
+    .catch(e => { app.innerHTML = `<p class="err">Could not load the quiz: ${esc(e.message)}</p>`; });
+})();
+</script>
+</body>
+</html>

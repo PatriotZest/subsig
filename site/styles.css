@@ -1,0 +1,93 @@
+/* Shared look for the front page, method and quiz. Same font and colors as the dashboard (app.html). */
+:root {
+  /* warm palette shared with the front page and dashboard (sampled from the painting) */
+  --paper: #F3EFE6;
+  --paper-2: #EEE8DB;
+  --sheet: #FBF9F4;
+  --ink: #26231E;
+  --ink-2: #5F5A50;
+  --ink-3: #8E877A;
+  --rule: #E2DBCB;
+  --amber: #EF9F27;
+  --amber-ink: #8A5200;
+  --amber-wash: #F8E7CB;
+  --serif: "Geist", ui-sans-serif, system-ui, sans-serif;   /* name kept so older rules still resolve */
+  --sans: "Geist", ui-sans-serif, system-ui, sans-serif;
+  --mono: "Geist Mono", ui-monospace, Menlo, monospace;
+  --gutter: 32px;
+  --max: 1200px;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; background: var(--paper); color: var(--ink);
+  font-family: var(--sans); font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; }
+p { margin: 0 0 1em; color: var(--ink-2); }
+button { font: inherit; color: inherit; }
+.wrap { max-width: var(--max); margin: 0 auto; padding: 0 var(--gutter); }
+.mono { font-family: var(--mono); font-size: 13px; }
+.label { font-size: 13px; font-weight: 500; color: var(--ink-3); }
+figcaption { font-size: 13px; }
+h1, h2, h3 { font-weight: 500; margin: 0; letter-spacing: -.027em; text-wrap: balance; }
+/* Cluely-style headline: Geist 500, tight tracking, dark-to-slate gradient */
+.grad { background: linear-gradient(to right, #26231E, #6B6370); -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-text-fill-color: transparent; }
+h1 { font-size: clamp(36px, 4.6vw, 60px); line-height: 1.05; }
+h2 { font-size: clamp(24px, 2.6vw, 32px); line-height: 1.15; }
+h3 { font-size: 18px; letter-spacing: -.015em; }
+:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
+[hidden] { display: none !important; }
+
+/* ---------- header / footer ---------- */
+header.top { border-bottom: 1px solid var(--rule); background: var(--paper); position: relative; z-index: 5; }
+header.top .wrap { display: flex; align-items: center; justify-content: space-between; height: 60px; gap: 24px; }
+header.top.over { position: absolute; left: 0; right: 0; top: 0; background: transparent; border-bottom: 0; }
+.logo { display: block; height: 21px; color: var(--ink); flex: none; }
+.logo svg { height: 100%; width: auto; display: block; }
+.nav { display: flex; align-items: center; gap: 22px; }
+.nav a { font-size: 14px; text-decoration: none; color: var(--ink-2); white-space: nowrap; }
+.nav a:hover, .nav a[aria-current] { color: var(--ink); }
+.nav .sep { width: 1px; height: 14px; background: var(--rule); }
+footer { margin-top: 120px; border-top: 1px solid var(--rule); padding: 24px 0 40px; font-size: 13px; }
+footer .wrap { display: flex; justify-content: space-between; align-items: center; gap: 24px; flex-wrap: wrap; }
+footer .logo { height: 19px; }
+footer .mono { font-family: var(--sans); color: var(--ink-3); }
+footer nav { display: flex; gap: 20px; }
+footer nav a { text-decoration: none; color: var(--ink-2); }
+footer nav a:hover { color: var(--ink); }
+
+/* ---------- controls (same as the dashboard) ---------- */
+.btn { display: inline-flex; align-items: center; gap: 6px; height: 38px; padding: 0 16px; border-radius: 8px; border: 1px solid #D5CDBB; background: rgba(255,255,255,.6); color: var(--ink); font-size: 14px; font-weight: 500; text-decoration: none; cursor: pointer; white-space: nowrap; transition: background .12s; }
+.btn:hover { background: rgba(255,255,255,.9); }
+.btn.solid { background: var(--ink); color: #fff; border-color: var(--ink); }
+.btn.solid:hover { background: #3a362f; }
+.btn:disabled { opacity: .5; cursor: default; }
+.textlink { font-size: 14px; font-weight: 500; color: var(--ink); text-decoration: none; background: none; border: 0; padding: 0; cursor: pointer; }
+.textlink:hover { text-decoration: underline; text-underline-offset: 3px; }
+.chip { display: inline-block; font-size: 13px; padding: 3px 9px; border-radius: 999px; background: var(--paper-2); color: var(--ink); }
+
+figure { margin: 0; }
+figcaption { color: var(--ink-3); margin-top: 12px; }
+figcaption b { color: var(--ink); font-weight: 600; }
+
+/* ---------- shared blocks ---------- */
+.page-head { padding: 64px 0 40px; border-bottom: 1px solid var(--rule); }
+.page-head h1 { font-size: clamp(32px, 4vw, 48px); margin-top: 10px; }
+.page-head p { margin-top: 14px; font-size: 18px; max-width: 36em; }
+.sheet { background: var(--sheet); border: 1px solid var(--rule); border-radius: 10px; }
+.lbl { font-size: 12px; font-weight: 500; white-space: nowrap; }
+.lbl.gap, .lbl.guess { color: var(--amber-ink); }
+.lbl.slip, .lbl.knew, .lbl.unclear { color: var(--ink-3); }
+.bar { position: relative; height: 6px; border-radius: 999px; background: var(--paper-2); overflow: hidden; }
+.bar .fill { position: absolute; inset: 0 auto 0 0; border-radius: 999px; background: var(--ink); }
+.bar.low .fill { background: var(--amber); }
+
+@media (max-width: 720px) {
+  :root { --gutter: 16px; }
+  .nav { gap: 16px; }
+  .nav .sep, .nav .hide-sm { display: none; }
+  .logo { height: 19px; }
+  .page-head { padding: 40px 0 32px; }
+  .page-head p { font-size: 16px; }
+}

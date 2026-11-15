@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Subsigmoid</title>
+<meta name="description" content="Subsigmoid reads a class's graded Gradescope exams and finds which skills each student is missing.">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preload" as="image" href="assets/layers/sky.svg">
+<link rel="preload" as="image" href="assets/layers/front.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+/* colors sampled from the painting */
+:root {
+  --sky: #EFE1E7; --ground: #DED9C7; --cream: #F3EFE6; --card: #FBF9F4;
+  --ink: #26231E; --ink-2: #5F5A50; --ink-3: #8E877A; --rule: #E2DBCB;
+  --sage: #729688; --sun: #FAD0A0;
+}
+body { background: var(--cream); color: var(--ink); }
+header.top.over .nav a { color: var(--ink-2); }
+header.top.over .nav a:hover { color: var(--ink); }
+.btn { border-color: rgba(38,35,30,.18); background: rgba(255,255,255,.55); color: var(--ink); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
+.btn:hover { background: rgba(255,255,255,.85); }
+.btn.solid { background: var(--ink); border-color: var(--ink); color: #fff; }
+.btn.solid:hover { background: #3a362f; }
+header.top.over .nav .btn { height: 34px; padding: 0 14px; }
+header.top.over .nav a.btn.solid { color: #fff; }
+
+/* hero: sky color continues above the painting, painting sits at the bottom */
+.hero { background: linear-gradient(to bottom, var(--sky) calc(100% - 160px), var(--cream) calc(100% - 160px)); position: relative; overflow: hidden; }
+.hero-text { position: relative; z-index: 2; text-align: center; padding: 148px 24px 0; max-width: 820px; margin: 0 auto; }
+.hero h1 { font-size: clamp(40px, 5.4vw, 72px); line-height: 1.06; letter-spacing: -.035em; padding-bottom: .06em;
+  background: linear-gradient(to right, #26231E, #6B6370); -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-text-fill-color: transparent; }
+.hero .lede { margin: 18px auto 0; font-size: 18px; max-width: 34em; color: var(--ink-2); }
+.hero .actions { margin-top: 28px; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+.scene { position: relative; margin-top: -7vw; aspect-ratio: 1672 / 941; }
+.scene { background: linear-gradient(to bottom, var(--sky) 0 45%, var(--cream) 45%); }
+/* the painting is split into depth layers that drift at different speeds on scroll */
+.layers { position: absolute; inset: 0; }
+/* the moving image layers are composited, so their last pixel row can show past the fade at a fractional edge; cover it */
+.hero::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 4px; background: var(--cream); z-index: 2; pointer-events: none; transform: translateZ(0); }
+/* the fade sits above every layer, so moving layers can never peek through it; eased so there is no visible edge */
+.scene::after { content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 62%; pointer-events: none; z-index: 1; transform: translateZ(0); will-change: transform;
+  background: linear-gradient(to bottom, rgba(243,239,230,0.000) 0%, rgba(243,239,230,0.028) 10%, rgba(243,239,230,0.104) 20%, rgba(243,239,230,0.216) 30%, rgba(243,239,230,0.352) 40%, rgba(243,239,230,0.500) 50%, rgba(243,239,230,0.648) 60%, rgba(243,239,230,0.784) 70%, rgba(243,239,230,0.896) 80%, rgba(243,239,230,0.972) 90%, rgba(243,239,230,1.000) 100%); }
+.layers img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 100%; will-change: transform; }
+.hero-text { will-change: transform, opacity; }
+
+/* product preview resting on the ground */
+.below { display: flow-root; background: var(--cream); padding-bottom: 8px; }
+.preview { position: relative; z-index: 3; max-width: 1040px; margin: -18vw auto 0; padding: 0 24px; }
+/* the real dashboard, scaled down; a link into the app */
+.shot { display: block; position: relative; border-radius: 14px; overflow: hidden; background: #F3EFE6;
+  border: 1px solid rgba(38,35,30,.12); box-shadow: 0 40px 90px -40px rgba(40,36,48,.4), 0 2px 8px rgba(40,36,48,.05);
+  height: calc(var(--s, .75) * 760px); transition: transform .25s ease, box-shadow .25s ease;
+  -webkit-mask-image: linear-gradient(to bottom, #000 72%, transparent); mask-image: linear-gradient(to bottom, #000 72%, transparent); }
+.shot:hover { transform: translateY(-3px); }
+.shot iframe { display: block; width: 1280px; height: 760px; border: 0; transform: scale(var(--s, .75)); transform-origin: 0 0; pointer-events: none; }
+.cap { text-align: center; font-size: 13px; color: var(--ink-3); margin-top: 14px; }
+
+/* three steps */
+.three { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; max-width: 1000px; margin: 96px auto 0; padding: 0 24px; }
+.step { background: var(--card); border: 1px solid rgba(38,35,30,.08); border-radius: 12px; padding: 20px; }
+.step .n { display: inline-grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; background: #EEE8DA; font-size: 12px; font-weight: 600; color: var(--ink-2); }
+.step h3 { margin: 14px 0 6px; font-size: 17px; font-weight: 500; }
+.step p { margin: 0; font-size: 14.5px; line-height: 1.55; color: var(--ink-2); }
+.more { text-align: center; margin-top: 22px; }
+.more a { font-size: 14px; font-weight: 500; text-decoration: none; color: var(--ink); }
+.more a:hover { text-decoration: underline; text-underline-offset: 3px; }
+footer { border-top-color: var(--rule); margin-top: 96px; }
+
+@media (max-width: 860px) {
+  .hero-text { padding-top: 112px; }
+  .scene { margin-top: 0; }
+  .scene { aspect-ratio: auto; height: 300px; }
+  .layers img { object-position: 62% 100%; }
+  .preview { margin-top: -90px; }
+  .preview { margin-top: -60px; }
+  .three { grid-template-columns: 1fr; margin-top: 64px; }
+}
+@media (max-width: 560px) { .hero .lede { font-size: 16px; } }
+</style>
+</head>
+<body>
+
+<header class="top over">
+  <div class="wrap">
+    <a class="logo" href="index.html" aria-label="Subsigmoid home"><svg viewBox="0 20 596 116" aria-hidden="true"><path d="M14 100 C60 100 60 36 106 36" fill="none" stroke="currentColor" stroke-width="9" stroke-linecap="round"/><circle cx="91" cy="65" r="8" fill="#F9A962"/><path d="M166 65 C162 60.5 156 60 153 60 C144 60 140 64 140 70 C140 77 148 78.5 153 80 C159 81.5 166 83 166 90 C166 96 161 100 153 100 C148 100 143 99 140 95 M181 60 V82 a18 18 0 0 0 36 0 V60 M217 60 V100 M233 36 V100 M233 80 a20 20 0 1 0 40 0 a20 20 0 1 0 -40 0 M311 65 C307 60.5 301 60 298 60 C289 60 285 64 285 70 C285 77 293 78.5 298 80 C304 81.5 311 83 311 90 C311 96 306 100 298 100 C293 100 288 99 285 95 M326 60 V100 M339 80 a20 20 0 1 0 40 0 a20 20 0 1 0 -40 0 M379 60 V104 C379 115 371 120 360 120 C351 120 345 117 342 113 M395 60 V100 M395 77 a17 17 0 0 1 34 0 V100 M429 77 a17 17 0 0 1 34 0 V100 M476 80 a20 20 0 1 0 40 0 a20 20 0 1 0 -40 0 M529 60 V100 M542 80 a20 20 0 1 0 40 0 a20 20 0 1 0 -40 0 M582 36 V100" fill="none" stroke="currentColor" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="326" cy="46" r="4.03" fill="currentColor"/><circle cx="529" cy="46" r="4.03" fill="currentColor"/></svg></a>
+    <nav class="nav" aria-label="Main">
+      <a href="method.html" class="hide-sm">How it works</a>
+      <a href="quiz.html">Quiz</a>
+      <a href="app.html" class="btn solid">Open dashboard</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="hero-text">
+      <h1>See why each student lost points.</h1>
+      <p class="lede">Subsigmoid reads a class&rsquo;s graded Gradescope exams and finds which skills each student is missing, and which wrong answers were just careless.</p>
+      <div class="actions">
+        <a class="btn solid" href="app.html">Open the dashboard</a>
+        <a class="btn" href="quiz.html">Take the quiz</a>
+      </div>
+    </div>
+    <div class="scene" role="img" aria-label="A painted landscape of rolling hills shaped like S-curves under a pink sky">
+      <div class="layers">
+        <img src="assets/layers/sky.svg" alt="" data-k="0.16">
+        <img src="assets/layers/far.svg" alt="" data-k="0.11">
+        <img src="assets/layers/mid.svg" alt="" data-k="0.07">
+        <img src="assets/layers/near.svg" alt="" data-k="0.035">
+        <img src="assets/layers/front.svg" alt="" data-k="0">
+      </div>
+    </div>
+  </section>
+
+  <div class="below">
+    <div class="preview">
+      <a class="shot" href="app.html#/exams/quiz-3" aria-label="Open the dashboard for Quiz 3">
+        <iframe src="app.html?embed=1#/exams/quiz-3" title="The Subsigmoid dashboard showing a sample class's Quiz 3" tabindex="-1" aria-hidden="true"></iframe>
+      </a>
+      <p class="cap">The dashboard, with a sample class. Every hill above is an S-curve, the shape the model fits to each question.</p>
+    </div>
+
+    <div class="three">
+      <div class="step"><span class="n">1</span><h3>Import a graded exam</h3><p>Sync from Gradescope or upload the CSV. Every rubric item counts as evidence.</p></div>
+      <div class="step"><span class="n">2</span><h3>Check the skills</h3><p>AI suggests which skills each question tests. It reads the questions, never the students.</p></div>
+      <div class="step"><span class="n">3</span><h3>See gaps and slips</h3><p>Each answer gets a label, and students are grouped by the skill they’re missing.</p></div>
+    </div>
+    <p class="more"><a href="method.html">How the statistics work →</a></p>
+  </div>
+</main>
+
+<footer></footer>
+
+<script src="js/api.js"></script>
+<script src="js/site.js"></script>
+<script>
+// Fit the embedded dashboard to its frame
+(() => {
+  const shot = document.querySelector('.shot'); if (!shot) return;
+  const fit = () => shot.style.setProperty('--s', (shot.clientWidth / 1280).toFixed(4));
+  new ResizeObserver(fit).observe(shot); fit();
+})();
+// Scroll parallax: farther layers lag behind, so the hills separate in depth. The headline drifts up and fades.
+(() => {
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const layers = [...document.querySelectorAll('.layers img')].map(el => [el, +el.dataset.k]);
+  const text = document.querySelector('.hero-text'), hero = document.querySelector('.hero');
+  let ticking = false;
+  const update = () => {
+    ticking = false;
+    const y = Math.min(window.scrollY, hero.offsetHeight), f = innerWidth < 860 ? 0.35 : 1;   // gentler on phones, where the scene is short
+    for (const [el, k] of layers) el.style.transform = `translate3d(0, ${(y * k * f).toFixed(1)}px, 0)`;
+    text.style.transform = `translate3d(0, ${(-y * 0.08).toFixed(1)}px, 0)`;
+    text.style.opacity = Math.max(0.4, 1 - y / 1200).toFixed(3);   // barely fades
+  };
+  addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
+  update();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,3644 @@
+{
+ "id": "quiz-1",
+ "sample": true,
+ "test": {
+  "name": "Quiz 1",
+  "date": "2026-09-19",
+  "course": "Pre-algebra · Section 3",
+  "source": "Gradescope export",
+  "n_students": 38,
+  "n_items": 8
+ },
+ "skills": [
+  {
+   "id": "frac",
+   "name": "Fractions"
+  },
+  {
+   "id": "neg",
+   "name": "Negative numbers"
+  },
+  {
+   "id": "order",
+   "name": "Order of operations"
+  }
+ ],
+ "items": [
+  {
+   "id": "Q1",
+   "prompt": "2/3 + 1/6",
+   "skills": [
+    "frac"
+   ],
+   "max_points": 2,
+   "percent_correct": 0.61,
+   "difficulty": -0.42,
+   "discrimination": 0.59,
+   "guess": 0.15,
+   "slip": 0.15,
+   "flags": []
+  },
+  {
+   "id": "Q2",
+   "prompt": "(−5) + 3",
+   "skills": [
+    "neg"
+   ],
+   "max_points": 2,
+   "percent_correct": 0.42,
+   "difficulty": 0.31,
+   "discrimination": 0.2,
+   "guess": 0.25,
+   "slip": 0.12,
+   "flags": []
+  },
+  {
+   "id": "Q3",
+   "prompt": "6 + 2 × 5",
+   "skills": [
+    "order"
+   ],
+   "max_points": 2,
+   "percent_correct": 0.58,
+   "difficulty": -0.31,
+   "discrimination": 0.34,
+   "guess": 0.15,
+   "slip": 0.12,
+   "flags": []
+  },
+  {
+   "id": "Q4",
+   "prompt": "3/5 × 10",
+   "skills": [
+    "frac"
+   ],
+   "max_points": 2,
+   "percent_correct": 0.53,
+   "difficulty": -0.1,
+   "discrimination": 0.68,
+   "guess": 0.2,
+   "slip": 0.15,
+   "flags": []
+  },
+  {
+   "id": "Q5",
+   "prompt": "−4 − 6",
+   "skills": [
+    "neg"
+   ],
+   "max_points": 2,
+   "percent_correct": 0.32,
+   "difficulty": 0.75,
+   "discrimination": 0.18,
+   "guess": 0.2,
+   "slip": 0.14,
+   "flags": []
+  },
+  {
+   "id": "Q6",
+   "prompt": "18 ÷ 3 × 2",
+   "skills": [
+    "order"
+   ],
+   "max_points": 2,
+   "percent_correct": 0.45,
+   "difficulty": 0.21,
+   "discrimination": 0.26,
+   "guess": 0.2,
+   "slip": 0.15,
+   "flags": []
+  },
+  {
+   "id": "Q7",
+   "prompt": "1/4 + 2/4",
+   "skills": [
+    "frac"
+   ],
+   "max_points": 2,
+   "percent_correct": 0.58,
+   "difficulty": -0.31,
+   "discrimination": 0.28,
+   "guess": 0.3,
+   "slip": 0.1,
+   "flags": []
+  },
+  {
+   "id": "Q8",
+   "prompt": "(−2) × 3 + 1",
+   "skills": [
+    "neg",
+    "order"
+   ],
+   "max_points": 2,
+   "percent_correct": 0.24,
+   "difficulty": 1.13,
+   "discrimination": 0.31,
+   "guess": 0.12,
+   "slip": 0.18,
+   "flags": []
+  }
+ ],
+ "students": [
+  {
+   "id": "ana",
+   "name": "Ana",
+   "score": 10,
+   "max_score": 16,
+   "mastery": {
+    "frac": {
+     "p": 1.0,
+     "lo": 0.92,
+     "hi": 1
+    },
+    "neg": {
+     "p": 0.01,
+     "lo": 0,
+     "hi": 0.09
+    },
+    "order": {
+     "p": 0.98,
+     "lo": 0.9,
+     "hi": 1
+    }
+   },
+   "answers": [
+    {
+     "item": "Q1",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 1.0
+    },
+    {
+     "item": "Q2",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Sign error",
+     "label": "gap",
+     "p": 0.99
+    },
+    {
+     "item": "Q3",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 0.98
+    },
+    {
+     "item": "Q4",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 1.0
+    },
+    {
+     "item": "Q5",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Sign error",
+     "label": "gap",
+     "p": 0.99
+    },
+    {
+     "item": "Q6",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 0.98
+    },
+    {
+     "item": "Q7",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 1.0
+    },
+    {
+     "item": "Q8",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Sign error",
+     "label": "gap",
+     "p": 0.99
+    }
+   ],
+   "score_note": null
+  },
+  {
+   "id": "ben",
+   "name": "Ben",
+   "score": 14,
+   "max_score": 16,
+   "mastery": {
+    "frac": {
+     "p": 0.91,
+     "lo": 0.76,
+     "hi": 1
+    },
+    "neg": {
+     "p": 0.99,
+     "lo": 0.92,
+     "hi": 1
+    },
+    "order": {
+     "p": 1.0,
+     "lo": 0.92,
+     "hi": 1
+    }
+   },
+   "answers": [
+    {
+     "item": "Q1",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 0.91
+    },
+    {
+     "item": "Q2",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 0.99
+    },
+    {
+     "item": "Q3",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 1.0
+    },
+    {
+     "item": "Q4",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 0.91
+    },
+    {
+     "item": "Q5",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 0.99
+    },
+    {
+     "item": "Q6",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 1.0
+    },
+    {
+     "item": "Q7",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Added denominators",
+     "label": "slip",
+     "p": 0.91
+    },
+    {
+     "item": "Q8",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 0.99
+    }
+   ],
+   "score_note": null
+  },
+  {
+   "id": "dev",
+   "name": "Dev",
+   "score": 6,
+   "max_score": 16,
+   "mastery": {
+    "frac": {
+     "p": 0.31,
+     "lo": 0.06,
+     "hi": 0.57
+    },
+    "neg": {
+     "p": 0.36,
+     "lo": 0.09,
+     "hi": 0.62
+    },
+    "order": {
+     "p": 0.45,
+     "lo": 0.18,
+     "hi": 0.73
+    }
+   },
+   "answers": [
+    {
+     "item": "Q1",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "guess",
+     "p": 0.69
+    },
+    {
+     "item": "Q2",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Sign error",
+     "label": "gap",
+     "p": 0.64
+    },
+    {
+     "item": "Q3",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Order of operations",
+     "label": "unclear",
+     "p": 0.55
+    },
+    {
+     "item": "Q4",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Multiplied the denominator",
+     "label": "gap",
+     "p": 0.69
+    },
+    {
+     "item": "Q5",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "guess",
+     "p": 0.64
+    },
+    {
+     "item": "Q6",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "unclear",
+     "p": 0.55
+    },
+    {
+     "item": "Q7",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Added denominators",
+     "label": "gap",
+     "p": 0.69
+    },
+    {
+     "item": "Q8",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Sign error",
+     "label": "gap",
+     "p": 0.92
+    }
+   ],
+   "score_note": "overstated"
+  },
+  {
+   "id": "mai",
+   "name": "Mai",
+   "score": 10,
+   "max_score": 16,
+   "mastery": {
+    "frac": {
+     "p": 0.31,
+     "lo": 0.06,
+     "hi": 0.57
+    },
+    "neg": {
+     "p": 0.86,
+     "lo": 0.67,
+     "hi": 1
+    },
+    "order": {
+     "p": 1.0,
+     "lo": 0.92,
+     "hi": 1
+    }
+   },
+   "answers": [
+    {
+     "item": "Q1",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "guess",
+     "p": 0.69
+    },
+    {
+     "item": "Q2",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 0.86
+    },
+    {
+     "item": "Q3",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 1.0
+    },
+    {
+     "item": "Q4",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Multiplied the denominator",
+     "label": "gap",
+     "p": 0.69
+    },
+    {
+     "item": "Q5",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Sign error",
+     "label": "slip",
+     "p": 0.86
+    },
+    {
+     "item": "Q6",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 1.0
+    },
+    {
+     "item": "Q7",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Added denominators",
+     "label": "gap",
+     "p": 0.69
+    },
+    {
+     "item": "Q8",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 0.86
+    }
+   ],
+   "score_note": null
+  },
+  {
+   "id": "sam",
+   "name": "Sam",
+   "score": 10,
+   "max_score": 16,
+   "mastery": {
+    "frac": {
+     "p": 1.0,
+     "lo": 0.92,
+     "hi": 1
+    },
+    "neg": {
+     "p": 0.01,
+     "lo": 0,
+     "hi": 0.09
+    },
+    "order": {
+     "p": 0.98,
+     "lo": 0.9,
+     "hi": 1
+    }
+   },
+   "answers": [
+    {
+     "item": "Q1",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 1.0
+    },
+    {
+     "item": "Q2",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Sign error",
+     "label": "gap",
+     "p": 0.99
+    },
+    {
+     "item": "Q3",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 0.98
+    },
+    {
+     "item": "Q4",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 1.0
+    },
+    {
+     "item": "Q5",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Sign error",
+     "label": "gap",
+     "p": 0.99
+    },
+    {
+     "item": "Q6",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 0.98
+    },
+    {
+     "item": "Q7",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 1.0
+    },
+    {
+     "item": "Q8",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Sign error",
+     "label": "gap",
+     "p": 0.99
+    }
+   ],
+   "score_note": null
+  },
+  {
+   "id": "lia",
+   "name": "Lia",
+   "score": 2,
+   "max_score": 16,
+   "mastery": {
+    "frac": {
+     "p": 0.01,
+     "lo": 0,
+     "hi": 0.09
+    },
+    "neg": {
+     "p": 0.05,
+     "lo": 0,
+     "hi": 0.18
+    },
+    "order": {
+     "p": 0.07,
+     "lo": 0,
+     "hi": 0.21
+    }
+   },
+   "answers": [
+    {
+     "item": "Q1",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Did not find a common denominator",
+     "label": "gap",
+     "p": 0.99
+    },
+    {
+     "item": "Q2",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Sign error",
+     "label": "gap",
+     "p": 0.95
+    },
+    {
+     "item": "Q3",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Order of operations",
+     "label": "gap",
+     "p": 0.93
+    },
+    {
+     "item": "Q4",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Multiplied the denominator",
+     "label": "gap",
+     "p": 0.99
+    },
+    {
+     "item": "Q5",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Sign error",
+     "label": "gap",
+     "p": 0.95
+    },
+    {
+     "item": "Q6",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Divided last",
+     "label": "gap",
+     "p": 0.93
+    },
+    {
+     "item": "Q7",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Added denominators",
+     "label": "gap",
+     "p": 0.99
+    },
+    {
+     "item": "Q8",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "guess",
+     "p": 0.98
+    }
+   ],
+   "score_note": null
+  },
+  {
+   "id": "omar",
+   "name": "Omar",
+   "score": 6,
+   "max_score": 16,
+   "mastery": {
+    "frac": {
+     "p": 0.23,
+     "lo": 0,
+     "hi": 0.46
+    },
+    "neg": {
+     "p": 0.55,
+     "lo": 0.28,
+     "hi": 0.83
+    },
+    "order": {
+     "p": 0.19,
+     "lo": 0,
+     "hi": 0.41
+    }
+   },
+   "answers": [
+    {
+     "item": "Q1",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Did not find a common denominator",
+     "label": "gap",
+     "p": 0.77
+    },
+    {
+     "item": "Q2",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "unclear",
+     "p": 0.55
+    },
+    {
+     "item": "Q3",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Order of operations",
+     "label": "gap",
+     "p": 0.81
+    },
+    {
+     "item": "Q4",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Multiplied the denominator",
+     "label": "gap",
+     "p": 0.77
+    },
+    {
+     "item": "Q5",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Sign error",
+     "label": "unclear",
+     "p": 0.55
+    },
+    {
+     "item": "Q6",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Divided last",
+     "label": "gap",
+     "p": 0.81
+    },
+    {
+     "item": "Q7",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "guess",
+     "p": 0.77
+    },
+    {
+     "item": "Q8",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "guess",
+     "p": 0.84
+    }
+   ],
+   "score_note": "overstated"
+  },
+  {
+   "id": "kai",
+   "name": "Kai",
+   "score": 10,
+   "max_score": 16,
+   "mastery": {
+    "frac": {
+     "p": 1.0,
+     "lo": 0.92,
+     "hi": 1
+    },
+    "neg": {
+     "p": 0.01,
+     "lo": 0,
+     "hi": 0.09
+    },
+    "order": {
+     "p": 0.98,
+     "lo": 0.9,
+     "hi": 1
+    }
+   },
+   "answers": [
+    {
+     "item": "Q1",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 1.0
+    },
+    {
+     "item": "Q2",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Sign error",
+     "label": "gap",
+     "p": 0.99
+    },
+    {
+     "item": "Q3",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 0.98
+    },
+    {
+     "item": "Q4",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 1.0
+    },
+    {
+     "item": "Q5",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Sign error",
+     "label": "gap",
+     "p": 0.99
+    },
+    {
+     "item": "Q6",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 0.98
+    },
+    {
+     "item": "Q7",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 1.0
+    },
+    {
+     "item": "Q8",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Sign error",
+     "label": "gap",
+     "p": 0.99
+    }
+   ],
+   "score_note": null
+  },
+  {
+   "id": "zoe",
+   "name": "Zoe",
+   "score": 2,
+   "max_score": 16,
+   "mastery": {
+    "frac": {
+     "p": 0.01,
+     "lo": 0,
+     "hi": 0.09
+    },
+    "neg": {
+     "p": 0.5,
+     "lo": 0.22,
+     "hi": 0.77
+    },
+    "order": {
+     "p": 0.04,
+     "lo": 0,
+     "hi": 0.14
+    }
+   },
+   "answers": [
+    {
+     "item": "Q1",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Did not find a common denominator",
+     "label": "gap",
+     "p": 0.99
+    },
+    {
+     "item": "Q2",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Sign error",
+     "label": "unclear",
+     "p": 0.5
+    },
+    {
+     "item": "Q3",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Order of operations",
+     "label": "gap",
+     "p": 0.96
+    },
+    {
+     "item": "Q4",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Multiplied the denominator",
+     "label": "gap",
+     "p": 0.99
+    },
+    {
+     "item": "Q5",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "unclear",
+     "p": 0.5
+    },
+    {
+     "item": "Q6",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Divided last",
+     "label": "gap",
+     "p": 0.96
+    },
+    {
+     "item": "Q7",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Added denominators",
+     "label": "gap",
+     "p": 0.99
+    },
+    {
+     "item": "Q8",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Sign error",
+     "label": "gap",
+     "p": 0.99
+    }
+   ],
+   "score_note": null
+  },
+  {
+   "id": "raj",
+   "name": "Raj",
+   "score": 4,
+   "max_score": 16,
+   "mastery": {
+    "frac": {
+     "p": 0.01,
+     "lo": 0,
+     "hi": 0.09
+    },
+    "neg": {
+     "p": 0.36,
+     "lo": 0.09,
+     "hi": 0.62
+    },
+    "order": {
+     "p": 0.45,
+     "lo": 0.18,
+     "hi": 0.73
+    }
+   },
+   "answers": [
+    {
+     "item": "Q1",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Did not find a common denominator",
+     "label": "gap",
+     "p": 0.99
+    },
+    {
+     "item": "Q2",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Sign error",
+     "label": "gap",
+     "p": 0.64
+    },
+    {
+     "item": "Q3",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Order of operations",
+     "label": "unclear",
+     "p": 0.55
+    },
+    {
+     "item": "Q4",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Multiplied the denominator",
+     "label": "gap",
+     "p": 0.99
+    },
+    {
+     "item": "Q5",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "guess",
+     "p": 0.64
+    },
+    {
+     "item": "Q6",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "unclear",
+     "p": 0.55
+    },
+    {
+     "item": "Q7",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Added denominators",
+     "label": "gap",
+     "p": 0.99
+    },
+    {
+     "item": "Q8",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Sign error",
+     "label": "gap",
+     "p": 0.92
+    }
+   ],
+   "score_note": null
+  },
+  {
+   "id": "eli",
+   "name": "Eli",
+   "score": 16,
+   "max_score": 16,
+   "mastery": {
+    "frac": {
+     "p": 1.0,
+     "lo": 0.92,
+     "hi": 1
+    },
+    "neg": {
+     "p": 0.99,
+     "lo": 0.92,
+     "hi": 1
+    },
+    "order": {
+     "p": 1.0,
+     "lo": 0.92,
+     "hi": 1
+    }
+   },
+   "answers": [
+    {
+     "item": "Q1",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 1.0
+    },
+    {
+     "item": "Q2",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 0.99
+    },
+    {
+     "item": "Q3",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 1.0
+    },
+    {
+     "item": "Q4",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 1.0
+    },
+    {
+     "item": "Q5",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 0.99
+    },
+    {
+     "item": "Q6",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 1.0
+    },
+    {
+     "item": "Q7",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 1.0
+    },
+    {
+     "item": "Q8",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 0.99
+    }
+   ],
+   "score_note": null
+  },
+  {
+   "id": "noa",
+   "name": "Noa",
+   "score": 10,
+   "max_score": 16,
+   "mastery": {
+    "frac": {
+     "p": 1.0,
+     "lo": 0.92,
+     "hi": 1
+    },
+    "neg": {
+     "p": 0.01,
+     "lo": 0,
+     "hi": 0.09
+    },
+    "order": {
+     "p": 0.98,
+     "lo": 0.9,
+     "hi": 1
+    }
+   },
+   "answers": [
+    {
+     "item": "Q1",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 1.0
+    },
+    {
+     "item": "Q2",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Sign error",
+     "label": "gap",
+     "p": 0.99
+    },
+    {
+     "item": "Q3",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 0.98
+    },
+    {
+     "item": "Q4",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 1.0
+    },
+    {
+     "item": "Q5",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Sign error",
+     "label": "gap",
+     "p": 0.99
+    },
+    {
+     "item": "Q6",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 0.98
+    },
+    {
+     "item": "Q7",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 1.0
+    },
+    {
+     "item": "Q8",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Sign error",
+     "label": "gap",
+     "p": 0.99
+    }
+   ],
+   "score_note": null
+  },
+  {
+   "id": "ivy",
+   "name": "Ivy",
+   "score": 12,
+   "max_score": 16,
+   "mastery": {
+    "frac": {
+     "p": 1.0,
+     "lo": 0.92,
+     "hi": 1
+    },
+    "neg": {
+     "p": 0.17,
+     "lo": 0,
+     "hi": 0.37
+    },
+    "order": {
+     "p": 0.97,
+     "lo": 0.88,
+     "hi": 1
+    }
+   },
+   "answers": [
+    {
+     "item": "Q1",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 1.0
+    },
+    {
+     "item": "Q2",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "guess",
+     "p": 0.83
+    },
+    {
+     "item": "Q3",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 0.97
+    },
+    {
+     "item": "Q4",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 1.0
+    },
+    {
+     "item": "Q5",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Sign error",
+     "label": "gap",
+     "p": 0.83
+    },
+    {
+     "item": "Q6",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 0.97
+    },
+    {
+     "item": "Q7",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 1.0
+    },
+    {
+     "item": "Q8",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Sign error",
+     "label": "gap",
+     "p": 0.85
+    }
+   ],
+   "score_note": null
+  },
+  {
+   "id": "leo",
+   "name": "Leo",
+   "score": 4,
+   "max_score": 16,
+   "mastery": {
+    "frac": {
+     "p": 0.01,
+     "lo": 0,
+     "hi": 0.09
+    },
+    "neg": {
+     "p": 0.01,
+     "lo": 0,
+     "hi": 0.09
+    },
+    "order": {
+     "p": 0.98,
+     "lo": 0.9,
+     "hi": 1
+    }
+   },
+   "answers": [
+    {
+     "item": "Q1",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Did not find a common denominator",
+     "label": "gap",
+     "p": 0.99
+    },
+    {
+     "item": "Q2",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Sign error",
+     "label": "gap",
+     "p": 0.99
+    },
+    {
+     "item": "Q3",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 0.98
+    },
+    {
+     "item": "Q4",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Multiplied the denominator",
+     "label": "gap",
+     "p": 0.99
+    },
+    {
+     "item": "Q5",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Sign error",
+     "label": "gap",
+     "p": 0.99
+    },
+    {
+     "item": "Q6",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 0.98
+    },
+    {
+     "item": "Q7",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Added denominators",
+     "label": "gap",
+     "p": 0.99
+    },
+    {
+     "item": "Q8",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Sign error",
+     "label": "gap",
+     "p": 0.99
+    }
+   ],
+   "score_note": null
+  },
+  {
+   "id": "ada",
+   "name": "Ada",
+   "score": 2,
+   "max_score": 16,
+   "mastery": {
+    "frac": {
+     "p": 0.01,
+     "lo": 0,
+     "hi": 0.09
+    },
+    "neg": {
+     "p": 0.02,
+     "lo": 0,
+     "hi": 0.1
+    },
+    "order": {
+     "p": 0.71,
+     "lo": 0.46,
+     "hi": 0.96
+    }
+   },
+   "answers": [
+    {
+     "item": "Q1",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Did not find a common denominator",
+     "label": "gap",
+     "p": 0.99
+    },
+    {
+     "item": "Q2",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Sign error",
+     "label": "gap",
+     "p": 0.98
+    },
+    {
+     "item": "Q3",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 0.71
+    },
+    {
+     "item": "Q4",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Multiplied the denominator",
+     "label": "gap",
+     "p": 0.99
+    },
+    {
+     "item": "Q5",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Sign error",
+     "label": "gap",
+     "p": 0.98
+    },
+    {
+     "item": "Q6",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Divided last",
+     "label": "slip",
+     "p": 0.71
+    },
+    {
+     "item": "Q7",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Added denominators",
+     "label": "gap",
+     "p": 0.99
+    },
+    {
+     "item": "Q8",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Sign error",
+     "label": "gap",
+     "p": 0.99
+    }
+   ],
+   "score_note": null
+  },
+  {
+   "id": "max",
+   "name": "Max",
+   "score": 2,
+   "max_score": 16,
+   "mastery": {
+    "frac": {
+     "p": 0.23,
+     "lo": 0,
+     "hi": 0.46
+    },
+    "neg": {
+     "p": 0.04,
+     "lo": 0,
+     "hi": 0.14
+    },
+    "order": {
+     "p": 0.06,
+     "lo": 0,
+     "hi": 0.18
+    }
+   },
+   "answers": [
+    {
+     "item": "Q1",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Did not find a common denominator",
+     "label": "gap",
+     "p": 0.77
+    },
+    {
+     "item": "Q2",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Sign error",
+     "label": "gap",
+     "p": 0.96
+    },
+    {
+     "item": "Q3",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Order of operations",
+     "label": "gap",
+     "p": 0.94
+    },
+    {
+     "item": "Q4",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Multiplied the denominator",
+     "label": "gap",
+     "p": 0.77
+    },
+    {
+     "item": "Q5",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Sign error",
+     "label": "gap",
+     "p": 0.96
+    },
+    {
+     "item": "Q6",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Divided last",
+     "label": "gap",
+     "p": 0.94
+    },
+    {
+     "item": "Q7",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "guess",
+     "p": 0.77
+    },
+    {
+     "item": "Q8",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Sign error",
+     "label": "gap",
+     "p": 1.0
+    }
+   ],
+   "score_note": null
+  },
+  {
+   "id": "tess",
+   "name": "Tess",
+   "score": 10,
+   "max_score": 16,
+   "mastery": {
+    "frac": {
+     "p": 0.91,
+     "lo": 0.76,
+     "hi": 1
+    },
+    "neg": {
+     "p": 0.91,
+     "lo": 0.75,
+     "hi": 1
+    },
+    "order": {
+     "p": 0.38,
+     "lo": 0.11,
+     "hi": 0.65
+    }
+   },
+   "answers": [
+    {
+     "item": "Q1",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 0.91
+    },
+    {
+     "item": "Q2",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 0.91
+    },
+    {
+     "item": "Q3",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "guess",
+     "p": 0.62
+    },
+    {
+     "item": "Q4",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 0.91
+    },
+    {
+     "item": "Q5",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 0.91
+    },
+    {
+     "item": "Q6",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Divided last",
+     "label": "gap",
+     "p": 0.62
+    },
+    {
+     "item": "Q7",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Added denominators",
+     "label": "slip",
+     "p": 0.91
+    },
+    {
+     "item": "Q8",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Sign error",
+     "label": "gap",
+     "p": 0.69
+    }
+   ],
+   "score_note": null
+  },
+  {
+   "id": "jon",
+   "name": "Jon",
+   "score": 6,
+   "max_score": 16,
+   "mastery": {
+    "frac": {
+     "p": 1.0,
+     "lo": 0.92,
+     "hi": 1
+    },
+    "neg": {
+     "p": 0.04,
+     "lo": 0,
+     "hi": 0.14
+    },
+    "order": {
+     "p": 0.06,
+     "lo": 0,
+     "hi": 0.18
+    }
+   },
+   "answers": [
+    {
+     "item": "Q1",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 1.0
+    },
+    {
+     "item": "Q2",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Sign error",
+     "label": "gap",
+     "p": 0.96
+    },
+    {
+     "item": "Q3",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Order of operations",
+     "label": "gap",
+     "p": 0.94
+    },
+    {
+     "item": "Q4",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 1.0
+    },
+    {
+     "item": "Q5",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Sign error",
+     "label": "gap",
+     "p": 0.96
+    },
+    {
+     "item": "Q6",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Divided last",
+     "label": "gap",
+     "p": 0.94
+    },
+    {
+     "item": "Q7",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 1.0
+    },
+    {
+     "item": "Q8",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Sign error",
+     "label": "gap",
+     "p": 1.0
+    }
+   ],
+   "score_note": null
+  },
+  {
+   "id": "uma",
+   "name": "Uma",
+   "score": 12,
+   "max_score": 16,
+   "mastery": {
+    "frac": {
+     "p": 0.87,
+     "lo": 0.69,
+     "hi": 1
+    },
+    "neg": {
+     "p": 0.86,
+     "lo": 0.67,
+     "hi": 1
+    },
+    "order": {
+     "p": 1.0,
+     "lo": 0.92,
+     "hi": 1
+    }
+   },
+   "answers": [
+    {
+     "item": "Q1",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Did not find a common denominator",
+     "label": "slip",
+     "p": 0.87
+    },
+    {
+     "item": "Q2",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 0.86
+    },
+    {
+     "item": "Q3",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 1.0
+    },
+    {
+     "item": "Q4",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 0.87
+    },
+    {
+     "item": "Q5",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Sign error",
+     "label": "slip",
+     "p": 0.86
+    },
+    {
+     "item": "Q6",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 1.0
+    },
+    {
+     "item": "Q7",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 0.87
+    },
+    {
+     "item": "Q8",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 0.86
+    }
+   ],
+   "score_note": "understated"
+  },
+  {
+   "id": "theo",
+   "name": "Theo",
+   "score": 8,
+   "max_score": 16,
+   "mastery": {
+    "frac": {
+     "p": 1.0,
+     "lo": 0.92,
+     "hi": 1
+    },
+    "neg": {
+     "p": 0.02,
+     "lo": 0,
+     "hi": 0.1
+    },
+    "order": {
+     "p": 0.58,
+     "lo": 0.3,
+     "hi": 0.85
+    }
+   },
+   "answers": [
+    {
+     "item": "Q1",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 1.0
+    },
+    {
+     "item": "Q2",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Sign error",
+     "label": "gap",
+     "p": 0.98
+    },
+    {
+     "item": "Q3",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Order of operations",
+     "label": "unclear",
+     "p": 0.58
+    },
+    {
+     "item": "Q4",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 1.0
+    },
+    {
+     "item": "Q5",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Sign error",
+     "label": "gap",
+     "p": 0.98
+    },
+    {
+     "item": "Q6",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "unclear",
+     "p": 0.58
+    },
+    {
+     "item": "Q7",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 1.0
+    },
+    {
+     "item": "Q8",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Sign error",
+     "label": "gap",
+     "p": 1.0
+    }
+   ],
+   "score_note": null
+  },
+  {
+   "id": "rosa",
+   "name": "Rosa",
+   "score": 8,
+   "max_score": 16,
+   "mastery": {
+    "frac": {
+     "p": 1.0,
+     "lo": 0.92,
+     "hi": 1
+    },
+    "neg": {
+     "p": 0.02,
+     "lo": 0,
+     "hi": 0.1
+    },
+    "order": {
+     "p": 0.71,
+     "lo": 0.46,
+     "hi": 0.96
+    }
+   },
+   "answers": [
+    {
+     "item": "Q1",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 1.0
+    },
+    {
+     "item": "Q2",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Sign error",
+     "label": "gap",
+     "p": 0.98
+    },
+    {
+     "item": "Q3",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 0.71
+    },
+    {
+     "item": "Q4",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 1.0
+    },
+    {
+     "item": "Q5",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Sign error",
+     "label": "gap",
+     "p": 0.98
+    },
+    {
+     "item": "Q6",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Divided last",
+     "label": "slip",
+     "p": 0.71
+    },
+    {
+     "item": "Q7",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 1.0
+    },
+    {
+     "item": "Q8",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Sign error",
+     "label": "gap",
+     "p": 0.99
+    }
+   ],
+   "score_note": null
+  },
+  {
+   "id": "finn",
+   "name": "Finn",
+   "score": 12,
+   "max_score": 16,
+   "mastery": {
+    "frac": {
+     "p": 1.0,
+     "lo": 0.92,
+     "hi": 1
+    },
+    "neg": {
+     "p": 0.91,
+     "lo": 0.75,
+     "hi": 1
+    },
+    "order": {
+     "p": 0.38,
+     "lo": 0.11,
+     "hi": 0.65
+    }
+   },
+   "answers": [
+    {
+     "item": "Q1",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 1.0
+    },
+    {
+     "item": "Q2",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 0.91
+    },
+    {
+     "item": "Q3",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "guess",
+     "p": 0.62
+    },
+    {
+     "item": "Q4",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 1.0
+    },
+    {
+     "item": "Q5",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 0.91
+    },
+    {
+     "item": "Q6",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Divided last",
+     "label": "gap",
+     "p": 0.62
+    },
+    {
+     "item": "Q7",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 1.0
+    },
+    {
+     "item": "Q8",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Sign error",
+     "label": "gap",
+     "p": 0.69
+    }
+   ],
+   "score_note": null
+  },
+  {
+   "id": "nia",
+   "name": "Nia",
+   "score": 14,
+   "max_score": 16,
+   "mastery": {
+    "frac": {
+     "p": 1.0,
+     "lo": 0.92,
+     "hi": 1
+    },
+    "neg": {
+     "p": 0.99,
+     "lo": 0.91,
+     "hi": 1
+    },
+    "order": {
+     "p": 0.94,
+     "lo": 0.82,
+     "hi": 1
+    }
+   },
+   "answers": [
+    {
+     "item": "Q1",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 1.0
+    },
+    {
+     "item": "Q2",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 0.99
+    },
+    {
+     "item": "Q3",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 0.94
+    },
+    {
+     "item": "Q4",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 1.0
+    },
+    {
+     "item": "Q5",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 0.99
+    },
+    {
+     "item": "Q6",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Divided last",
+     "label": "slip",
+     "p": 0.94
+    },
+    {
+     "item": "Q7",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 1.0
+    },
+    {
+     "item": "Q8",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 0.94
+    }
+   ],
+   "score_note": null
+  },
+  {
+   "id": "cal",
+   "name": "Cal",
+   "score": 8,
+   "max_score": 16,
+   "mastery": {
+    "frac": {
+     "p": 1.0,
+     "lo": 0.92,
+     "hi": 1
+    },
+    "neg": {
+     "p": 0.02,
+     "lo": 0,
+     "hi": 0.1
+    },
+    "order": {
+     "p": 0.71,
+     "lo": 0.46,
+     "hi": 0.96
+    }
+   },
+   "answers": [
+    {
+     "item": "Q1",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 1.0
+    },
+    {
+     "item": "Q2",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Sign error",
+     "label": "gap",
+     "p": 0.98
+    },
+    {
+     "item": "Q3",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 0.71
+    },
+    {
+     "item": "Q4",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 1.0
+    },
+    {
+     "item": "Q5",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Sign error",
+     "label": "gap",
+     "p": 0.98
+    },
+    {
+     "item": "Q6",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Divided last",
+     "label": "slip",
+     "p": 0.71
+    },
+    {
+     "item": "Q7",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 1.0
+    },
+    {
+     "item": "Q8",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Sign error",
+     "label": "gap",
+     "p": 0.99
+    }
+   ],
+   "score_note": null
+  },
+  {
+   "id": "wes",
+   "name": "Wes",
+   "score": 14,
+   "max_score": 16,
+   "mastery": {
+    "frac": {
+     "p": 1.0,
+     "lo": 0.92,
+     "hi": 1
+    },
+    "neg": {
+     "p": 0.99,
+     "lo": 0.91,
+     "hi": 1
+    },
+    "order": {
+     "p": 0.9,
+     "lo": 0.74,
+     "hi": 1
+    }
+   },
+   "answers": [
+    {
+     "item": "Q1",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 1.0
+    },
+    {
+     "item": "Q2",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 0.99
+    },
+    {
+     "item": "Q3",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Order of operations",
+     "label": "slip",
+     "p": 0.9
+    },
+    {
+     "item": "Q4",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 1.0
+    },
+    {
+     "item": "Q5",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 0.99
+    },
+    {
+     "item": "Q6",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 0.9
+    },
+    {
+     "item": "Q7",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 1.0
+    },
+    {
+     "item": "Q8",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 0.9
+    }
+   ],
+   "score_note": null
+  },
+  {
+   "id": "ines",
+   "name": "Ines",
+   "score": 8,
+   "max_score": 16,
+   "mastery": {
+    "frac": {
+     "p": 0.91,
+     "lo": 0.76,
+     "hi": 1
+    },
+    "neg": {
+     "p": 0.96,
+     "lo": 0.84,
+     "hi": 1
+    },
+    "order": {
+     "p": 0.01,
+     "lo": 0,
+     "hi": 0.09
+    }
+   },
+   "answers": [
+    {
+     "item": "Q1",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 0.91
+    },
+    {
+     "item": "Q2",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 0.96
+    },
+    {
+     "item": "Q3",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Order of operations",
+     "label": "gap",
+     "p": 0.99
+    },
+    {
+     "item": "Q4",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 0.91
+    },
+    {
+     "item": "Q5",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 0.96
+    },
+    {
+     "item": "Q6",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Divided last",
+     "label": "gap",
+     "p": 0.99
+    },
+    {
+     "item": "Q7",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Added denominators",
+     "label": "slip",
+     "p": 0.91
+    },
+    {
+     "item": "Q8",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Sign error",
+     "label": "gap",
+     "p": 0.99
+    }
+   ],
+   "score_note": null
+  },
+  {
+   "id": "hugo",
+   "name": "Hugo",
+   "score": 2,
+   "max_score": 16,
+   "mastery": {
+    "frac": {
+     "p": 0.01,
+     "lo": 0,
+     "hi": 0.09
+    },
+    "neg": {
+     "p": 0.47,
+     "lo": 0.19,
+     "hi": 0.74
+    },
+    "order": {
+     "p": 0.04,
+     "lo": 0,
+     "hi": 0.14
+    }
+   },
+   "answers": [
+    {
+     "item": "Q1",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Did not find a common denominator",
+     "label": "gap",
+     "p": 0.99
+    },
+    {
+     "item": "Q2",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "unclear",
+     "p": 0.53
+    },
+    {
+     "item": "Q3",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Order of operations",
+     "label": "gap",
+     "p": 0.96
+    },
+    {
+     "item": "Q4",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Multiplied the denominator",
+     "label": "gap",
+     "p": 0.99
+    },
+    {
+     "item": "Q5",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Sign error",
+     "label": "unclear",
+     "p": 0.53
+    },
+    {
+     "item": "Q6",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Divided last",
+     "label": "gap",
+     "p": 0.96
+    },
+    {
+     "item": "Q7",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Added denominators",
+     "label": "gap",
+     "p": 0.99
+    },
+    {
+     "item": "Q8",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Sign error",
+     "label": "gap",
+     "p": 0.99
+    }
+   ],
+   "score_note": null
+  },
+  {
+   "id": "mila",
+   "name": "Mila",
+   "score": 8,
+   "max_score": 16,
+   "mastery": {
+    "frac": {
+     "p": 0.91,
+     "lo": 0.74,
+     "hi": 1
+    },
+    "neg": {
+     "p": 0.01,
+     "lo": 0,
+     "hi": 0.09
+    },
+    "order": {
+     "p": 0.98,
+     "lo": 0.9,
+     "hi": 1
+    }
+   },
+   "answers": [
+    {
+     "item": "Q1",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 0.91
+    },
+    {
+     "item": "Q2",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Sign error",
+     "label": "gap",
+     "p": 0.99
+    },
+    {
+     "item": "Q3",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 0.98
+    },
+    {
+     "item": "Q4",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Multiplied the denominator",
+     "label": "slip",
+     "p": 0.91
+    },
+    {
+     "item": "Q5",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Sign error",
+     "label": "gap",
+     "p": 0.99
+    },
+    {
+     "item": "Q6",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 0.98
+    },
+    {
+     "item": "Q7",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 0.91
+    },
+    {
+     "item": "Q8",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Sign error",
+     "label": "gap",
+     "p": 0.99
+    }
+   ],
+   "score_note": null
+  },
+  {
+   "id": "yuki",
+   "name": "Yuki",
+   "score": 8,
+   "max_score": 16,
+   "mastery": {
+    "frac": {
+     "p": 1.0,
+     "lo": 0.92,
+     "hi": 1
+    },
+    "neg": {
+     "p": 0.47,
+     "lo": 0.19,
+     "hi": 0.74
+    },
+    "order": {
+     "p": 0.04,
+     "lo": 0,
+     "hi": 0.14
+    }
+   },
+   "answers": [
+    {
+     "item": "Q1",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 1.0
+    },
+    {
+     "item": "Q2",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "unclear",
+     "p": 0.53
+    },
+    {
+     "item": "Q3",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Order of operations",
+     "label": "gap",
+     "p": 0.96
+    },
+    {
+     "item": "Q4",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 1.0
+    },
+    {
+     "item": "Q5",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Sign error",
+     "label": "unclear",
+     "p": 0.53
+    },
+    {
+     "item": "Q6",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Divided last",
+     "label": "gap",
+     "p": 0.96
+    },
+    {
+     "item": "Q7",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 1.0
+    },
+    {
+     "item": "Q8",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Sign error",
+     "label": "gap",
+     "p": 0.99
+    }
+   ],
+   "score_note": null
+  },
+  {
+   "id": "ezra",
+   "name": "Ezra",
+   "score": 6,
+   "max_score": 16,
+   "mastery": {
+    "frac": {
+     "p": 0.01,
+     "lo": 0,
+     "hi": 0.09
+    },
+    "neg": {
+     "p": 0.91,
+     "lo": 0.75,
+     "hi": 1
+    },
+    "order": {
+     "p": 0.38,
+     "lo": 0.11,
+     "hi": 0.65
+    }
+   },
+   "answers": [
+    {
+     "item": "Q1",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Did not find a common denominator",
+     "label": "gap",
+     "p": 0.99
+    },
+    {
+     "item": "Q2",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 0.91
+    },
+    {
+     "item": "Q3",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "guess",
+     "p": 0.62
+    },
+    {
+     "item": "Q4",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Multiplied the denominator",
+     "label": "gap",
+     "p": 0.99
+    },
+    {
+     "item": "Q5",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 0.91
+    },
+    {
+     "item": "Q6",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Divided last",
+     "label": "gap",
+     "p": 0.62
+    },
+    {
+     "item": "Q7",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Added denominators",
+     "label": "gap",
+     "p": 0.99
+    },
+    {
+     "item": "Q8",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Sign error",
+     "label": "gap",
+     "p": 0.69
+    }
+   ],
+   "score_note": null
+  },
+  {
+   "id": "june",
+   "name": "June",
+   "score": 10,
+   "max_score": 16,
+   "mastery": {
+    "frac": {
+     "p": 1.0,
+     "lo": 0.92,
+     "hi": 1
+    },
+    "neg": {
+     "p": 0.01,
+     "lo": 0,
+     "hi": 0.09
+    },
+    "order": {
+     "p": 0.98,
+     "lo": 0.9,
+     "hi": 1
+    }
+   },
+   "answers": [
+    {
+     "item": "Q1",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 1.0
+    },
+    {
+     "item": "Q2",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Sign error",
+     "label": "gap",
+     "p": 0.99
+    },
+    {
+     "item": "Q3",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 0.98
+    },
+    {
+     "item": "Q4",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 1.0
+    },
+    {
+     "item": "Q5",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Sign error",
+     "label": "gap",
+     "p": 0.99
+    },
+    {
+     "item": "Q6",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 0.98
+    },
+    {
+     "item": "Q7",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 1.0
+    },
+    {
+     "item": "Q8",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Sign error",
+     "label": "gap",
+     "p": 0.99
+    }
+   ],
+   "score_note": null
+  },
+  {
+   "id": "pax",
+   "name": "Pax",
+   "score": 12,
+   "max_score": 16,
+   "mastery": {
+    "frac": {
+     "p": 1.0,
+     "lo": 0.92,
+     "hi": 1
+    },
+    "neg": {
+     "p": 0.84,
+     "lo": 0.64,
+     "hi": 1
+    },
+    "order": {
+     "p": 0.91,
+     "lo": 0.75,
+     "hi": 1
+    }
+   },
+   "answers": [
+    {
+     "item": "Q1",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 1.0
+    },
+    {
+     "item": "Q2",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Sign error",
+     "label": "slip",
+     "p": 0.84
+    },
+    {
+     "item": "Q3",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 0.91
+    },
+    {
+     "item": "Q4",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 1.0
+    },
+    {
+     "item": "Q5",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 0.84
+    },
+    {
+     "item": "Q6",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Divided last",
+     "label": "slip",
+     "p": 0.91
+    },
+    {
+     "item": "Q7",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 1.0
+    },
+    {
+     "item": "Q8",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 0.8
+    }
+   ],
+   "score_note": "understated"
+  },
+  {
+   "id": "remy",
+   "name": "Remy",
+   "score": 4,
+   "max_score": 16,
+   "mastery": {
+    "frac": {
+     "p": 0.91,
+     "lo": 0.74,
+     "hi": 1
+    },
+    "neg": {
+     "p": 0.04,
+     "lo": 0,
+     "hi": 0.14
+    },
+    "order": {
+     "p": 0.06,
+     "lo": 0,
+     "hi": 0.18
+    }
+   },
+   "answers": [
+    {
+     "item": "Q1",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 0.91
+    },
+    {
+     "item": "Q2",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Sign error",
+     "label": "gap",
+     "p": 0.96
+    },
+    {
+     "item": "Q3",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Order of operations",
+     "label": "gap",
+     "p": 0.94
+    },
+    {
+     "item": "Q4",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Multiplied the denominator",
+     "label": "slip",
+     "p": 0.91
+    },
+    {
+     "item": "Q5",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Sign error",
+     "label": "gap",
+     "p": 0.96
+    },
+    {
+     "item": "Q6",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Divided last",
+     "label": "gap",
+     "p": 0.94
+    },
+    {
+     "item": "Q7",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 0.91
+    },
+    {
+     "item": "Q8",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Sign error",
+     "label": "gap",
+     "p": 1.0
+    }
+   ],
+   "score_note": null
+  },
+  {
+   "id": "sol",
+   "name": "Sol",
+   "score": 2,
+   "max_score": 16,
+   "mastery": {
+    "frac": {
+     "p": 0.01,
+     "lo": 0,
+     "hi": 0.09
+    },
+    "neg": {
+     "p": 0.47,
+     "lo": 0.19,
+     "hi": 0.74
+    },
+    "order": {
+     "p": 0.04,
+     "lo": 0,
+     "hi": 0.14
+    }
+   },
+   "answers": [
+    {
+     "item": "Q1",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Did not find a common denominator",
+     "label": "gap",
+     "p": 0.99
+    },
+    {
+     "item": "Q2",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "unclear",
+     "p": 0.53
+    },
+    {
+     "item": "Q3",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Order of operations",
+     "label": "gap",
+     "p": 0.96
+    },
+    {
+     "item": "Q4",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Multiplied the denominator",
+     "label": "gap",
+     "p": 0.99
+    },
+    {
+     "item": "Q5",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Sign error",
+     "label": "unclear",
+     "p": 0.53
+    },
+    {
+     "item": "Q6",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Divided last",
+     "label": "gap",
+     "p": 0.96
+    },
+    {
+     "item": "Q7",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Added denominators",
+     "label": "gap",
+     "p": 0.99
+    },
+    {
+     "item": "Q8",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Sign error",
+     "label": "gap",
+     "p": 0.99
+    }
+   ],
+   "score_note": null
+  },
+  {
+   "id": "vera",
+   "name": "Vera",
+   "score": 6,
+   "max_score": 16,
+   "mastery": {
+    "frac": {
+     "p": 0.01,
+     "lo": 0,
+     "hi": 0.09
+    },
+    "neg": {
+     "p": 0.17,
+     "lo": 0,
+     "hi": 0.37
+    },
+    "order": {
+     "p": 0.97,
+     "lo": 0.88,
+     "hi": 1
+    }
+   },
+   "answers": [
+    {
+     "item": "Q1",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Did not find a common denominator",
+     "label": "gap",
+     "p": 0.99
+    },
+    {
+     "item": "Q2",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "guess",
+     "p": 0.83
+    },
+    {
+     "item": "Q3",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 0.97
+    },
+    {
+     "item": "Q4",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Multiplied the denominator",
+     "label": "gap",
+     "p": 0.99
+    },
+    {
+     "item": "Q5",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Sign error",
+     "label": "gap",
+     "p": 0.83
+    },
+    {
+     "item": "Q6",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 0.97
+    },
+    {
+     "item": "Q7",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Added denominators",
+     "label": "gap",
+     "p": 0.99
+    },
+    {
+     "item": "Q8",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Sign error",
+     "label": "gap",
+     "p": 0.85
+    }
+   ],
+   "score_note": null
+  },
+  {
+   "id": "ike",
+   "name": "Ike",
+   "score": 0,
+   "max_score": 16,
+   "mastery": {
+    "frac": {
+     "p": 0.01,
+     "lo": 0,
+     "hi": 0.09
+    },
+    "neg": {
+     "p": 0.04,
+     "lo": 0,
+     "hi": 0.14
+    },
+    "order": {
+     "p": 0.06,
+     "lo": 0,
+     "hi": 0.18
+    }
+   },
+   "answers": [
+    {
+     "item": "Q1",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Did not find a common denominator",
+     "label": "gap",
+     "p": 0.99
+    },
+    {
+     "item": "Q2",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Sign error",
+     "label": "gap",
+     "p": 0.96
+    },
+    {
+     "item": "Q3",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Order of operations",
+     "label": "gap",
+     "p": 0.94
+    },
+    {
+     "item": "Q4",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Multiplied the denominator",
+     "label": "gap",
+     "p": 0.99
+    },
+    {
+     "item": "Q5",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Sign error",
+     "label": "gap",
+     "p": 0.96
+    },
+    {
+     "item": "Q6",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Divided last",
+     "label": "gap",
+     "p": 0.94
+    },
+    {
+     "item": "Q7",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Added denominators",
+     "label": "gap",
+     "p": 0.99
+    },
+    {
+     "item": "Q8",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Sign error",
+     "label": "gap",
+     "p": 1.0
+    }
+   ],
+   "score_note": null
+  },
+  {
+   "id": "lou",
+   "name": "Lou",
+   "score": 2,
+   "max_score": 16,
+   "mastery": {
+    "frac": {
+     "p": 0.01,
+     "lo": 0,
+     "hi": 0.09
+    },
+    "neg": {
+     "p": 0.02,
+     "lo": 0,
+     "hi": 0.1
+    },
+    "order": {
+     "p": 0.71,
+     "lo": 0.46,
+     "hi": 0.96
+    }
+   },
+   "answers": [
+    {
+     "item": "Q1",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Did not find a common denominator",
+     "label": "gap",
+     "p": 0.99
+    },
+    {
+     "item": "Q2",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Sign error",
+     "label": "gap",
+     "p": 0.98
+    },
+    {
+     "item": "Q3",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "knew",
+     "p": 0.71
+    },
+    {
+     "item": "Q4",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Multiplied the denominator",
+     "label": "gap",
+     "p": 0.99
+    },
+    {
+     "item": "Q5",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Sign error",
+     "label": "gap",
+     "p": 0.98
+    },
+    {
+     "item": "Q6",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Divided last",
+     "label": "slip",
+     "p": 0.71
+    },
+    {
+     "item": "Q7",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Added denominators",
+     "label": "gap",
+     "p": 0.99
+    },
+    {
+     "item": "Q8",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Sign error",
+     "label": "gap",
+     "p": 0.99
+    }
+   ],
+   "score_note": null
+  },
+  {
+   "id": "bea",
+   "name": "Bea",
+   "score": 2,
+   "max_score": 16,
+   "mastery": {
+    "frac": {
+     "p": 0.23,
+     "lo": 0,
+     "hi": 0.46
+    },
+    "neg": {
+     "p": 0.04,
+     "lo": 0,
+     "hi": 0.14
+    },
+    "order": {
+     "p": 0.06,
+     "lo": 0,
+     "hi": 0.18
+    }
+   },
+   "answers": [
+    {
+     "item": "Q1",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Did not find a common denominator",
+     "label": "gap",
+     "p": 0.77
+    },
+    {
+     "item": "Q2",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Sign error",
+     "label": "gap",
+     "p": 0.96
+    },
+    {
+     "item": "Q3",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Order of operations",
+     "label": "gap",
+     "p": 0.94
+    },
+    {
+     "item": "Q4",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Multiplied the denominator",
+     "label": "gap",
+     "p": 0.77
+    },
+    {
+     "item": "Q5",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Sign error",
+     "label": "gap",
+     "p": 0.96
+    },
+    {
+     "item": "Q6",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Divided last",
+     "label": "gap",
+     "p": 0.94
+    },
+    {
+     "item": "Q7",
+     "points": 2,
+     "max_points": 2,
+     "rubric": "Correct",
+     "label": "guess",
+     "p": 0.77
+    },
+    {
+     "item": "Q8",
+     "points": 0,
+     "max_points": 2,
+     "rubric": "Sign error",
+     "label": "gap",
+     "p": 1.0
+    }
+   ],
+   "score_note": null
+  }
+ ],
+ "groups": [
+  {
+   "skill": "frac",
+   "students": [
+    "lia",
+    "omar",
+    "zoe",
+    "raj",
+    "leo",
+    "ada",
+    "max",
+    "hugo",
+    "ezra",
+    "sol",
+    "vera",
+    "ike",
+    "lou",
+    "bea"
+   ]
+  },
+  {
+   "skill": "neg",
+   "students": [
+    "ana",
+    "sam",
+    "lia",
+    "kai",
+    "noa",
+    "ivy",
+    "leo",
+    "ada",
+    "max",
+    "jon",
+    "theo",
+    "rosa",
+    "cal",
+    "mila",
+    "june",
+    "remy",
+    "vera",
+    "ike",
+    "lou",
+    "bea"
+   ]
+  },
+  {
+   "skill": "order",
+   "students": [
+    "lia",
+    "omar",
+    "zoe",
+    "max",
+    "jon",
+    "ines",
+    "hugo",
+    "yuki",
+    "remy",
+    "sol",
+    "ike",
+    "bea"
+   ]
+  }
+ ],
+ "mistakes": [
+  {
+   "skill": "frac",
+   "gaps": 43,
+   "slips": 6
+  },
+  {
+   "skill": "neg",
+   "gaps": 69,
+   "slips": 3
+  },
+  {
+   "skill": "order",
+   "gaps": 56,
+   "slips": 7
+  }
+ ],
+ "warnings": []
+}

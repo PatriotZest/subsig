@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Method · Subsigmoid</title>
+<meta name="description" content="How Subsigmoid estimates skills from graded answers: question tagging, item response theory, and cognitive diagnosis.">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<!-- <meta name="subsigmoid-api" content="https://YOUR-APP.databricksapps.com"> -->
+<link rel="stylesheet" href="styles.css">
+<style>
+.title { padding: 72px 0 0; }
+.title h1 { font-size: clamp(36px, 4.6vw, 56px); margin-top: 12px; }
+.title p { margin-top: 16px; font-size: 18px; max-width: 34em; }
+
+.doc { display: grid; grid-template-columns: 190px minmax(0, 1fr); gap: 0 64px; margin-top: 64px; border-top: 1px solid var(--rule); padding-top: 40px; }
+.toc { position: sticky; top: 28px; align-self: start; font-size: 14px; line-height: 2; }
+.toc a { display: block; text-decoration: none; color: var(--ink-3); }
+.toc a:hover, .toc a.on { color: var(--ink); }
+.toc a.on { font-weight: 500; }
+.body { max-width: 700px; }
+.body section + section { margin-top: 72px; }
+.body h2 { font-size: 26px; margin-bottom: 14px; display: flex; align-items: baseline; gap: 12px; }
+.body h2 .n { font-family: var(--mono); font-size: 13px; font-weight: 400; color: var(--ink-3); }
+.body p { max-width: none; }
+.body figure { margin: 28px 0 8px; }
+code { font-family: var(--mono); font-size: 13.5px; background: var(--paper-2); padding: 1px 5px; border-radius: 4px; color: var(--ink); }
+.eq { display: block; font-family: var(--mono); font-size: 15px; background: var(--sheet); border: 1px solid var(--rule); border-radius: 10px; padding: 16px 18px; margin: 22px 0; color: var(--ink); }
+ul.plain { margin: 0; padding: 0; list-style: none; background: var(--sheet); border: 1px solid var(--rule); border-radius: 12px; overflow: hidden; }
+ul.plain li { padding: 12px 16px; border-top: 1px solid var(--rule); color: var(--ink-2); }
+ul.plain li:first-child { border-top: 0; }
+
+.table-scroll { background: var(--sheet); border: 1px solid var(--rule); border-radius: 12px; overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 14px; }
+th, td { text-align: left; padding: 10px 16px; border-top: 1px solid var(--rule); vertical-align: top; }
+th { font-weight: 500; font-size: 13px; color: var(--ink-2); background: #F6F2E9; border-top: 0; }
+td { color: var(--ink-2); }
+td:first-child { color: var(--ink); font-weight: 500; }
+td.num, th.num { text-align: right; font-family: var(--mono); font-size: 13px; font-variant-numeric: tabular-nums; }
+td.am { color: var(--amber-ink); }
+td.serif { font-weight: 400; }
+
+/* Fig. 2 */
+#curve-fig { background: var(--sheet); border: 1px solid var(--rule); border-radius: 12px; padding: 20px 20px 16px; }
+#curve-fig svg { width: 100%; height: auto; display: block; overflow: visible; cursor: ew-resize; touch-action: none; }
+.readout { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 16px; border-top: 1px solid var(--rule); padding-top: 12px; }
+.readout div { font-size: 13px; color: var(--ink-3); }
+.readout b { display: block; font-weight: 600; font-size: 26px; letter-spacing: -.02em; color: var(--ink); font-variant-numeric: tabular-nums; line-height: 1.2; margin-top: 2px; }
+.readout .am b { color: var(--amber-ink); }
+input[type=range] { -webkit-appearance: none; appearance: none; width: 100%; background: transparent; margin: 16px 0 0; }
+input[type=range]::-webkit-slider-runnable-track { height: 4px; border-radius: 999px; background: var(--paper-2); }
+input[type=range]::-moz-range-track { height: 4px; border-radius: 999px; background: var(--paper-2); }
+input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 16px; height: 16px; background: var(--sheet); border: 2px solid var(--ink); border-radius: 50%; margin-top: -6px; cursor: ew-resize; }
+input[type=range]::-moz-range-thumb { width: 14px; height: 14px; background: var(--sheet); border: 2px solid var(--ink); border-radius: 50%; cursor: ew-resize; }
+
+@media (max-width: 900px) {
+  .doc { grid-template-columns: minmax(0, 1fr); }
+  .toc { display: none; }
+  .eq { overflow-x: auto; white-space: nowrap; }
+}
+@media (max-width: 720px) {
+  .title { padding-top: 44px; }
+  .title p { font-size: 16px; }
+  .doc { margin-top: 40px; }
+  .body section + section { margin-top: 56px; }
+  .body h2 { font-size: 22px; }
+  #curve-fig { padding: 14px; }
+  #curve text { font-size: 21px; }
+  .readout b { font-size: 21px; }
+}
+</style>
+</head>
+<body>
+
+<header class="top" data-page="method"></header>
+
+<main class="wrap">
+  <div class="title">
+    <div class="label">Method</div>
+    <h1 class="grad">From graded answers to skill estimates</h1>
+    <p>Subsigmoid uses two established models from psychometrics. A language model is used only to label the questions.</p>
+  </div>
+
+  <div class="doc">
+    <nav class="toc" aria-label="Contents">
+      <a href="#inputs">1 &nbsp;Inputs</a>
+      <a href="#tagging">2 &nbsp;Tagging</a>
+      <a href="#irt">3 &nbsp;Question model</a>
+      <a href="#dina">4 &nbsp;Skill model</a>
+      <a href="#labels">5 &nbsp;Answer labels</a>
+      <a href="#evaluation">6 &nbsp;Evaluation</a>
+      <a href="#limits">7 &nbsp;Limits</a>
+    </nav>
+
+    <article class="body">
+      <section id="inputs">
+        <h2><span class="n">1</span>Inputs</h2>
+        <p>A graded test in one of three forms: a Gradescope export, multiple-choice answers, or responses collected by <a href="quiz.html">our web quiz</a>. In a Gradescope export, each rubric item is a separate observation, so a five-point question gives up to five pieces of evidence instead of one.</p>
+        <p>Grades are already structured data. They are reshaped into one row per student per item and joined to the question tags by item ID.</p>
+      </section>
+
+      <section id="tagging">
+        <h2><span class="n">2</span>Tagging</h2>
+        <p>First, a short list of skills is fixed, either from the syllabus or proposed by the language model and approved by the teacher. The model then marks which skills each question and rubric item requires. For multiple choice, it also labels each wrong option with the mistake it reflects.</p>
+        <p>The result is a table of ones and zeros called the Q-matrix. The language model receives question text only. It never sees student names or answers.</p>
+        <figure>
+          <div class="table-scroll">
+          <table>
+            <thead><tr><th>Item</th><th class="num">fractions</th><th class="num">negatives</th><th class="num">order of ops</th></tr></thead>
+            <tbody>
+              <tr><td>Q1</td><td class="num">1</td><td class="num">0</td><td class="num">0</td></tr>
+              <tr><td>Q4</td><td class="num">1</td><td class="num">1</td><td class="num">0</td></tr>
+              <tr><td>Q8</td><td class="num">0</td><td class="num">1</td><td class="num">1</td></tr>
+              <tr><td>Q4, option B</td><td class="am" colspan="3">sign dropped when multiplying</td></tr>
+            </tbody>
+          </table>
+          </div>
+          <figcaption><b>Table 1</b> &nbsp;Part of a Q-matrix, with one tagged wrong option.</figcaption>
+        </figure>
+      </section>
+
+      <section id="irt">
+        <h2><span class="n">3</span>Question model</h2>
+        <p>Item response theory describes each question with a curve: the probability that a student of ability &theta; answers correctly.</p>
+        <span class="eq">P(correct) = c + (1 &minus; c) &middot; &sigma;(a(&theta; &minus; b))</span>
+        <p><code>b</code> is difficulty, <code>a</code> is discrimination (how sharply the question separates stronger from weaker students), and <code>c</code> is the guessing floor, set to one over the number of options. With a class of about 40 students we fix <code>a</code> or give it a prior; with larger classes it is estimated. Questions with low discrimination are listed in the test report.</p>
+        <p>The same curve gives the chance that a correct answer was a guess. Under the curve, a correct answer comes either from knowing the material or from a lucky guess; the second share is <code>c(1 &minus; &sigma;) / P</code>.</p>
+
+        <figure id="curve-fig">
+          <svg id="curve" viewBox="0 0 640 320" role="img" aria-label="Item response curve. Drag horizontally to change ability."></svg>
+          <input type="range" id="theta" min="-3" max="3" step="0.05" value="-0.8" aria-label="Student ability">
+          <div class="readout">
+            <div>ability &theta;<b id="s-theta">&minus;0.8</b></div>
+            <div>P(correct)<b id="s-p">.31</b></div>
+            <div class="am">P(guess | correct)<b id="s-g">.73</b></div>
+          </div>
+          <figcaption><b>Fig. 2</b> &nbsp;One four-option question with b = 0.6, a = 1.7, c = 0.25. The amber area is the part of P(correct) that comes from guessing. Drag the chart or the slider.</figcaption>
+        </figure>
+      </section>
+
+      <section id="dina">
+        <h2><span class="n">4</span>Skill model</h2>
+        <p>We use DINA, a cognitive diagnosis model. Each student either has or lacks each skill. A student with every skill a question requires answers correctly unless they slip. A student missing any required skill answers correctly only by guessing. Slip and guess rates are estimated per question with expectation-maximization, over all combinations of skills.</p>
+        <p>The method depends on questions that share skills. In the example below, Ana and Ben both scored 10 of 18. Ana missed every question involving negatives. Ben answered the two questions that combine skills correctly, which is hard to do without those skills, so his four misses are explained better as slips.</p>
+        <figure>
+          <div class="table-scroll">
+          <table>
+            <thead><tr><th>Student</th><th class="num">Score</th><th class="num">fractions</th><th class="num">negatives</th><th class="num">order of ops</th></tr></thead>
+            <tbody>
+              <tr><td>Ana</td><td class="num">10 / 18</td><td class="num">.99</td><td class="num am">.10</td><td class="num">.66</td></tr>
+              <tr><td>Ben</td><td class="num">10 / 18</td><td class="num">.93</td><td class="num">.97</td><td class="num">.94</td></tr>
+            </tbody>
+          </table>
+          </div>
+          <figcaption><b>Table 2</b> &nbsp;Estimated probability that each skill is mastered. From the sample class.</figcaption>
+        </figure>
+        <p>Skill estimates are only identifiable when each skill appears in at least a few questions, including some that test it alone. The test report says when this is not the case.</p>
+      </section>
+
+      <section id="labels">
+        <h2><span class="n">5</span>Answer labels</h2>
+        <p>Combining both models, each answer gets one of four labels, with a probability.</p>
+        <figure>
+          <div class="table-scroll">
+          <table>
+            <thead><tr><th>Label</th><th>Answer</th><th>Meaning</th></tr></thead>
+            <tbody>
+              <tr><td>knew it</td><td>correct</td><td class="serif">The student likely has the required skills.</td></tr>
+              <tr><td class="am">guess</td><td>correct</td><td class="serif">The student likely lacks a required skill.</td></tr>
+              <tr><td>slip</td><td>wrong</td><td class="serif">The student likely has the required skills.</td></tr>
+              <tr><td class="am">gap</td><td>wrong</td><td class="serif">The student likely lacks a required skill.</td></tr>
+            </tbody>
+          </table>
+          </div>
+        </figure>
+        <p>When the probability is close to even, the answer is reported as undetermined. If a question&rsquo;s answers fit its tags poorly, for example when students who lack a required skill still answer it correctly at a high rate, the question is sent back for re-tagging.</p>
+      </section>
+
+      <section id="evaluation">
+        <h2><span class="n">6</span>Evaluation</h2>
+        <p>For each student we hide one answer and predict it from their other answers. We compare four methods. If Subsigmoid does no better than item response theory alone, the skill model is not adding information.</p>
+        <figure>
+          <div class="table-scroll">
+          <table>
+            <thead><tr><th>Method</th><th>Uses</th><th class="num">Held-out accuracy</th></tr></thead>
+            <tbody>
+              <tr><td>Raw score</td><td>percent correct overall</td><td class="num">&mdash;</td></tr>
+              <tr><td>Skill counting</td><td>percent correct per skill</td><td class="num">&mdash;</td></tr>
+              <tr><td>IRT alone</td><td>question curves</td><td class="num">&mdash;</td></tr>
+              <tr><td>Subsigmoid</td><td>question curves, skills, tagged wrong options</td><td class="num">&mdash;</td></tr>
+            </tbody>
+          </table>
+          </div>
+          <figcaption><b>Table 3</b> &nbsp;Results will come from a quiz taken by participants at MadHacks.</figcaption>
+        </figure>
+      </section>
+
+      <section id="limits">
+        <h2><span class="n">7</span>Limits</h2>
+        <ul class="plain">
+          <li>Small classes give wide uncertainty. Results are shown with their ranges.</li>
+          <li>Tags can be wrong. The tag check catches some errors, not all.</li>
+          <li>A &ldquo;guess&rdquo; label is a statement about evidence, not about honesty.</li>
+          <li>The output describes a score. It is not meant to replace one, and student views do not compare students.</li>
+        </ul>
+      </section>
+    </article>
+  </div>
+</main>
+
+<footer></footer>
+
+<script src="js/api.js"></script>
+<script src="js/site.js"></script>
+<script>
+(() => {
+  const links = [...document.querySelectorAll('.toc a')];
+  const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) links.forEach(a => a.classList.toggle('on', a.getAttribute('href') === '#' + e.target.id)); }), { rootMargin: '-30% 0px -60% 0px' });
+  document.querySelectorAll('.body section[id]').forEach(s => io.observe(s));
+})();
+</script>
+<script>
+(() => {
+  const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+  const INK = css('--ink'), INK3 = css('--ink-3'), AMBER = css('--amber'), PAPER = css('--paper'), RULE = css('--rule');
+  const sig = x => 1 / (1 + Math.exp(-x));
+  const svg = document.getElementById('curve'), slider = document.getElementById('theta');
+  const A = 1.7, B = 0.6, C = 0.25, X0 = 40, X1 = 630, Y0 = 280, Y1 = 16;
+  const xs = t => X0 + (t + 3) / 6 * (X1 - X0), ys = p => Y0 - p * (Y0 - Y1);
+  const el = (tag, at) => { const e = document.createElementNS('http://www.w3.org/2000/svg', tag); for (const k in at) e.setAttribute(k, at[k]); svg.appendChild(e); return e; };
+  const txt = (s, at) => { const e = el('text', Object.assign({ 'font-family': 'IBM Plex Mono, monospace', 'font-size': 11, fill: INK3 }, at)); e.textContent = s; return e; };
+
+  [0, .25, .5, .75, 1].forEach(p => {
+    el('line', { x1: X0, x2: X1, y1: ys(p), y2: ys(p), stroke: RULE, 'stroke-width': 1 });
+    txt(p === 0 ? '0' : p === 1 ? '1' : String(p).slice(1), { x: X0 - 10, y: ys(p) + 4, 'text-anchor': 'end' });
+  });
+  el('line', { x1: X0, x2: X1, y1: ys(C), y2: ys(C), stroke: INK3, 'stroke-width': 1, 'stroke-dasharray': '3 4' });
+  txt('c = .25', { x: X1, y: ys(C) - 8, 'text-anchor': 'end' });
+
+  let d = '', dl = `M${X0} ${Y0}`;
+  for (let k = 0; k <= 160; k++) {
+    const t = -3 + 6 * k / 160, s = sig(A * (t - B));
+    d += (k ? 'L' : 'M') + xs(t).toFixed(1) + ' ' + ys(C + (1 - C) * s).toFixed(1);
+    dl += 'L' + xs(t).toFixed(1) + ' ' + ys(C * (1 - s)).toFixed(1);
+  }
+  el('path', { d: dl + `L${X1} ${Y0}Z`, fill: AMBER, opacity: .2 });
+  el('path', { d, fill: 'none', stroke: INK, 'stroke-width': 2 });
+  el('line', { x1: X0, x2: X1, y1: Y0, y2: Y0, stroke: INK, 'stroke-width': 1 });
+  el('line', { x1: xs(B), x2: xs(B), y1: Y0, y2: Y0 + 6, stroke: INK, 'stroke-width': 1 });
+  txt('b', { x: xs(B), y: Y0 + 24, 'text-anchor': 'middle' });
+  txt('ability θ →', { x: X1, y: Y0 + 24, 'text-anchor': 'end' });
+
+  const vline = el('line', { stroke: INK, 'stroke-width': 1, 'stroke-dasharray': '2 3', y1: Y1, y2: Y0 });
+  const knew = el('line', { stroke: INK, 'stroke-width': 5 });
+  const luck = el('line', { stroke: AMBER, 'stroke-width': 5 });
+  const dot = el('circle', { r: 6, fill: PAPER, stroke: INK, 'stroke-width': 2 });
+
+  const fmt = v => (v >= .995 ? '1.00' : v.toFixed(2).replace(/^0/, ''));
+  function setTheta(t) {
+    t = Math.max(-3, Math.min(3, t));
+    const s = sig(A * (t - B)), P = C + (1 - C) * s, g = C * (1 - s) / P, x = xs(t), yl = ys(C * (1 - s));
+    for (const e of [vline, knew, luck]) { e.setAttribute('x1', x); e.setAttribute('x2', x); }
+    luck.setAttribute('y1', Y0); luck.setAttribute('y2', yl);
+    knew.setAttribute('y1', yl); knew.setAttribute('y2', ys(P));
+    dot.setAttribute('cx', x); dot.setAttribute('cy', ys(P));
+    document.getElementById('s-theta').textContent = (t < 0 ? '−' : '') + Math.abs(t).toFixed(1);
+    document.getElementById('s-p').textContent = fmt(P);
+    document.getElementById('s-g').textContent = fmt(g);
+    slider.value = t;
+  }
+  slider.addEventListener('input', () => setTheta(+slider.value));
+  let drag = false;
+  const at = ev => { const r = svg.getBoundingClientRect(); return ((ev.clientX - r.left) / r.width * 640 - X0) / (X1 - X0) * 6 - 3; };
+  svg.addEventListener('pointerdown', ev => { drag = true; svg.setPointerCapture(ev.pointerId); setTheta(at(ev)); });
+  svg.addEventListener('pointermove', ev => { if (drag) setTheta(at(ev)); });
+  svg.addEventListener('pointerup', () => drag = false);
+  setTheta(-0.8);
+})();
+</script>
+</body>
+</html>
