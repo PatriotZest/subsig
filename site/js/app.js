@@ -10,9 +10,10 @@
   const LABEL = { knew: 'Knew it', guess: 'Probably a guess', slip: 'Probably a slip', gap: 'Skill missing', unclear: 'Can’t tell yet' };
   let course, liveTimer, connected = false;
 
-  const status = e => e.status === 'analyzed' ? '<span class="st ok">Analyzed</span>' : e.status === 'needs_tags' ? '<span class="st warn">Needs skill tags</span>' : `<span class="st">${esc(e.status)}</span>`;
+  const status = e => e.status === 'analyzed' ? '<span class="st ok">Analyzed</span>' : e.status === 'needs_tags' ? '<span class="st warn">Needs skill tags</span>' : e.status === 'analyzing' ? '<span class="st warn">Running on Databricks</span>' : e.status === 'failed' ? '<span class="st">Failed</span>' : `<span class="st">${esc(e.status)}</span>`;
   const bar = p => `<span class="tb${p < .3 ? ' lo' : ''}"><i style="--w:${Math.max(4, p * 100)}%"></i>${pct(p)}</span>`;
-  const skillName = id => course.skills.find(s => s.id === id)?.name || id;
+  let curSkills = null;   // skills of the report on screen (uploaded exams have their own AI-tagged list)
+  const skillName = id => (curSkills || []).find(s => s.id === id)?.name || course.skills.find(s => s.id === id)?.name || id;
   const analyzed = () => course.exams.filter(e => e.status === 'analyzed' && e.report_id && !e.report_note).sort((a, b) => a.date.localeCompare(b.date));
   const head = (title, meta, right = '') => `<div class="head"><div><h1>${title}</h1>${meta ? `<div class="meta">${meta}</div>` : ''}</div>${right ? `<div class="actions" style="margin:0">${right}</div>` : ''}</div>`;
   const sec = (title, body, extra = '') => `<section><div class="sh"><h2>${title}</h2>${extra ? `<span class="x">${extra}</span>` : ''}</div>${body}</section>`;
@@ -28,6 +29,7 @@
   async function render() {
     clearInterval(liveTimer);
     if (connected) return dashboard();
+    curSkills = null;
     const [a, b] = location.hash.replace(/^#\/?/, '').split('?')[0].split('/').filter(Boolean);
     scrollTo(0, 0);
     try {
@@ -68,37 +70,64 @@
   async function home() {
     const ex = analyzed();
     const reps = await Promise.all(ex.map(e => API.getReport(e.report_id)));
+    const sname = (r, id) => r.skills.find(s => s.id === id)?.name || skillName(id);
+    const biggest = r => [...r.groups].sort((x, y) => y.students.length - x.students.length)[0];
+    // the sample course's quizzes share one skill list, so the term trend uses those reports
+    const courseIdx = reps.map((r, i) => i).filter(i => course.skills.every(k => reps[i].skills.some(s => s.id === k.id)));
+    const cr = courseIdx.map(i => reps[i]), cx = courseIdx.map(i => ex[i]);
     const R = reps[reps.length - 1], E = ex[ex.length - 1];
-    const has = (r, k) => r.students.filter(s => s.mastery[k].p >= .5).length / r.students.length;
-    const big = [...R.groups].sort((x, y) => y.students.length - x.students.length)[0];
-    const under = R.students.filter(s => s.score_note === 'understated');
+    const has = (r, k) => r.students.filter(s => s.mastery[k]?.p >= .5).length / Math.max(1, r.students.length);
+    const big = R && biggest(R);
+    const under = R ? R.students.filter(s => s.score_note === 'understated') : [];
     const todo = course.exams.filter(e => e.status === 'needs_tags');
+    const running = course.exams.filter(e => e.status === 'analyzing');
 
     const att = [
+      ...running.map(e => [`#/exams/${e.id}`, `${esc(e.name)} is being analyzed`, 'job running in Databricks']),
       ...todo.map(e => [`#/exams/${e.id}`, `${esc(e.name)} needs skill tags`, `${e.n_items} questions synced from Gradescope`]),
-      [`#/exams/${E.id}`, `Reteach ${esc(skillName(big.skill).toLowerCase())}`, `${big.students.length} students after ${esc(E.name)}`],
-      [`#/exams/${E.id}`, `${under.length} scores lower than what students know`, `${esc(E.name)}`]
+      ...(big && big.students.length ? [[`#/exams/${E.id}`, `Reteach ${esc(sname(R, big.skill).toLowerCase())}`, `${big.students.length} students after ${esc(E.name)}`]] : []),
+      ...(under.length ? [[`#/exams/${E.id}`, `${under.length} scores lower than what students know`, `${esc(E.name)}`]] : [])
     ].map(([h, t, m]) => `<a class="row r-att" href="${h}"><span class="st warn"></span><span><span class="t">${t}</span> <span class="m">· ${m}</span></span><span class="chev">›</span></a>`).join('');
 
-    const skills = course.skills.map(k => {
-      const first = has(reps[0], k.id), last = has(R, k.id), d = Math.round((last - first) * 100);
-      return `<div class="row r-skill"><span class="t">${esc(k.name)}</span>${bar(last)}<span class="m">of students have it</span><span class="m num" style="justify-self:end">${d >= 0 ? '+' : ''}${d} since ${esc(ex[0].name)}</span></div>`;
-    }).join('');
+    const skills = cr.length ? course.skills.map(k => {
+      const first = has(cr[0], k.id), last = has(cr[cr.length - 1], k.id), d = Math.round((last - first) * 100);
+      return `<div class="row r-skill"><span class="t">${esc(k.name)}</span>${bar(last)}<span class="m">of students have it</span><span class="m num" style="justify-self:end">${d >= 0 ? '+' : ''}${d} since ${esc(cx[0].name)}</span></div>`;
+    }).join('') : '';
 
     const exams = course.exams.map(e => {
       let sum = '';
-      if (e.status === 'analyzed' && !e.report_note) {
-        const r = reps[ex.findIndex(x => x.id === e.id)], g = [...r.groups].sort((x, y) => y.students.length - x.students.length)[0];
-        sum = `${g.students.length} missing ${esc(skillName(g.skill).toLowerCase())}`;
+      const i = ex.findIndex(x => x.id === e.id);
+      if (e.status === 'analyzed' && i >= 0) {
+        const r = reps[i], g = biggest(r);
+        sum = g && g.students.length ? `${g.students.length} missing ${esc(sname(r, g.skill).toLowerCase())}` : `${r.test.n_students} students · no missing skill found`;
       } else if (e.status === 'needs_tags') sum = 'Review the tags to run the analysis';
+      else if (e.status === 'analyzing') sum = 'Analysis job running in Databricks';
+      else if (e.status === 'failed') sum = 'The analysis job failed';
       return `<a class="row r-exam" href="#/exams/${esc(e.id)}"><span><span class="t">${esc(e.name)}</span> <span class="m">${date(e.date)}</span></span>${status(e)}<span class="s">${sum}</span><span class="chev">›</span></a>`;
     }).join('');
 
-    view.innerHTML = head(esc(course.name), dots([esc(course.term), `${course.students.length} students`, `Gradescope synced ${ago(course.gradescope.last_sync)}`, `<button class="btn" id="sync" style="height:26px;padding:0 8px;font-size:13px">Sync</button>`]))
-      + sec('Needs attention', `<div class="list">${att}</div>`)
+    const conn = course.databricks?.connected ? 'Databricks connected' : `Gradescope synced ${ago(course.gradescope.last_sync)}`;
+    view.innerHTML = head(esc(course.name), dots([esc(course.term), `${course.students.length} students`, conn, `<a class="btn" href="#/import" style="height:26px;padding:0 8px;font-size:13px">Upload CSV</a>`]))
+      + (att ? sec('Needs attention', `<div class="list">${att}</div>`) : '')
       + sec('Exams', `<div class="list">${exams}</div>`)
-      + sec('Skills', `<div class="list">${skills}</div>`, `as of ${esc(E.name)}`);
-    document.getElementById('sync').onclick = async ev => { ev.target.disabled = true; ev.target.textContent = 'Syncing…'; await API.syncGradescope(course.id); await loadCourse(); render(); };
+      + (skills ? sec('Skills', `<div class="list">${skills}</div>`, `sample class · as of ${esc(cx[cx.length - 1].name)}`) : '');
+    if (running.length) liveTimer = setInterval(async () => { if (location.hash.replace(/^#\/?/, '') !== '') return clearInterval(liveTimer); const before = running.map(e => e.id).join(); await loadCourse(); if (course.exams.filter(e => e.status === 'analyzing').map(e => e.id).join() !== before) render(); }, 4000);
+  }
+
+  async function analyzing(e, back, meta) {
+    const started = e.started ? Math.round(Date.now() / 1000 - e.started) : 0;
+    view.innerHTML = back + head(esc(e.name), meta) + `<section style="margin-top:32px"><div class="list">
+      <div class="row" style="grid-template-columns:1fr auto"><span><span class="t">Uploaded to the Unity Catalog volume</span><br><span class="m" style="font-family:var(--mono)">${esc(e.volume_path || '')}</span></span><span class="st ok">Done</span></div>
+      <div class="row" style="grid-template-columns:1fr auto"><span><span class="t">Running the assessment job</span><br><span class="m">Databricks job ${esc(course.databricks?.job_id || '')}${e.run_url ? ` · <a href="${esc(e.run_url)}" target="_blank" rel="noopener">open the run ↗</a>` : ''}</span></span><span class="st warn" id="el">${started}s</span></div>
+      <div class="row" style="grid-template-columns:1fr auto"><span class="t">Tagging skills and labeling every answer</span><span class="m">next</span></div>
+    </div><p class="note" style="margin-top:12px">This page updates on its own when the report is ready, usually in a minute or two.</p></section>`;
+    liveTimer = setInterval(async () => {
+      if (!location.hash.includes(e.id)) return clearInterval(liveTimer);
+      const el = document.getElementById('el'); if (el && e.started) el.textContent = Math.round(Date.now() / 1000 - e.started) + 's';
+      await loadCourse();
+      const now = course.exams.find(x => x.id === e.id);
+      if (now && now.status !== 'analyzing') { clearInterval(liveTimer); render(); }
+    }, 3000);
   }
 
   /* ---------- one exam ---------- */
@@ -107,9 +136,12 @@
     if (!e) { view.innerHTML = `<div class="empty">No exam “${esc(id)}”. <a href="#/">Back</a></div>`; return; }
     const back = `<a class="back" href="#/">← ${esc(course.name)}</a>`;
     const meta = dots([date(e.date), `${e.n_items} questions`, `${e.n_students} students`, status(e), e.report_note ? `<span class="lo">${esc(e.report_note)}</span>` : '']);
+    if (e.status === 'analyzing') return analyzing(e, back, meta);
+    if (e.status === 'failed') { view.innerHTML = back + head(esc(e.name), meta) + `<section style="margin-top:32px"><div class="callout">The Databricks run failed: ${esc(e.error || 'unknown error')}${e.run_url ? ` · <a href="${esc(e.run_url)}" target="_blank" rel="noopener">open the run ↗</a>` : ''}</div></section>`; return; }
     if (!(e.status === 'analyzed' && e.report_id)) return tags(e, back, meta);
 
     const R = await API.getReport(e.report_id);
+    curSkills = R.skills;
     const mean = R.students.reduce((t, s) => t + s.score / s.max_score, 0) / R.students.length;
     const withGap = R.students.filter(s => Object.values(s.mastery).some(m => m.p < .3));
     const under = R.students.filter(s => s.score_note === 'understated'), over = R.students.filter(s => s.score_note === 'overstated');
@@ -134,7 +166,8 @@
         '<input class="search" id="find" placeholder="Search students" aria-label="Search students">')
       + sec('Questions', `<div class="list tscroll"><table class="tbl"><thead><tr><th></th><th>Question</th><th>Skills</th><th class="r">Right</th><th class="r">Discrimination</th></tr></thead><tbody>
           ${R.items.map(i => `<tr><td class="q">${esc(i.id)}</td><td class="w">${esc(i.prompt)}${i.flags.length ? `<div class="lo" style="font-weight:400;font-size:13px">${esc(i.flags[0])}</div>` : ''}</td><td style="color:var(--text-2)">${i.skills.map(skillName).map(esc).join(', ')}</td><td class="r num">${pct(i.percent_correct)}</td><td class="r num${i.flags.length ? ' lo' : ''}">${i.discrimination.toFixed(2)}</td></tr>`).join('')}
-        </tbody></table></div>`, 'Discrimination: how well a question separates students who know it from those who don’t');
+        </tbody></table></div>`, 'Discrimination: how well a question separates students who know it from those who don’t')
+      + (R.warnings.filter(w => !w.skill && !w.item).length ? sec('Notes from the analysis', `<div class="list">${R.warnings.filter(w => !w.skill && !w.item).map(w => `<div class="row" style="grid-template-columns:1fr"><span class="s">${esc(w.text)}</span></div>`).join('')}</div>`, R.tag_source === 'ai' ? 'skills tagged by AI from question text · stats from the Databricks job' : '') : '');
 
     const rows = document.getElementById('srows');
     rows.addEventListener('click', ev => {
@@ -202,10 +235,12 @@
 
   /* ---------- import ---------- */
   function importView() {
-    view.innerHTML = `<a class="back" href="#/">← ${esc(course.name)}</a>` + head('Import an exam', 'Upload a Gradescope CSV for an exam that hasn’t synced yet.')
-      + `<label class="drop" id="drop"><input type="file" id="file" accept=".csv,text/csv"><b>Drop a CSV here or click to choose</b><span>One row per student, one column per question or rubric item</span></label><p class="note" id="up" style="margin-top:12px"></p>`;
+    view.innerHTML = `<a class="back" href="#/">← ${esc(course.name)}</a>` + head('Import an exam', 'Upload a graded CSV, for example from the PDF extraction notebook or a Gradescope export.')
+      + `<label class="drop" id="drop"><input type="file" id="file" accept=".csv,text/csv"><b>Drop a graded CSV here or click to choose</b><span>One row per student per question: Student, Question, Question text, Points earned, Points possible</span></label>
+        <div class="list" style="margin-top:16px"><div class="row" style="grid-template-columns:24px 1fr"><span class="m">1</span><span class="s">The file goes to your Unity Catalog volume.</span></div><div class="row" style="grid-template-columns:24px 1fr"><span class="m">2</span><span class="s">The assessment job runs on Databricks and scores every question and student.</span></div><div class="row" style="grid-template-columns:24px 1fr"><span class="m">3</span><span class="s">AI tags the skills each question tests (question text only), then every answer gets a label.</span></div></div>
+        <p class="note" style="margin-top:12px">No file handy? <a href="data/sample-graded.csv" download>Download a sample graded CSV</a> (38 made-up students) and drop it in.</p><p class="note" id="up" style="margin-top:12px"></p>`;
     const handle = async f => {
-      document.getElementById('up').textContent = 'Reading the file…';
+      document.getElementById('up').textContent = 'Uploading to Databricks and starting the job…';
       try { const { exam: x } = await API.uploadExport(course.id, f); await loadCourse(); location.hash = `#/exams/${x.id}`; }
       catch (err) { document.getElementById('up').textContent = 'Upload failed: ' + err.message; }
     };

@@ -1,0 +1,8 @@
+command: ["python", "server.py"]
+env:
+  - name: DATABRICKS_TOKEN
+    valueFrom: databricks-token
+  - name: DATABRICKS_JOB_ID
+    value: "339930322654689"
+  - name: SUBSIGMOID_STATE
+    value: "/tmp/subsigmoid-state.json"

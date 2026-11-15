@@ -10,15 +10,16 @@
 (function () {
   const fromUrl = new URLSearchParams(location.search).get('api');
   const fromMeta = document.querySelector('meta[name="subsigmoid-api"]')?.content;
-  const BASE = (fromUrl || fromMeta || '').replace(/\/$/, '');
-  const LIVE = BASE.length > 0;
+  // 'self' means the backend serves this page (app/server.py), so call it on the same origin
+  const BASE = (fromUrl || fromMeta || '') === 'self' ? '' : (fromUrl || fromMeta || '').replace(/\/$/, '');
+  const LIVE = (fromUrl || fromMeta || '').length > 0;
 
   async function http(method, path, body) {
     const init = { method, headers: {} };
     if (body instanceof FormData) init.body = body;
     else if (body !== undefined) { init.headers['Content-Type'] = 'application/json'; init.body = JSON.stringify(body); }
     const res = await fetch(BASE + path, init);
-    if (!res.ok) throw new Error(`${method} ${path}: ${res.status}`);
+    if (!res.ok) { let m = `${res.status}`; try { m = (await res.json()).error || m; } catch {} throw new Error(m); }
     return res.json();
   }
   const cache = {};

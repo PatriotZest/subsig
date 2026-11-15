@@ -1,0 +1,343 @@
+Student,Question,Question text,Rubric answer/title (verbatim),Result,Points earned,Points possible,Points lost,Score (%)
+Ana,Q1,1/2 + 1/3,Correct,correct,2.0,2.0,0.0,100.0
+Ana,Q2,(−3) × (−4),Sign error,incorrect,0.0,2.0,2.0,0.0
+Ana,Q3,2 + 3 × 4,Correct,correct,2.0,2.0,0.0,100.0
+Ana,Q4,1/2 − 3/4,Correct,correct,2.0,2.0,0.0,100.0
+Ana,Q5,5 − (−2),Subtracted instead of added,incorrect,0.0,2.0,2.0,0.0
+Ana,Q6,10 − 4 ÷ 2,Order of operations,incorrect,0.0,2.0,2.0,0.0
+Ana,Q7,"Which is larger, 3/8 or 2/5?",Correct,correct,2.0,2.0,0.0,100.0
+Ana,Q8,4 − 2 × (−3),Sign error,incorrect,0.0,2.0,2.0,0.0
+Ana,Q9,3/4 × 2/3,Correct,correct,2.0,2.0,0.0,100.0
+Ben,Q1,1/2 + 1/3,Added numerators and denominators,incorrect,0.0,2.0,2.0,0.0
+Ben,Q2,(−3) × (−4),Correct,correct,2.0,2.0,0.0,100.0
+Ben,Q3,2 + 3 × 4,Order of operations,incorrect,0.0,2.0,2.0,0.0
+Ben,Q4,1/2 − 3/4,Correct,correct,2.0,2.0,0.0,100.0
+Ben,Q5,5 − (−2),Subtracted instead of added,incorrect,0.0,2.0,2.0,0.0
+Ben,Q6,10 − 4 ÷ 2,Correct,correct,2.0,2.0,0.0,100.0
+Ben,Q7,"Which is larger, 3/8 or 2/5?",Compared denominators,incorrect,0.0,2.0,2.0,0.0
+Ben,Q8,4 − 2 × (−3),Correct,correct,2.0,2.0,0.0,100.0
+Ben,Q9,3/4 × 2/3,Correct,correct,2.0,2.0,0.0,100.0
+Dev,Q1,1/2 + 1/3,Correct,correct,2.0,2.0,0.0,100.0
+Dev,Q2,(−3) × (−4),Sign error,incorrect,0.0,2.0,2.0,0.0
+Dev,Q3,2 + 3 × 4,Correct,correct,2.0,2.0,0.0,100.0
+Dev,Q4,1/2 − 3/4,Sign error,incorrect,0.0,2.0,2.0,0.0
+Dev,Q5,5 − (−2),Subtracted instead of added,incorrect,0.0,2.0,2.0,0.0
+Dev,Q6,10 − 4 ÷ 2,Order of operations,incorrect,0.0,2.0,2.0,0.0
+Dev,Q7,"Which is larger, 3/8 or 2/5?",Compared denominators,incorrect,0.0,2.0,2.0,0.0
+Dev,Q8,4 − 2 × (−3),Sign error,incorrect,0.0,2.0,2.0,0.0
+Dev,Q9,3/4 × 2/3,Correct,correct,2.0,2.0,0.0,100.0
+Mai,Q1,1/2 + 1/3,Correct,correct,2.0,2.0,0.0,100.0
+Mai,Q2,(−3) × (−4),Correct,correct,2.0,2.0,0.0,100.0
+Mai,Q3,2 + 3 × 4,Correct,correct,2.0,2.0,0.0,100.0
+Mai,Q4,1/2 − 3/4,Sign error,incorrect,0.0,2.0,2.0,0.0
+Mai,Q5,5 − (−2),Correct,correct,2.0,2.0,0.0,100.0
+Mai,Q6,10 − 4 ÷ 2,Correct,correct,2.0,2.0,0.0,100.0
+Mai,Q7,"Which is larger, 3/8 or 2/5?",Correct,correct,2.0,2.0,0.0,100.0
+Mai,Q8,4 − 2 × (−3),Correct,correct,2.0,2.0,0.0,100.0
+Mai,Q9,3/4 × 2/3,Correct,correct,2.0,2.0,0.0,100.0
+Sam,Q1,1/2 + 1/3,Correct,correct,2.0,2.0,0.0,100.0
+Sam,Q2,(−3) × (−4),Correct,correct,2.0,2.0,0.0,100.0
+Sam,Q3,2 + 3 × 4,Correct,correct,2.0,2.0,0.0,100.0
+Sam,Q4,1/2 − 3/4,Correct,correct,2.0,2.0,0.0,100.0
+Sam,Q5,5 − (−2),Subtracted instead of added,incorrect,0.0,2.0,2.0,0.0
+Sam,Q6,10 − 4 ÷ 2,Correct,correct,2.0,2.0,0.0,100.0
+Sam,Q7,"Which is larger, 3/8 or 2/5?",Correct,correct,2.0,2.0,0.0,100.0
+Sam,Q8,4 − 2 × (−3),Sign error,incorrect,0.0,2.0,2.0,0.0
+Sam,Q9,3/4 × 2/3,Correct,correct,2.0,2.0,0.0,100.0
+Lia,Q1,1/2 + 1/3,Added numerators and denominators,incorrect,0.0,2.0,2.0,0.0
+Lia,Q2,(−3) × (−4),Sign error,incorrect,0.0,2.0,2.0,0.0
+Lia,Q3,2 + 3 × 4,Correct,correct,2.0,2.0,0.0,100.0
+Lia,Q4,1/2 − 3/4,Sign error,incorrect,0.0,2.0,2.0,0.0
+Lia,Q5,5 − (−2),Subtracted instead of added,incorrect,0.0,2.0,2.0,0.0
+Lia,Q6,10 − 4 ÷ 2,Order of operations,incorrect,0.0,2.0,2.0,0.0
+Lia,Q7,"Which is larger, 3/8 or 2/5?",Compared denominators,incorrect,0.0,2.0,2.0,0.0
+Lia,Q8,4 − 2 × (−3),Correct,correct,2.0,2.0,0.0,100.0
+Lia,Q9,3/4 × 2/3,Cross-multiplied,incorrect,0.0,2.0,2.0,0.0
+Omar,Q1,1/2 + 1/3,Correct,correct,2.0,2.0,0.0,100.0
+Omar,Q2,(−3) × (−4),Correct,correct,2.0,2.0,0.0,100.0
+Omar,Q3,2 + 3 × 4,Order of operations,incorrect,0.0,2.0,2.0,0.0
+Omar,Q4,1/2 − 3/4,Correct,correct,2.0,2.0,0.0,100.0
+Omar,Q5,5 − (−2),Correct,correct,2.0,2.0,0.0,100.0
+Omar,Q6,10 − 4 ÷ 2,Correct,correct,2.0,2.0,0.0,100.0
+Omar,Q7,"Which is larger, 3/8 or 2/5?",Compared denominators,incorrect,0.0,2.0,2.0,0.0
+Omar,Q8,4 − 2 × (−3),Correct,correct,2.0,2.0,0.0,100.0
+Omar,Q9,3/4 × 2/3,Correct,correct,2.0,2.0,0.0,100.0
+Kai,Q1,1/2 + 1/3,Correct,correct,2.0,2.0,0.0,100.0
+Kai,Q2,(−3) × (−4),Correct,correct,2.0,2.0,0.0,100.0
+Kai,Q3,2 + 3 × 4,Order of operations,incorrect,0.0,2.0,2.0,0.0
+Kai,Q4,1/2 − 3/4,Correct,correct,2.0,2.0,0.0,100.0
+Kai,Q5,5 − (−2),Correct,correct,2.0,2.0,0.0,100.0
+Kai,Q6,10 − 4 ÷ 2,Correct,correct,2.0,2.0,0.0,100.0
+Kai,Q7,"Which is larger, 3/8 or 2/5?",Correct,correct,2.0,2.0,0.0,100.0
+Kai,Q8,4 − 2 × (−3),Sign error,incorrect,0.0,2.0,2.0,0.0
+Kai,Q9,3/4 × 2/3,Correct,correct,2.0,2.0,0.0,100.0
+Zoe,Q1,1/2 + 1/3,Added numerators and denominators,incorrect,0.0,2.0,2.0,0.0
+Zoe,Q2,(−3) × (−4),Sign error,incorrect,0.0,2.0,2.0,0.0
+Zoe,Q3,2 + 3 × 4,Order of operations,incorrect,0.0,2.0,2.0,0.0
+Zoe,Q4,1/2 − 3/4,Sign error,incorrect,0.0,2.0,2.0,0.0
+Zoe,Q5,5 − (−2),Subtracted instead of added,incorrect,0.0,2.0,2.0,0.0
+Zoe,Q6,10 − 4 ÷ 2,Order of operations,incorrect,0.0,2.0,2.0,0.0
+Zoe,Q7,"Which is larger, 3/8 or 2/5?",Compared denominators,incorrect,0.0,2.0,2.0,0.0
+Zoe,Q8,4 − 2 × (−3),Sign error,incorrect,0.0,2.0,2.0,0.0
+Zoe,Q9,3/4 × 2/3,Cross-multiplied,incorrect,0.0,2.0,2.0,0.0
+Raj,Q1,1/2 + 1/3,Correct,correct,2.0,2.0,0.0,100.0
+Raj,Q2,(−3) × (−4),Sign error,incorrect,0.0,2.0,2.0,0.0
+Raj,Q3,2 + 3 × 4,Order of operations,incorrect,0.0,2.0,2.0,0.0
+Raj,Q4,1/2 − 3/4,Sign error,incorrect,0.0,2.0,2.0,0.0
+Raj,Q5,5 − (−2),Subtracted instead of added,incorrect,0.0,2.0,2.0,0.0
+Raj,Q6,10 − 4 ÷ 2,Order of operations,incorrect,0.0,2.0,2.0,0.0
+Raj,Q7,"Which is larger, 3/8 or 2/5?",Compared denominators,incorrect,0.0,2.0,2.0,0.0
+Raj,Q8,4 − 2 × (−3),Sign error,incorrect,0.0,2.0,2.0,0.0
+Raj,Q9,3/4 × 2/3,Cross-multiplied,incorrect,0.0,2.0,2.0,0.0
+Eli,Q1,1/2 + 1/3,Correct,correct,2.0,2.0,0.0,100.0
+Eli,Q2,(−3) × (−4),Correct,correct,2.0,2.0,0.0,100.0
+Eli,Q3,2 + 3 × 4,Correct,correct,2.0,2.0,0.0,100.0
+Eli,Q4,1/2 − 3/4,Correct,correct,2.0,2.0,0.0,100.0
+Eli,Q5,5 − (−2),Correct,correct,2.0,2.0,0.0,100.0
+Eli,Q6,10 − 4 ÷ 2,Correct,correct,2.0,2.0,0.0,100.0
+Eli,Q7,"Which is larger, 3/8 or 2/5?",Correct,correct,2.0,2.0,0.0,100.0
+Eli,Q8,4 − 2 × (−3),Correct,correct,2.0,2.0,0.0,100.0
+Eli,Q9,3/4 × 2/3,Correct,correct,2.0,2.0,0.0,100.0
+Noa,Q1,1/2 + 1/3,Added numerators and denominators,incorrect,0.0,2.0,2.0,0.0
+Noa,Q2,(−3) × (−4),Correct,correct,2.0,2.0,0.0,100.0
+Noa,Q3,2 + 3 × 4,Correct,correct,2.0,2.0,0.0,100.0
+Noa,Q4,1/2 − 3/4,Correct,correct,2.0,2.0,0.0,100.0
+Noa,Q5,5 − (−2),Correct,correct,2.0,2.0,0.0,100.0
+Noa,Q6,10 − 4 ÷ 2,Correct,correct,2.0,2.0,0.0,100.0
+Noa,Q7,"Which is larger, 3/8 or 2/5?",Correct,correct,2.0,2.0,0.0,100.0
+Noa,Q8,4 − 2 × (−3),Correct,correct,2.0,2.0,0.0,100.0
+Noa,Q9,3/4 × 2/3,Correct,correct,2.0,2.0,0.0,100.0
+Ivy,Q1,1/2 + 1/3,Correct,correct,2.0,2.0,0.0,100.0
+Ivy,Q2,(−3) × (−4),Correct,correct,2.0,2.0,0.0,100.0
+Ivy,Q3,2 + 3 × 4,Order of operations,incorrect,0.0,2.0,2.0,0.0
+Ivy,Q4,1/2 − 3/4,Correct,correct,2.0,2.0,0.0,100.0
+Ivy,Q5,5 − (−2),Correct,correct,2.0,2.0,0.0,100.0
+Ivy,Q6,10 − 4 ÷ 2,Correct,correct,2.0,2.0,0.0,100.0
+Ivy,Q7,"Which is larger, 3/8 or 2/5?",Correct,correct,2.0,2.0,0.0,100.0
+Ivy,Q8,4 − 2 × (−3),Correct,correct,2.0,2.0,0.0,100.0
+Ivy,Q9,3/4 × 2/3,Correct,correct,2.0,2.0,0.0,100.0
+Leo,Q1,1/2 + 1/3,Added numerators and denominators,incorrect,0.0,2.0,2.0,0.0
+Leo,Q2,(−3) × (−4),Correct,correct,2.0,2.0,0.0,100.0
+Leo,Q3,2 + 3 × 4,Correct,correct,2.0,2.0,0.0,100.0
+Leo,Q4,1/2 − 3/4,Sign error,incorrect,0.0,2.0,2.0,0.0
+Leo,Q5,5 − (−2),Correct,correct,2.0,2.0,0.0,100.0
+Leo,Q6,10 − 4 ÷ 2,Correct,correct,2.0,2.0,0.0,100.0
+Leo,Q7,"Which is larger, 3/8 or 2/5?",Compared denominators,incorrect,0.0,2.0,2.0,0.0
+Leo,Q8,4 − 2 × (−3),Sign error,incorrect,0.0,2.0,2.0,0.0
+Leo,Q9,3/4 × 2/3,Correct,correct,2.0,2.0,0.0,100.0
+Ada,Q1,1/2 + 1/3,Added numerators and denominators,incorrect,0.0,2.0,2.0,0.0
+Ada,Q2,(−3) × (−4),Sign error,incorrect,0.0,2.0,2.0,0.0
+Ada,Q3,2 + 3 × 4,Correct,correct,2.0,2.0,0.0,100.0
+Ada,Q4,1/2 − 3/4,Sign error,incorrect,0.0,2.0,2.0,0.0
+Ada,Q5,5 − (−2),Correct,correct,2.0,2.0,0.0,100.0
+Ada,Q6,10 − 4 ÷ 2,Order of operations,incorrect,0.0,2.0,2.0,0.0
+Ada,Q7,"Which is larger, 3/8 or 2/5?",Compared denominators,incorrect,0.0,2.0,2.0,0.0
+Ada,Q8,4 − 2 × (−3),Sign error,incorrect,0.0,2.0,2.0,0.0
+Ada,Q9,3/4 × 2/3,Cross-multiplied,incorrect,0.0,2.0,2.0,0.0
+Max,Q1,1/2 + 1/3,Added numerators and denominators,incorrect,0.0,2.0,2.0,0.0
+Max,Q2,(−3) × (−4),Sign error,incorrect,0.0,2.0,2.0,0.0
+Max,Q3,2 + 3 × 4,Order of operations,incorrect,0.0,2.0,2.0,0.0
+Max,Q4,1/2 − 3/4,Sign error,incorrect,0.0,2.0,2.0,0.0
+Max,Q5,5 − (−2),Subtracted instead of added,incorrect,0.0,2.0,2.0,0.0
+Max,Q6,10 − 4 ÷ 2,Order of operations,incorrect,0.0,2.0,2.0,0.0
+Max,Q7,"Which is larger, 3/8 or 2/5?",Correct,correct,2.0,2.0,0.0,100.0
+Max,Q8,4 − 2 × (−3),Sign error,incorrect,0.0,2.0,2.0,0.0
+Max,Q9,3/4 × 2/3,Cross-multiplied,incorrect,0.0,2.0,2.0,0.0
+Tess,Q1,1/2 + 1/3,Correct,correct,2.0,2.0,0.0,100.0
+Tess,Q2,(−3) × (−4),Correct,correct,2.0,2.0,0.0,100.0
+Tess,Q3,2 + 3 × 4,Order of operations,incorrect,0.0,2.0,2.0,0.0
+Tess,Q4,1/2 − 3/4,Sign error,incorrect,0.0,2.0,2.0,0.0
+Tess,Q5,5 − (−2),Correct,correct,2.0,2.0,0.0,100.0
+Tess,Q6,10 − 4 ÷ 2,Order of operations,incorrect,0.0,2.0,2.0,0.0
+Tess,Q7,"Which is larger, 3/8 or 2/5?",Compared denominators,incorrect,0.0,2.0,2.0,0.0
+Tess,Q8,4 − 2 × (−3),Sign error,incorrect,0.0,2.0,2.0,0.0
+Tess,Q9,3/4 × 2/3,Correct,correct,2.0,2.0,0.0,100.0
+Jon,Q1,1/2 + 1/3,Correct,correct,2.0,2.0,0.0,100.0
+Jon,Q2,(−3) × (−4),Sign error,incorrect,0.0,2.0,2.0,0.0
+Jon,Q3,2 + 3 × 4,Correct,correct,2.0,2.0,0.0,100.0
+Jon,Q4,1/2 − 3/4,Sign error,incorrect,0.0,2.0,2.0,0.0
+Jon,Q5,5 − (−2),Correct,correct,2.0,2.0,0.0,100.0
+Jon,Q6,10 − 4 ÷ 2,Correct,correct,2.0,2.0,0.0,100.0
+Jon,Q7,"Which is larger, 3/8 or 2/5?",Correct,correct,2.0,2.0,0.0,100.0
+Jon,Q8,4 − 2 × (−3),Sign error,incorrect,0.0,2.0,2.0,0.0
+Jon,Q9,3/4 × 2/3,Cross-multiplied,incorrect,0.0,2.0,2.0,0.0
+Uma,Q1,1/2 + 1/3,Correct,correct,2.0,2.0,0.0,100.0
+Uma,Q2,(−3) × (−4),Correct,correct,2.0,2.0,0.0,100.0
+Uma,Q3,2 + 3 × 4,Correct,correct,2.0,2.0,0.0,100.0
+Uma,Q4,1/2 − 3/4,Correct,correct,2.0,2.0,0.0,100.0
+Uma,Q5,5 − (−2),Correct,correct,2.0,2.0,0.0,100.0
+Uma,Q6,10 − 4 ÷ 2,Correct,correct,2.0,2.0,0.0,100.0
+Uma,Q7,"Which is larger, 3/8 or 2/5?",Correct,correct,2.0,2.0,0.0,100.0
+Uma,Q8,4 − 2 × (−3),Correct,correct,2.0,2.0,0.0,100.0
+Uma,Q9,3/4 × 2/3,Correct,correct,2.0,2.0,0.0,100.0
+Theo,Q1,1/2 + 1/3,Added numerators and denominators,incorrect,0.0,2.0,2.0,0.0
+Theo,Q2,(−3) × (−4),Correct,correct,2.0,2.0,0.0,100.0
+Theo,Q3,2 + 3 × 4,Order of operations,incorrect,0.0,2.0,2.0,0.0
+Theo,Q4,1/2 − 3/4,Correct,correct,2.0,2.0,0.0,100.0
+Theo,Q5,5 − (−2),Correct,correct,2.0,2.0,0.0,100.0
+Theo,Q6,10 − 4 ÷ 2,Order of operations,incorrect,0.0,2.0,2.0,0.0
+Theo,Q7,"Which is larger, 3/8 or 2/5?",Compared denominators,incorrect,0.0,2.0,2.0,0.0
+Theo,Q8,4 − 2 × (−3),Sign error,incorrect,0.0,2.0,2.0,0.0
+Theo,Q9,3/4 × 2/3,Cross-multiplied,incorrect,0.0,2.0,2.0,0.0
+Rosa,Q1,1/2 + 1/3,Correct,correct,2.0,2.0,0.0,100.0
+Rosa,Q2,(−3) × (−4),Sign error,incorrect,0.0,2.0,2.0,0.0
+Rosa,Q3,2 + 3 × 4,Order of operations,incorrect,0.0,2.0,2.0,0.0
+Rosa,Q4,1/2 − 3/4,Sign error,incorrect,0.0,2.0,2.0,0.0
+Rosa,Q5,5 − (−2),Correct,correct,2.0,2.0,0.0,100.0
+Rosa,Q6,10 − 4 ÷ 2,Order of operations,incorrect,0.0,2.0,2.0,0.0
+Rosa,Q7,"Which is larger, 3/8 or 2/5?",Correct,correct,2.0,2.0,0.0,100.0
+Rosa,Q8,4 − 2 × (−3),Sign error,incorrect,0.0,2.0,2.0,0.0
+Rosa,Q9,3/4 × 2/3,Correct,correct,2.0,2.0,0.0,100.0
+Finn,Q1,1/2 + 1/3,Correct,correct,2.0,2.0,0.0,100.0
+Finn,Q2,(−3) × (−4),Correct,correct,2.0,2.0,0.0,100.0
+Finn,Q3,2 + 3 × 4,Correct,correct,2.0,2.0,0.0,100.0
+Finn,Q4,1/2 − 3/4,Correct,correct,2.0,2.0,0.0,100.0
+Finn,Q5,5 − (−2),Correct,correct,2.0,2.0,0.0,100.0
+Finn,Q6,10 − 4 ÷ 2,Correct,correct,2.0,2.0,0.0,100.0
+Finn,Q7,"Which is larger, 3/8 or 2/5?",Correct,correct,2.0,2.0,0.0,100.0
+Finn,Q8,4 − 2 × (−3),Correct,correct,2.0,2.0,0.0,100.0
+Finn,Q9,3/4 × 2/3,Correct,correct,2.0,2.0,0.0,100.0
+Nia,Q1,1/2 + 1/3,Correct,correct,2.0,2.0,0.0,100.0
+Nia,Q2,(−3) × (−4),Correct,correct,2.0,2.0,0.0,100.0
+Nia,Q3,2 + 3 × 4,Correct,correct,2.0,2.0,0.0,100.0
+Nia,Q4,1/2 − 3/4,Correct,correct,2.0,2.0,0.0,100.0
+Nia,Q5,5 − (−2),Correct,correct,2.0,2.0,0.0,100.0
+Nia,Q6,10 − 4 ÷ 2,Correct,correct,2.0,2.0,0.0,100.0
+Nia,Q7,"Which is larger, 3/8 or 2/5?",Correct,correct,2.0,2.0,0.0,100.0
+Nia,Q8,4 − 2 × (−3),Correct,correct,2.0,2.0,0.0,100.0
+Nia,Q9,3/4 × 2/3,Correct,correct,2.0,2.0,0.0,100.0
+Cal,Q1,1/2 + 1/3,Added numerators and denominators,incorrect,0.0,2.0,2.0,0.0
+Cal,Q2,(−3) × (−4),Correct,correct,2.0,2.0,0.0,100.0
+Cal,Q3,2 + 3 × 4,Correct,correct,2.0,2.0,0.0,100.0
+Cal,Q4,1/2 − 3/4,Correct,correct,2.0,2.0,0.0,100.0
+Cal,Q5,5 − (−2),Correct,correct,2.0,2.0,0.0,100.0
+Cal,Q6,10 − 4 ÷ 2,Order of operations,incorrect,0.0,2.0,2.0,0.0
+Cal,Q7,"Which is larger, 3/8 or 2/5?",Correct,correct,2.0,2.0,0.0,100.0
+Cal,Q8,4 − 2 × (−3),Correct,correct,2.0,2.0,0.0,100.0
+Cal,Q9,3/4 × 2/3,Correct,correct,2.0,2.0,0.0,100.0
+Wes,Q1,1/2 + 1/3,Correct,correct,2.0,2.0,0.0,100.0
+Wes,Q2,(−3) × (−4),Correct,correct,2.0,2.0,0.0,100.0
+Wes,Q3,2 + 3 × 4,Correct,correct,2.0,2.0,0.0,100.0
+Wes,Q4,1/2 − 3/4,Correct,correct,2.0,2.0,0.0,100.0
+Wes,Q5,5 − (−2),Subtracted instead of added,incorrect,0.0,2.0,2.0,0.0
+Wes,Q6,10 − 4 ÷ 2,Correct,correct,2.0,2.0,0.0,100.0
+Wes,Q7,"Which is larger, 3/8 or 2/5?",Correct,correct,2.0,2.0,0.0,100.0
+Wes,Q8,4 − 2 × (−3),Correct,correct,2.0,2.0,0.0,100.0
+Wes,Q9,3/4 × 2/3,Correct,correct,2.0,2.0,0.0,100.0
+Ines,Q1,1/2 + 1/3,Added numerators and denominators,incorrect,0.0,2.0,2.0,0.0
+Ines,Q2,(−3) × (−4),Sign error,incorrect,0.0,2.0,2.0,0.0
+Ines,Q3,2 + 3 × 4,Correct,correct,2.0,2.0,0.0,100.0
+Ines,Q4,1/2 − 3/4,Correct,correct,2.0,2.0,0.0,100.0
+Ines,Q5,5 − (−2),Correct,correct,2.0,2.0,0.0,100.0
+Ines,Q6,10 − 4 ÷ 2,Correct,correct,2.0,2.0,0.0,100.0
+Ines,Q7,"Which is larger, 3/8 or 2/5?",Correct,correct,2.0,2.0,0.0,100.0
+Ines,Q8,4 − 2 × (−3),Correct,correct,2.0,2.0,0.0,100.0
+Ines,Q9,3/4 × 2/3,Correct,correct,2.0,2.0,0.0,100.0
+Hugo,Q1,1/2 + 1/3,Correct,correct,2.0,2.0,0.0,100.0
+Hugo,Q2,(−3) × (−4),Sign error,incorrect,0.0,2.0,2.0,0.0
+Hugo,Q3,2 + 3 × 4,Correct,correct,2.0,2.0,0.0,100.0
+Hugo,Q4,1/2 − 3/4,Sign error,incorrect,0.0,2.0,2.0,0.0
+Hugo,Q5,5 − (−2),Subtracted instead of added,incorrect,0.0,2.0,2.0,0.0
+Hugo,Q6,10 − 4 ÷ 2,Correct,correct,2.0,2.0,0.0,100.0
+Hugo,Q7,"Which is larger, 3/8 or 2/5?",Correct,correct,2.0,2.0,0.0,100.0
+Hugo,Q8,4 − 2 × (−3),Sign error,incorrect,0.0,2.0,2.0,0.0
+Hugo,Q9,3/4 × 2/3,Correct,correct,2.0,2.0,0.0,100.0
+Mila,Q1,1/2 + 1/3,Correct,correct,2.0,2.0,0.0,100.0
+Mila,Q2,(−3) × (−4),Correct,correct,2.0,2.0,0.0,100.0
+Mila,Q3,2 + 3 × 4,Correct,correct,2.0,2.0,0.0,100.0
+Mila,Q4,1/2 − 3/4,Sign error,incorrect,0.0,2.0,2.0,0.0
+Mila,Q5,5 − (−2),Correct,correct,2.0,2.0,0.0,100.0
+Mila,Q6,10 − 4 ÷ 2,Order of operations,incorrect,0.0,2.0,2.0,0.0
+Mila,Q7,"Which is larger, 3/8 or 2/5?",Correct,correct,2.0,2.0,0.0,100.0
+Mila,Q8,4 − 2 × (−3),Correct,correct,2.0,2.0,0.0,100.0
+Mila,Q9,3/4 × 2/3,Correct,correct,2.0,2.0,0.0,100.0
+Yuki,Q1,1/2 + 1/3,Correct,correct,2.0,2.0,0.0,100.0
+Yuki,Q2,(−3) × (−4),Correct,correct,2.0,2.0,0.0,100.0
+Yuki,Q3,2 + 3 × 4,Order of operations,incorrect,0.0,2.0,2.0,0.0
+Yuki,Q4,1/2 − 3/4,Correct,correct,2.0,2.0,0.0,100.0
+Yuki,Q5,5 − (−2),Correct,correct,2.0,2.0,0.0,100.0
+Yuki,Q6,10 − 4 ÷ 2,Order of operations,incorrect,0.0,2.0,2.0,0.0
+Yuki,Q7,"Which is larger, 3/8 or 2/5?",Correct,correct,2.0,2.0,0.0,100.0
+Yuki,Q8,4 − 2 × (−3),Sign error,incorrect,0.0,2.0,2.0,0.0
+Yuki,Q9,3/4 × 2/3,Cross-multiplied,incorrect,0.0,2.0,2.0,0.0
+Ezra,Q1,1/2 + 1/3,Added numerators and denominators,incorrect,0.0,2.0,2.0,0.0
+Ezra,Q2,(−3) × (−4),Correct,correct,2.0,2.0,0.0,100.0
+Ezra,Q3,2 + 3 × 4,Correct,correct,2.0,2.0,0.0,100.0
+Ezra,Q4,1/2 − 3/4,Correct,correct,2.0,2.0,0.0,100.0
+Ezra,Q5,5 − (−2),Correct,correct,2.0,2.0,0.0,100.0
+Ezra,Q6,10 − 4 ÷ 2,Order of operations,incorrect,0.0,2.0,2.0,0.0
+Ezra,Q7,"Which is larger, 3/8 or 2/5?",Compared denominators,incorrect,0.0,2.0,2.0,0.0
+Ezra,Q8,4 − 2 × (−3),Correct,correct,2.0,2.0,0.0,100.0
+Ezra,Q9,3/4 × 2/3,Correct,correct,2.0,2.0,0.0,100.0
+June,Q1,1/2 + 1/3,Added numerators and denominators,incorrect,0.0,2.0,2.0,0.0
+June,Q2,(−3) × (−4),Sign error,incorrect,0.0,2.0,2.0,0.0
+June,Q3,2 + 3 × 4,Order of operations,incorrect,0.0,2.0,2.0,0.0
+June,Q4,1/2 − 3/4,Correct,correct,2.0,2.0,0.0,100.0
+June,Q5,5 − (−2),Subtracted instead of added,incorrect,0.0,2.0,2.0,0.0
+June,Q6,10 − 4 ÷ 2,Correct,correct,2.0,2.0,0.0,100.0
+June,Q7,"Which is larger, 3/8 or 2/5?",Correct,correct,2.0,2.0,0.0,100.0
+June,Q8,4 − 2 × (−3),Correct,correct,2.0,2.0,0.0,100.0
+June,Q9,3/4 × 2/3,Correct,correct,2.0,2.0,0.0,100.0
+Pax,Q1,1/2 + 1/3,Added numerators and denominators,incorrect,0.0,2.0,2.0,0.0
+Pax,Q2,(−3) × (−4),Correct,correct,2.0,2.0,0.0,100.0
+Pax,Q3,2 + 3 × 4,Correct,correct,2.0,2.0,0.0,100.0
+Pax,Q4,1/2 − 3/4,Sign error,incorrect,0.0,2.0,2.0,0.0
+Pax,Q5,5 − (−2),Correct,correct,2.0,2.0,0.0,100.0
+Pax,Q6,10 − 4 ÷ 2,Correct,correct,2.0,2.0,0.0,100.0
+Pax,Q7,"Which is larger, 3/8 or 2/5?",Correct,correct,2.0,2.0,0.0,100.0
+Pax,Q8,4 − 2 × (−3),Sign error,incorrect,0.0,2.0,2.0,0.0
+Pax,Q9,3/4 × 2/3,Correct,correct,2.0,2.0,0.0,100.0
+Remy,Q1,1/2 + 1/3,Correct,correct,2.0,2.0,0.0,100.0
+Remy,Q2,(−3) × (−4),Correct,correct,2.0,2.0,0.0,100.0
+Remy,Q3,2 + 3 × 4,Correct,correct,2.0,2.0,0.0,100.0
+Remy,Q4,1/2 − 3/4,Correct,correct,2.0,2.0,0.0,100.0
+Remy,Q5,5 − (−2),Correct,correct,2.0,2.0,0.0,100.0
+Remy,Q6,10 − 4 ÷ 2,Correct,correct,2.0,2.0,0.0,100.0
+Remy,Q7,"Which is larger, 3/8 or 2/5?",Correct,correct,2.0,2.0,0.0,100.0
+Remy,Q8,4 − 2 × (−3),Correct,correct,2.0,2.0,0.0,100.0
+Remy,Q9,3/4 × 2/3,Correct,correct,2.0,2.0,0.0,100.0
+Sol,Q1,1/2 + 1/3,Correct,correct,2.0,2.0,0.0,100.0
+Sol,Q2,(−3) × (−4),Sign error,incorrect,0.0,2.0,2.0,0.0
+Sol,Q3,2 + 3 × 4,Order of operations,incorrect,0.0,2.0,2.0,0.0
+Sol,Q4,1/2 − 3/4,Sign error,incorrect,0.0,2.0,2.0,0.0
+Sol,Q5,5 − (−2),Subtracted instead of added,incorrect,0.0,2.0,2.0,0.0
+Sol,Q6,10 − 4 ÷ 2,Correct,correct,2.0,2.0,0.0,100.0
+Sol,Q7,"Which is larger, 3/8 or 2/5?",Compared denominators,incorrect,0.0,2.0,2.0,0.0
+Sol,Q8,4 − 2 × (−3),Sign error,incorrect,0.0,2.0,2.0,0.0
+Sol,Q9,3/4 × 2/3,Correct,correct,2.0,2.0,0.0,100.0
+Vera,Q1,1/2 + 1/3,Added numerators and denominators,incorrect,0.0,2.0,2.0,0.0
+Vera,Q2,(−3) × (−4),Sign error,incorrect,0.0,2.0,2.0,0.0
+Vera,Q3,2 + 3 × 4,Correct,correct,2.0,2.0,0.0,100.0
+Vera,Q4,1/2 − 3/4,Sign error,incorrect,0.0,2.0,2.0,0.0
+Vera,Q5,5 − (−2),Subtracted instead of added,incorrect,0.0,2.0,2.0,0.0
+Vera,Q6,10 − 4 ÷ 2,Correct,correct,2.0,2.0,0.0,100.0
+Vera,Q7,"Which is larger, 3/8 or 2/5?",Correct,correct,2.0,2.0,0.0,100.0
+Vera,Q8,4 − 2 × (−3),Sign error,incorrect,0.0,2.0,2.0,0.0
+Vera,Q9,3/4 × 2/3,Correct,correct,2.0,2.0,0.0,100.0
+Ike,Q1,1/2 + 1/3,Correct,correct,2.0,2.0,0.0,100.0
+Ike,Q2,(−3) × (−4),Correct,correct,2.0,2.0,0.0,100.0
+Ike,Q3,2 + 3 × 4,Correct,correct,2.0,2.0,0.0,100.0
+Ike,Q4,1/2 − 3/4,Correct,correct,2.0,2.0,0.0,100.0
+Ike,Q5,5 − (−2),Correct,correct,2.0,2.0,0.0,100.0
+Ike,Q6,10 − 4 ÷ 2,Order of operations,incorrect,0.0,2.0,2.0,0.0
+Ike,Q7,"Which is larger, 3/8 or 2/5?",Compared denominators,incorrect,0.0,2.0,2.0,0.0
+Ike,Q8,4 − 2 × (−3),Correct,correct,2.0,2.0,0.0,100.0
+Ike,Q9,3/4 × 2/3,Correct,correct,2.0,2.0,0.0,100.0
+Lou,Q1,1/2 + 1/3,Added numerators and denominators,incorrect,0.0,2.0,2.0,0.0
+Lou,Q2,(−3) × (−4),Sign error,incorrect,0.0,2.0,2.0,0.0
+Lou,Q3,2 + 3 × 4,Correct,correct,2.0,2.0,0.0,100.0
+Lou,Q4,1/2 − 3/4,Sign error,incorrect,0.0,2.0,2.0,0.0
+Lou,Q5,5 − (−2),Subtracted instead of added,incorrect,0.0,2.0,2.0,0.0
+Lou,Q6,10 − 4 ÷ 2,Correct,correct,2.0,2.0,0.0,100.0
+Lou,Q7,"Which is larger, 3/8 or 2/5?",Correct,correct,2.0,2.0,0.0,100.0
+Lou,Q8,4 − 2 × (−3),Sign error,incorrect,0.0,2.0,2.0,0.0
+Lou,Q9,3/4 × 2/3,Cross-multiplied,incorrect,0.0,2.0,2.0,0.0
+Bea,Q1,1/2 + 1/3,Added numerators and denominators,incorrect,0.0,2.0,2.0,0.0
+Bea,Q2,(−3) × (−4),Correct,correct,2.0,2.0,0.0,100.0
+Bea,Q3,2 + 3 × 4,Correct,correct,2.0,2.0,0.0,100.0
+Bea,Q4,1/2 − 3/4,Sign error,incorrect,0.0,2.0,2.0,0.0
+Bea,Q5,5 − (−2),Subtracted instead of added,incorrect,0.0,2.0,2.0,0.0
+Bea,Q6,10 − 4 ÷ 2,Correct,correct,2.0,2.0,0.0,100.0
+Bea,Q7,"Which is larger, 3/8 or 2/5?",Compared denominators,incorrect,0.0,2.0,2.0,0.0
+Bea,Q8,4 − 2 × (−3),Sign error,incorrect,0.0,2.0,2.0,0.0
+Bea,Q9,3/4 × 2/3,Cross-multiplied,incorrect,0.0,2.0,2.0,0.0

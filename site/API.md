@@ -42,6 +42,8 @@ in each page's `<head>`, or open a page with `?api=<url>`:
 <meta name="subsigmoid-api" content="https://<your-app>.databricksapps.com">
 ```
 
+`app/server.py` serves the site itself and sets this to `self` (same origin) as it serves each page.
+
 JSON in and out unless noted. Errors are non-2xx.
 
 ## Courses and Gradescope
@@ -51,7 +53,7 @@ JSON in and out unless noted. Errors are non-2xx.
 | GET | `/api/courses` | `{ id, name, term }[]` |
 | GET | `/api/courses/{cid}` | `Course` |
 | POST | `/api/courses/{cid}/sync` | `{ last_sync, new_exams }`: pull new exams from Gradescope |
-| POST | `/api/courses/{cid}/uploads` | multipart `file` (Gradescope CSV) → `{ exam: Exam }` with `status: "needs_tags"` |
+| POST | `/api/courses/{cid}/uploads` | multipart `file` (Gradescope CSV) → `{ exam: Exam }`. The real backend writes it to the volume and starts the job (`status: "analyzing"`, plus `run_url`); the mock returns `status: "needs_tags"` |
 
 Gradescope has no public API that we know of, so `sync` is the hook for a future integration
 (a browser extension or a partnership). For the hackathon, exams arrive by CSV upload.
