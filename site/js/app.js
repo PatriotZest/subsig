@@ -243,12 +243,12 @@
   async function live() {
     const draw = async () => {
       if (!location.hash.startsWith('#/live')) return clearInterval(liveTimer);
-      const L = await API.getLive(), rate = L.predictions.made ? L.predictions.hits / L.predictions.made : null;
+      const L = await API.getLive(), quizUrl = L.quiz_url || new URL('quiz.html', location.href).href, rate = L.predictions.made ? L.predictions.hits / L.predictions.made : null;
       view.innerHTML = `<a class="back" href="#/">← ${esc(course.name)}</a>` + head('Live session', L.simulated ? '<span class="lo">Simulated room until the backend is connected</span>' : 'Results update every few seconds')
-        + `<div class="join"><span>Join on your phone: <code>${esc(L.quiz_url.replace(/^https?:\/\//, ''))}</code></span><a class="btn" href="${esc(L.quiz_url)}" target="_blank" rel="noopener">Open quiz ↗</a></div>
+        + `<div class="join"><span>Join on your phone: <code>${esc(quizUrl.replace(/^https?:\/\//, ''))}</code></span><a class="btn" href="${esc(quizUrl)}" target="_blank" rel="noopener">Open quiz ↗</a></div>
         <div class="strip"><div><span>Joined</span><b>${L.participants}</b></div><div><span>Finished</span><b>${L.finished}</b></div><div><span>Predictions checked</span><b>${L.predictions.made}</b></div><div><span>Predicted exactly</span><b>${rate == null ? '—' : pct(rate)}</b></div></div>`
-        + sec('Hide-one-answer test', `<div class="list"><table class="tbl"><thead><tr><th>Method</th><th>Uses</th><th class="r">Accuracy</th></tr></thead><tbody>${L.evaluation.map(m => `<tr><td class="w">${esc(m.name)}</td><td style="color:var(--text-2)">${esc(m.uses)}</td><td class="r num">${m.accuracy == null ? '—' : pct(m.accuracy)}</td></tr>`).join('')}</tbody></table></div>`, 'one answer per person is hidden and predicted')
-        + sec('Activity', `<div class="list">${L.recent.map(r => `<div class="row" style="grid-template-columns:1fr auto"><span class="t">${esc(r.participant)}</span><span class="${r.predicted && r.hit ? 'st ok' : 'm'}">${r.predicted ? (r.hit ? 'Prediction right' : 'Prediction missed') : `Question ${r.done} of 7`}</span></div>`).join('')}</div>`);
+        + (L.evaluation.some(m => m.accuracy != null) ? sec('Hide-one-answer test', `<div class="list"><table class="tbl"><thead><tr><th>Method</th><th>Uses</th><th class="r">Accuracy</th></tr></thead><tbody>${L.evaluation.filter(m => m.accuracy != null).map(m => `<tr><td class="w">${esc(m.name)}</td><td style="color:var(--text-2)">${esc(m.uses)}</td><td class="r num">${m.accuracy == null ? '—' : pct(m.accuracy)}</td></tr>`).join('')}</tbody></table></div>`, 'one answer per person is hidden and predicted') : '')
+        + sec('Activity', L.recent.length ? `<div class="list">${L.recent.map(r => `<div class="row" style="grid-template-columns:1fr auto"><span class="t">${esc(r.participant)}</span><span class="${r.predicted && r.hit ? 'st ok' : 'm'}">${r.predicted ? (r.hit ? 'Prediction right' : 'Prediction missed') : `Question ${r.done} of 7`}</span></div>`).join('')}</div>` : `<div class="list"><div class="row" style="grid-template-columns:1fr"><span class="s">Nobody has joined yet. Open the quiz link on a phone to start.</span></div></div>`);
     };
     await draw();
     liveTimer = setInterval(draw, 2000);

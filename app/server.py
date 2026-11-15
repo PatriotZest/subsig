@@ -411,7 +411,8 @@ def live():
             "evaluation": [{"id": "raw", "name": "Raw score", "uses": "percent right overall", "accuracy": None},
                            {"id": "count", "name": "Skill counting", "uses": "percent right per skill", "accuracy": None},
                            {"id": "irt", "name": "IRT alone", "uses": "question curves", "accuracy": None},
-                           {"id": "subsigmoid", "name": "Subsigmoid", "uses": "curves, skills, tagged wrong options", "accuracy": None}]}
+                           {"id": "subsigmoid", "name": "Subsigmoid", "uses": "curves, skills, tagged wrong options",
+                            "accuracy": len(hits) / len(made) if made else None}]}
 
 
 # ----------------------------------------------------------------------------- HTTP
