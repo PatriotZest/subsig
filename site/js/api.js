@@ -31,61 +31,18 @@
   };
 
   /* ======================= MOCK backend (front end only) ======================= */
-  const MIDTERM = [
-    ['Q1', '3/8 + 1/4', ['frac']], ['Q2', '(−6) × 4', ['neg']], ['Q3', '9 − 6 ÷ 3', ['order']],
-    ['Q4', '2/5 × 15', ['frac']], ['Q5', '−7 − (−10)', ['neg']], ['Q6', '(3 + 5) × 2 − 4', ['order']],
-    ['Q7', '−3/4 + 1/2', ['frac', 'neg']], ['Q8', '12 ÷ (−3) + 2', ['neg', 'order']], ['Q9', '5/6 ÷ 2/3', ['frac']],
-    ['Q10', '(−2)³', ['neg']], ['Q11', '4 + 6 × 2 − 8 ÷ 4', ['order']], ['Q12', '1 2/3 − 3/4', ['frac']],
-    ['Q13', '−5 × (2 − 7)', ['neg', 'order']], ['Q14', 'Order from least to greatest: −1/2, 1/3, −2/3', ['frac', 'neg']]
-  ];
   const mock = {
     sessions: new Map(),
-    async courses() { const c = await data('course.json'); return [{ id: c.id, name: c.name, term: c.term }]; },
-    async course() {
-      const c = structuredClone(await data('course.json'));
-      const done = store.get('analyzed', []);
-      for (const e of c.exams) if (done.includes(e.id)) { e.status = 'analyzed'; e.report_id = 'quiz-3'; e.report_note = 'sample report reused'; }
-      for (const e of store.get('imported', [])) c.exams.unshift(e);
-      const sync = store.get('last_sync'); if (sync) c.gradescope.last_sync = sync;
-      return c;
-    },
-    async sync() { await wait(900); const now = new Date().toISOString(); store.set('last_sync', now); return { last_sync: now, new_exams: 0 }; },
-    async report(id) { return data(`reports/${id}.json`); },
-    async student(courseId, sid) {
-      const c = await data('course.json');
-      const exams = [];
-      for (const e of c.exams.filter(x => x.report_id).sort((a, b) => a.date.localeCompare(b.date))) {
-        const r = await data(`reports/${e.report_id}.json`);
-        const s = r.students.find(x => x.id === sid);
-        if (s) exams.push({ exam_id: e.id, name: e.name, date: e.date, score: s.score, max_score: s.max_score,
-          mastery: s.mastery, score_note: s.score_note, skills: r.skills, answers: s.answers.map(a => ({ ...a, prompt: r.items.find(i => i.id === a.item)?.prompt })) });
-      }
-      return { student: c.students.find(s => s.id === sid), skills: c.skills, exams };
-    },
-    async tags(examId) {
-      const saved = store.get('tags:' + examId);
-      if (saved) return saved;
-      const c = await data('course.json');
-      if (examId === 'midterm') return { exam_id: examId, skills: c.skills, items: MIDTERM.map(([id, prompt, skills]) => ({ id, prompt, skills, source: 'ai' })) };
-      const r = await data(`reports/${examId}.json`);
-      return { exam_id: examId, skills: r.skills, items: r.items.map(i => ({ id: i.id, prompt: i.prompt, skills: i.skills, source: 'approved' })) };
-    },
-    async saveTags(examId, tags) { store.set('tags:' + examId, tags); return { ok: true }; },
-    async analyze(examId) {
-      await wait(1600);
-      const done = store.get('analyzed', []); if (!done.includes(examId)) store.set('analyzed', [...done, examId]);
-      return { report_id: examId === 'midterm' ? 'quiz-3' : examId };
-    },
-    async upload(file) {
-      await wait(500);
-      const rows = (await file.text()).trim().split(/\r?\n/);
-      const header = (rows[0] || '').split(',');
-      const qcols = header.filter(h => /^\s*"?\d+[:.)]|question|q\d+/i.test(h));
-      const exam = { id: 'upload-' + Date.now().toString(36), name: file.name.replace(/\.csv$/i, ''), date: new Date().toISOString().slice(0, 10),
-        status: 'needs_tags', n_students: Math.max(0, rows.length - 1), n_items: qcols.length, report_id: null, source: 'Uploaded CSV' };
-      store.set('imported', [exam, ...store.get('imported', [])]);
-      return { exam };
-    },
+    // Without a backend there is nothing to show: exams only come from real uploads.
+    async courses() { return [{ id: 'main', name: 'Exams', term: '' }]; },
+    async course() { return { id: 'main', name: 'Exams', term: '', exams: [], skills: [], students: [], gradescope: { connected: false, last_sync: null }, databricks: { connected: false } }; },
+    async sync() { return { last_sync: null, new_exams: 0 }; },
+    async report(id) { throw new Error('No backend connected'); },
+    async student() { throw new Error('No backend connected'); },
+    async tags() { throw new Error('No backend connected'); },
+    async saveTags() { throw new Error('No backend connected'); },
+    async analyze() { throw new Error('No backend connected'); },
+    async upload() { throw new Error('No backend connected. Run python3 app/server.py, or open the Databricks App.'); },
     async quiz() {
       const q = await data('quiz.json');
       return { ...q, items: q.items.map(it => ({ ...it, options: it.options.map(({ id, text }) => ({ id, text })) })) };
@@ -161,7 +118,8 @@
     getCourses:   ()            => LIVE ? http('GET', '/api/courses') : mock.courses(),
     getCourse:    (cid)         => LIVE ? http('GET', `/api/courses/${enc(cid)}`) : mock.course(cid),
     syncGradescope:(cid)        => LIVE ? http('POST', `/api/courses/${enc(cid)}/sync`) : mock.sync(cid),
-    uploadExport: (cid, file)   => { if (!LIVE) return mock.upload(file); const f = new FormData(); f.append('file', file); return http('POST', `/api/courses/${enc(cid)}/uploads`, f); },
+    // files: one or more graded CSVs, merged into one exam on the server
+    uploadExport: (cid, files, name) => { if (!LIVE) return mock.upload(); const f = new FormData(); for (const x of [].concat(files)) f.append('file', x, x.webkitRelativePath || x.name); if (name) f.append('name', name); return http('POST', `/api/courses/${enc(cid)}/uploads`, f); },
     getTags:      (eid)         => LIVE ? http('GET', `/api/exams/${enc(eid)}/tags`) : mock.tags(eid),
     saveTags:     (eid, tags)   => LIVE ? http('PUT', `/api/exams/${enc(eid)}/tags`, tags) : mock.saveTags(eid, tags),
     analyze:      (eid)         => LIVE ? http('POST', `/api/exams/${enc(eid)}/analyze`) : mock.analyze(eid),

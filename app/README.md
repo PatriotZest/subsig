@@ -2,7 +2,7 @@
 
 `server.py` serves the site and the `/api/*` routes in `../site/API.md`. It uses only the Python standard library.
 
-When you upload a graded CSV (the format `notebooks/extract_databricks.ipynb` writes; `site/data/sample-graded.csv` is an example):
+When you upload graded CSVs (one file, several, or a whole folder: they are merged into one exam; the format `notebooks/extract_databricks.ipynb` writes; `site/data/sample-graded.csv` is an example):
 
 1. The file is written to the Unity Catalog volume `/Volumes/workspace/pdfdatasets/datasetforpdf/subsigmoid_uploads/`.
 2. The assessment job (`notebooks/assessment.ipynb`, job id in `DATABRICKS_JOB_ID`) runs on it and returns its JSON.
@@ -42,4 +42,5 @@ Before you use it, know these limits:
 
 - Opening the app URL requires a login to the Databricks workspace.
 - On Free Edition, apps stop after 24 hours. Run `deploy.py` again to start the app back up.
-- State (uploads, reports) is kept in `/tmp` on the app. It is lost when the app restarts. The uploaded CSVs stay in the volume.
+- State (uploads, reports) is saved to `subsigmoid_uploads/state.json` in the volume, so it survives app restarts.
+- The made-up sample class is on the `sample-demo` branch. `main` shows only real uploads.

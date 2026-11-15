@@ -32,7 +32,7 @@
   const nameList = (ids, R, max = 10) => { const n = ids.map(id => R.students.find(s => s.id === id)?.name || id); return n.length ? esc(n.slice(0, max).join(', ')) + (n.length > max ? ` and ${n.length - max} more` : '') : 'Nobody'; };
 
   async function loadCourse() {
-    course = await API.getCourse('prealg-3');
+    course = await API.getCourse('main');
     document.getElementById('crumb').textContent = 'Exams';
     document.getElementById('mode').hidden = API.live;
   }
@@ -45,6 +45,7 @@
     scrollTo(0, 0);
     try {
       if (!a) await home();
+      else if (a === 'latest') { const e = course.exams.find(x => x.status === 'analyzed'); if (e) await exam(e.id); else await home(); }
       else if (a === 'exams' && b) await exam(b);
       else if (a === 'students' && b) await student(b);
       else if (a === 'live') await live();
@@ -77,39 +78,26 @@
     }
   }
 
-  /* ---------- home: uploaded exams, then the sample class ---------- */
+  /* ---------- home: every uploaded exam ---------- */
   async function home() {
-    const ex = analyzed().filter(e => !isUpload(e));
-    const reps = await Promise.all(ex.map(e => API.getReport(e.report_id)));
-    const has = (r, k) => r.students.filter(s => s.mastery[k]?.p >= .5).length / Math.max(1, r.students.length);
-    const ups = course.exams.filter(isUpload), samples = course.exams.filter(e => !isUpload(e));
-    const upReps = await Promise.all(ups.map(e => e.status === 'analyzed' && e.report_id ? API.getReport(e.report_id) : null));
-    const running = ups.filter(e => e.status === 'analyzing');
-
-    const row = (e, r) => {
+    const ex = course.exams;
+    const reps = await Promise.all(ex.map(e => e.status === 'analyzed' && e.report_id ? API.getReport(e.report_id).catch(() => null) : null));
+    const running = ex.filter(e => e.status === 'analyzing');
+    const rows = ex.map((e, i) => {
+      const r = reps[i];
       let sum = '';
-      if (r) {
-        const g = r.students.map(st => trueScore(st, r).p / trueScore(st, r).max - st.score / st.max_score);
-        const off = g.filter(d => Math.abs(d) >= .1).length;
-        sum = `${off} of ${r.students.length} grades off from the true score by 10+ points`;
-      } else if (e.status === 'needs_tags') sum = 'Review the skill tags to run the analysis';
+      if (r) { const off = r.students.filter(st => Math.abs(trueScore(st, r).p / trueScore(st, r).max - st.score / st.max_score) >= .1).length;
+        sum = `${r.students.length} students · ${off} grade${off === 1 ? '' : 's'} off from the true score by 10+ points`; }
       else if (e.status === 'analyzing') sum = 'Analysis job running in Databricks';
       else if (e.status === 'failed') sum = 'The analysis job failed';
+      else if (e.status === 'needs_tags') sum = 'Review the skill tags to run the analysis';
       return `<a class="row r-exam" href="#/exams/${esc(e.id)}"><span><span class="t">${esc(e.name)}</span> <span class="m">${date(e.date)}</span></span>${status(e)}<span class="s">${sum}</span><span class="chev">›</span></a>`;
-    };
-
-    const skills = reps.length ? course.skills.map(k => {
-      const first = has(reps[0], k.id), last = has(reps[reps.length - 1], k.id), d = Math.round((last - first) * 100);
-      return `<div class="row r-skill"><span class="t">${esc(k.name)}</span>${bar(last)}<span class="m">of students have it</span><span class="m num" style="justify-self:end">${d >= 0 ? '+' : ''}${d} since ${esc(ex[0].name)}</span></div>`;
-    }).join('') : '';
-
-    const conn = course.databricks?.connected ? 'Databricks connected' : 'Sample data only: no backend connected';
-    view.innerHTML = head('Exams', dots([conn, `<a class="btn" href="#/import" style="height:26px;padding:0 8px;font-size:13px">Upload CSV</a>`]))
+    }).join('');
+    const conn = course.databricks?.connected ? 'Databricks connected' : '<span class="lo">No backend connected</span>';
+    view.innerHTML = head('Exams', dots([conn, `${ex.length} exam${ex.length === 1 ? '' : 's'}`]), '<a class="btn dark" href="#/import">Upload CSVs</a>')
       + `<p class="lede">Upload a graded exam. Subsigmoid works out which skills each student actually has, and gives each one a <b>true score</b>: the score they'd get with no careless slips and no lucky guesses.</p>`
-      + sec('Your uploads', ups.length ? `<div class="list">${ups.map((e, i) => row(e, upReps[i])).join('')}</div>`
-          : `<a class="list row" href="#/import" style="grid-template-columns:1fr auto;display:grid"><span class="s">No uploads yet. Upload a graded CSV, or try the sample file.</span><span class="chev">›</span></a>`)
-      + sec(`Sample class · ${esc(course.name)}`, `<div class="list">${samples.map(e => { const i = ex.findIndex(x => x.id === e.id); return row(e, i >= 0 ? reps[i] : null); }).join('')}</div>`, `${course.students.length} made-up students, to show the dashboard`)
-      + (skills ? sec('Sample class skills over the term', `<div class="list">${skills}</div>`, `as of ${esc(ex[ex.length - 1].name)}`) : '');
+      + (ex.length ? sec('Uploaded exams', `<div class="list">${rows}</div>`)
+        : `<section><a class="drop" href="#/import" style="margin-top:0"><b>No exams yet</b><span>${course.databricks?.connected ? 'Upload graded CSVs, one file or a whole folder, to analyze an exam.' : 'Start the backend (python3 app/server.py) or open the Databricks App to upload exams.'}</span></a></section>`);
     if (running.length) liveTimer = setInterval(async () => { if (location.hash.replace(/^#\/?/, '') !== '') return clearInterval(liveTimer); const before = running.map(e => e.id).join(); await loadCourse(); if (course.exams.filter(e => e.status === 'analyzing').map(e => e.id).join() !== before) render(); }, 4000);
   }
 
@@ -268,20 +256,41 @@
 
   /* ---------- import ---------- */
   function importView() {
-    view.innerHTML = `<a class="back" href="#/">← ${esc(course.name)}</a>` + head('Import an exam', 'Upload a graded CSV, for example from the PDF extraction notebook or a Gradescope export.')
-      + `<label class="drop" id="drop"><input type="file" id="file" accept=".csv,text/csv"><b>Drop a graded CSV here or click to choose</b><span>One row per student per question: Student, Question, Question text, Points earned, Points possible</span></label>
-        <div class="list" style="margin-top:16px"><div class="row" style="grid-template-columns:24px 1fr"><span class="m">1</span><span class="s">The file goes to your Unity Catalog volume.</span></div><div class="row" style="grid-template-columns:24px 1fr"><span class="m">2</span><span class="s">The assessment job runs on Databricks and scores every question and student.</span></div><div class="row" style="grid-template-columns:24px 1fr"><span class="m">3</span><span class="s">AI tags the skills each question tests (question text only), then every answer gets a label.</span></div></div>
-        <p class="note" style="margin-top:12px">No file handy? <a href="data/sample-graded.csv" download>Download a sample graded CSV</a> (38 made-up students) and drop it in.</p><p class="note" id="up" style="margin-top:12px"></p>`;
-    const handle = async f => {
-      document.getElementById('up').textContent = 'Uploading to Databricks and starting the job…';
-      try { const { exam: x } = await API.uploadExport(course.id, f); await loadCourse(); location.hash = `#/exams/${x.id}`; }
-      catch (err) { document.getElementById('up').textContent = 'Upload failed: ' + err.message; }
+    let files = [];
+    view.innerHTML = `<a class="back" href="#/">← Exams</a>` + head('Upload an exam', 'Graded CSVs: one file for the whole class, or one per student (the PDF extraction notebook writes one per PDF). All files go into one exam.')
+      + `<label class="drop" id="drop"><input type="file" id="file" accept=".csv,text/csv" multiple><b>Drop CSV files or a folder here, or click to choose files</b><span>Columns: Student, Question, Question text, Points earned, Points possible</span></label>
+        <div class="actions"><button class="btn" id="folder">Choose a folder…</button><input type="file" id="dir" webkitdirectory hidden><span class="note" id="picked"></span></div>
+        <div id="go" hidden><section style="margin-top:24px"><div class="list"><div class="row" style="grid-template-columns:auto 1fr auto;gap:12px"><span class="m">Exam name</span><input class="search" id="ename" style="width:100%" aria-label="Exam name"><button class="btn dark" id="send">Upload and analyze</button></div></div></section></div>
+        <div class="list" style="margin-top:24px"><div class="row" style="grid-template-columns:24px 1fr"><span class="m">1</span><span class="s">The files are merged into one CSV in your Unity Catalog volume.</span></div><div class="row" style="grid-template-columns:24px 1fr"><span class="m">2</span><span class="s">The assessment job runs on Databricks: IRT fits question difficulty and student ability.</span></div><div class="row" style="grid-template-columns:24px 1fr"><span class="m">3</span><span class="s">AI tags the skills each question tests (question text only), DINA estimates which skills each student has, and every student gets a true score.</span></div></div>
+        <p class="note" style="margin-top:12px">Need a test file? <a href="data/sample-graded.csv" download>Example graded CSV</a> (38 made-up students).</p><p class="note" id="up" style="margin-top:12px"></p>`;
+    const set = (list, folder) => {
+      files = [...list].filter(f => /\.csv$/i.test(f.name));
+      document.getElementById('picked').textContent = files.length ? `${files.length} CSV file${files.length === 1 ? '' : 's'} selected` + (list.length > files.length ? ` (${list.length - files.length} non-CSV skipped)` : '') : 'No CSV files in that selection';
+      document.getElementById('go').hidden = !files.length;
+      const name = folder || (files.length === 1 ? files[0].name.replace(/\.csv$/i, '') : (files[0]?.webkitRelativePath || '').split('/')[0]);
+      document.getElementById('ename').value = (name || 'Exam').replace(/[_-]+/g, ' ').trim();
     };
+    // a dropped folder: walk its entries for CSV files
+    const walk = async entry => entry.isFile ? [await new Promise(r => entry.file(r))]
+      : entry.isDirectory ? (await new Promise(r => { const rd = entry.createReader(), all = []; const next = () => rd.readEntries(es => es.length ? (all.push(...es), next()) : r(all)); next(); })).reduce(async (acc, e) => [...await acc, ...await walk(e)], Promise.resolve([])) : [];
     const drop = document.getElementById('drop');
-    document.getElementById('file').onchange = ev => ev.target.files[0] && handle(ev.target.files[0]);
+    document.getElementById('file').onchange = ev => set(ev.target.files);
+    document.getElementById('folder').onclick = () => document.getElementById('dir').click();
+    document.getElementById('dir').onchange = ev => set(ev.target.files);
     ['dragenter', 'dragover'].forEach(t => drop.addEventListener(t, ev => { ev.preventDefault(); drop.classList.add('over'); }));
     ['dragleave', 'drop'].forEach(t => drop.addEventListener(t, ev => { ev.preventDefault(); drop.classList.remove('over'); }));
-    drop.addEventListener('drop', ev => ev.dataTransfer.files[0] && handle(ev.dataTransfer.files[0]));
+    drop.addEventListener('drop', async ev => {
+      const entries = [...ev.dataTransfer.items].map(i => i.webkitGetAsEntry?.()).filter(Boolean);
+      if (!entries.length) return set(ev.dataTransfer.files);
+      const dir = entries.length === 1 && entries[0].isDirectory ? entries[0].name : '';
+      set((await Promise.all(entries.map(walk))).flat(), dir);
+    });
+    document.getElementById('send').onclick = async ev => {
+      ev.target.disabled = true;
+      document.getElementById('up').textContent = `Uploading ${files.length} file${files.length === 1 ? '' : 's'} to Databricks and starting the job…`;
+      try { const { exam: x } = await API.uploadExport(course.id, files, document.getElementById('ename').value.trim()); await loadCourse(); location.hash = `#/exams/${x.id}`; }
+      catch (err) { document.getElementById('up').textContent = 'Upload failed: ' + err.message; ev.target.disabled = false; }
+    };
   }
 
   window.addEventListener('hashchange', () => { view.onclick = null; render(); });

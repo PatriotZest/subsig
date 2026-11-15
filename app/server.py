@@ -106,23 +106,44 @@ def chat(prompt, max_tokens=1200):
 
 
 # ----------------------------------------------------------------------------- state
+STATE_VOLUME = f"{UPLOAD_DIR}/state.json"
+
+
 def load_state():
+    """Local file first (dev); otherwise the copy in the Unity Catalog volume (Databricks App restarts)."""
+    empty = {"exams": [], "reports": {}, "tags": {}, "analyzed": [], "last_sync": None}
     if STATE_FILE.exists():
         try:
-            return json.loads(STATE_FILE.read_text())
+            return {**empty, **json.loads(STATE_FILE.read_text())}
         except Exception:
             pass
-    return {"exams": [], "reports": {}, "tags": {}, "analyzed": [], "last_sync": None}
+    if HOST and TOKEN:
+        try:
+            st = dbx("GET", f"/api/2.0/fs/files{STATE_VOLUME}")
+            if st.get("exams") is not None:
+                print("state loaded from", STATE_VOLUME)
+                return {**empty, **st}
+        except Exception as e:
+            print("no saved state in volume:", str(e)[:120])
+    return empty
 
 
 STATE = load_state()
 
 
 def save_state():
+    data = json.dumps(STATE)
     try:
-        STATE_FILE.write_text(json.dumps(STATE))
+        STATE_FILE.write_text(data)
     except Exception as e:  # ephemeral disk on Apps; state also lives in memory
         print("state not saved:", e)
+    if HOST and TOKEN:
+        def push():
+            try:
+                upload_to_volume(STATE_VOLUME, data.encode())
+            except Exception as e:
+                print("state not saved to volume:", str(e)[:200])
+        threading.Thread(target=push, daemon=True).start()
 
 
 def sample(name):
@@ -298,27 +319,19 @@ for _e in STATE["exams"]:
 
 # ----------------------------------------------------------------------------- course, students
 def course():
-    c = sample("course.json")
-    c["sample"] = False
-    for e in c["exams"]:
-        if e["id"] in STATE["analyzed"]:
-            e.update(status="analyzed", report_id="quiz-3", report_note="sample report reused")
+    """Only real uploads. (The made-up sample class lives on the sample-demo branch.)"""
     with lock:
-        c["exams"] = [dict(e) for e in STATE["exams"]] + c["exams"]
-    if STATE.get("last_sync"):
-        c["gradescope"]["last_sync"] = STATE["last_sync"]
-    c["gradescope"]["connected"] = False  # no public Gradescope API; exams arrive by CSV upload
-    c["databricks"] = {"connected": bool(HOST and TOKEN), "job_id": JOB_ID}
-    return c
+        exams = [dict(e) for e in STATE["exams"]]
+    return {"id": "main", "name": "Exams", "term": "", "sample": False,
+            "gradescope": {"connected": False, "course_name": "", "last_sync": STATE.get("last_sync")},
+            "skills": [], "students": [], "exams": exams,
+            "databricks": {"connected": bool(HOST and TOKEN), "job_id": JOB_ID}}
 
 
 def report(rid):
     with lock:
         if rid in STATE["reports"]:
             return STATE["reports"][rid]
-    f = SITE / "data" / "reports" / f"{Path(rid).name}.json"
-    if f.exists():
-        return json.loads(f.read_text())
     raise KeyError(rid)
 
 
@@ -402,13 +415,6 @@ def live():
 
 
 # ----------------------------------------------------------------------------- HTTP
-MIDTERM = [["Q1", "3/8 + 1/4", ["frac"]], ["Q2", "(−6) × 4", ["neg"]], ["Q3", "9 − 6 ÷ 3", ["order"]], ["Q4", "2/5 × 15", ["frac"]],
-           ["Q5", "−7 − (−10)", ["neg"]], ["Q6", "(3 + 5) × 2 − 4", ["order"]], ["Q7", "−3/4 + 1/2", ["frac", "neg"]],
-           ["Q8", "12 ÷ (−3) + 2", ["neg", "order"]], ["Q9", "5/6 ÷ 2/3", ["frac"]], ["Q10", "(−2)³", ["neg"]],
-           ["Q11", "4 + 6 × 2 − 8 ÷ 4", ["order"]], ["Q12", "1 2/3 − 3/4", ["frac"]], ["Q13", "−5 × (2 − 7)", ["neg", "order"]],
-           ["Q14", "Order from least to greatest: −1/2, 1/3, −2/3", ["frac", "neg"]]]
-
-
 class Handler(BaseHTTPRequestHandler):
     server_version = "Subsigmoid/1"
 
@@ -486,15 +492,12 @@ class Handler(BaseHTTPRequestHandler):
                 STATE["tags"][eid] = self.body_json(); save_state(); return self.send(200, {"ok": True})
             if eid in STATE["tags"]:
                 return self.send(200, STATE["tags"][eid])
-            c = sample("course.json")
-            if eid == "midterm":
-                return self.send(200, {"exam_id": eid, "skills": c["skills"], "items": [{"id": i, "prompt": t, "skills": s, "source": "ai"} for i, t, s in MIDTERM]})
             r = report(eid)
             return self.send(200, {"exam_id": eid, "skills": r["skills"], "items": [{"id": i["id"], "prompt": i["prompt"], "skills": i["skills"], "source": "approved"} for i in r["items"]]})
         if P[0] == "exams" and len(P) == 3 and P[2] == "analyze" and method == "POST":
             if P[1] not in STATE["analyzed"]:
                 STATE["analyzed"].append(P[1]); save_state()
-            return self.send(200, {"report_id": "quiz-3" if P[1] == "midterm" else P[1]})
+            return self.send(200, {"report_id": P[1]})
         if P == ["live"]:
             return self.send(200, live())
         if P == ["quiz"]:
@@ -521,38 +524,58 @@ class Handler(BaseHTTPRequestHandler):
         return self.send(404, {"error": "unknown endpoint"})
 
     def upload(self):
+        """One or more graded CSVs (e.g. one per student from the PDF extraction notebook) -> one exam."""
+        import csv
         from email.parser import BytesParser
         from email.policy import default as email_policy
         n = int(self.headers.get("Content-Length") or 0)
         msg = BytesParser(policy=email_policy).parsebytes(
             b"Content-Type: " + self.headers["Content-Type"].encode() + b"\r\n\r\n" + self.rfile.read(n))
-        part = next((pt for pt in msg.iter_parts() if pt.get_param("name", header="content-disposition") == "file"), None)
-        if part is None:
-            return self.send(400, {"error": "No file field in the upload."})
-        content = part.get_payload(decode=True) or b""
-        name = Path(part.get_filename() or "exam.csv").stem
-        text = content.decode("utf-8-sig", errors="replace")
-        rows = list(__import__("csv").reader(io.StringIO(text)))
-        header = [h.strip() for h in rows[0]] if rows else []
-        if not {"Student", "Question"}.issubset(header) and not any(h.lower() == "studentname" for h in header):
-            return self.send(400, {"error": "Expected a graded CSV with Student and Question columns (the format the PDF extraction notebook writes)."})
-        si, qi = (header.index("Student"), header.index("Question")) if "Student" in header else (0, None)
-        students = {r[si] for r in rows[1:] if len(r) > si and r[si].strip()}
-        questions = {r[qi] for r in rows[1:] if qi is not None and len(r) > qi and r[qi].strip()}
+        parts = list(msg.iter_parts())
+        files = [pt for pt in parts if pt.get_param("name", header="content-disposition") == "file"]
+        given = next((pt.get_content().strip() for pt in parts if pt.get_param("name", header="content-disposition") == "name"), "")
+        if not files:
+            return self.send(400, {"error": "No CSV in the upload."})
+        header, merged, skipped = None, {}, []
+        for pt in files:
+            fname = pt.get_filename() or "file.csv"
+            rows = list(csv.reader(io.StringIO((pt.get_payload(decode=True) or b"").decode("utf-8-sig", errors="replace"))))
+            h = [x.strip() for x in rows[0]] if rows else []
+            if not {"Student", "Question"}.issubset(h):
+                skipped.append(fname); continue
+            header = header or h
+            si, qi = h.index("Student"), h.index("Question")
+            for r in rows[1:]:
+                if len(r) > max(si, qi) and r[si].strip() and r[qi].strip():
+                    rec = dict(zip(h, r))
+                    merged[(r[si].strip(), r[qi].strip())] = [rec.get(c, "") for c in header]  # same student+question: last file wins
+        if not merged:
+            return self.send(400, {"error": "Expected graded CSVs with Student and Question columns (the format the PDF extraction notebook writes)."
+                                            + (f" Skipped: {', '.join(skipped[:5])}" if skipped else "")})
+        out = io.StringIO(); w = csv.writer(out); w.writerow(header); w.writerows(merged.values())
+        content = out.getvalue().encode()
+        students = {k[0] for k in merged}; questions = {k[1] for k in merged}
+        name = given or (Path(files[0].get_filename() or "exam").stem.replace("_", " ").replace("-", " ").strip() if len(files) == 1
+                         else f"Exam ({len(files)} files)")
         eid = "up-" + uuid.uuid4().hex[:8]
         path = f"{UPLOAD_DIR}/{eid}.csv"
         upload_to_volume(path, content)
         run_id = run_job(path)
-        exam = {"id": eid, "name": name.replace("_", " ").replace("-", " ").strip() or "Uploaded exam", "date": time.strftime("%Y-%m-%d"),
+        exam = {"id": eid, "name": name[:80] or "Uploaded exam", "date": time.strftime("%Y-%m-%d"),
                 "status": "analyzing", "n_students": len(students), "n_items": len(questions), "report_id": None,
-                "source": "Uploaded CSV · Databricks", "volume_path": path, "run_id": run_id,
+                "source": f"{len(files) - len(skipped)} CSV file{'s' if len(files) - len(skipped) != 1 else ''} · Databricks",
+                "volume_path": path, "run_id": run_id, "skipped": skipped,
                 "run_url": f"{HOST}/#job/{JOB_ID}/run/{run_id}", "started": time.time()}
         with lock:
-            STATE["exams"].insert(0, exam); save_state()
+            STATE["exams"].insert(0, exam)
+        save_state()
         threading.Thread(target=watch, args=(eid,), daemon=True).start()
         return self.send(200, {"exam": exam})
 
 
 if __name__ == "__main__":
+    for e in STATE["exams"]:
+        if e.get("status") == "analyzing" and e.get("run_id"):
+            threading.Thread(target=watch, args=(e["id"],), daemon=True).start()
     print(f"Subsigmoid on http://localhost:{PORT}  (site: {SITE}, databricks: {'on' if HOST and TOKEN else 'off'})")
     ThreadingHTTPServer(("0.0.0.0", PORT), Handler).serve_forever()
