@@ -534,7 +534,8 @@ class Handler(BaseHTTPRequestHandler):
             b"Content-Type: " + self.headers["Content-Type"].encode() + b"\r\n\r\n" + self.rfile.read(n))
         parts = list(msg.iter_parts())
         files = [pt for pt in parts if pt.get_param("name", header="content-disposition") == "file"]
-        given = next((pt.get_content().strip() for pt in parts if pt.get_param("name", header="content-disposition") == "name"), "")
+        given = next(((pt.get_payload(decode=True) or b"").decode("utf-8", errors="replace").strip()
+                      for pt in parts if pt.get_param("name", header="content-disposition") == "name"), "")
         if not files:
             return self.send(400, {"error": "No CSV in the upload."})
         header, merged, skipped = None, {}, []
