@@ -1,5 +1,32 @@
 # Subsigmoid API contract
 
+## Connected assessment dashboard
+
+Run `python3 server.py` from the repository root. Its same-origin
+`GET /api/dashboard` reads the configured Databricks assessment job's latest
+successful run, resolves the notebook task, retrieves its `return_json=true`
+output, and returns only:
+
+```ts
+type Dashboard = {
+  configured: true; name: string; completed_at: string;
+  summary: { students: number; questions: number; responses: number;
+             model_fitted: boolean; synthetic: boolean };
+  model_note: string | null;
+  questions: { id: string; text: string; average: number }[]; // up to 3, lowest average first
+};
+```
+
+`average` is a fraction from 0 to 1. Questions without a valid normalized average
+are omitted. Missing/truncated output and access failures return non-2xx
+`{ error: string }` responses without upstream error bodies. No configured
+credentials returns `{ configured: false }` so the static demo remains available.
+The response is not stored in browser caches; the server caches it for 30 seconds.
+Credentials belong in server environment variables or the ignored root `.env`,
+never in HTML, JavaScript, query strings or requests from the browser.
+
+## Full course backend (separate demo contract)
+
 The front end is static HTML/JS:
 
 - `index.html`: the front page

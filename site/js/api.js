@@ -149,6 +149,14 @@
   const enc = encodeURIComponent;
   window.Subsigmoid = {
     live: LIVE, base: BASE,
+    // The local server keeps Databricks credentials and detailed records off the client.
+    getDashboard: async () => {
+      const res = await fetch('/api/dashboard', { cache: 'no-store' });
+      if (res.status === 404) return null; // Static-only preview.
+      const body = await res.json();
+      if (!res.ok) throw new Error(body.error || 'Could not load the assessment.');
+      return body.configured ? body : null;
+    },
     getCourses:   ()            => LIVE ? http('GET', '/api/courses') : mock.courses(),
     getCourse:    (cid)         => LIVE ? http('GET', `/api/courses/${enc(cid)}`) : mock.course(cid),
     syncGradescope:(cid)        => LIVE ? http('POST', `/api/courses/${enc(cid)}/sync`) : mock.sync(cid),

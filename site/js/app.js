@@ -8,7 +8,7 @@
   const date = d => new Date(d + (d.length === 10 ? 'T12:00:00' : '')).toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
   const ago = iso => { const m = Math.round((Date.now() - new Date(iso)) / 60000); return m < 60 ? Math.max(m, 1) + 'm ago' : m < 1440 ? Math.round(m / 60) + 'h ago' : Math.round(m / 1440) + 'd ago'; };
   const LABEL = { knew: 'Knew it', guess: 'Probably a guess', slip: 'Probably a slip', gap: 'Skill missing', unclear: 'Can’t tell yet' };
-  let course, liveTimer;
+  let course, liveTimer, connected = false;
 
   const status = e => e.status === 'analyzed' ? '<span class="st ok">Analyzed</span>' : e.status === 'needs_tags' ? '<span class="st warn">Needs skill tags</span>' : `<span class="st">${esc(e.status)}</span>`;
   const bar = p => `<span class="tb${p < .3 ? ' lo' : ''}"><i style="--w:${Math.max(4, p * 100)}%"></i>${pct(p)}</span>`;
@@ -27,6 +27,7 @@
 
   async function render() {
     clearInterval(liveTimer);
+    if (connected) return dashboard();
     const [a, b] = location.hash.replace(/^#\/?/, '').split('?')[0].split('/').filter(Boolean);
     scrollTo(0, 0);
     try {
@@ -37,6 +38,30 @@
       else if (a === 'import') importView();
       else location.hash = '#/';
     } catch (e) { console.error(e); view.innerHTML = `<div class="empty">Could not load this page: ${esc(e.message)}</div>`; }
+  }
+
+  /* ---------- compact Databricks assessment ---------- */
+  async function dashboard() {
+    document.querySelector('.top-r').hidden = true;
+    document.getElementById('crumb').textContent = 'Assessment';
+    document.getElementById('mode').hidden = true;
+    view.innerHTML = '<div class="empty">Loading assessment…</div>';
+    try {
+      const D = await API.getDashboard();
+      if (!D) throw new Error('The assessment connection is no longer configured.');
+      const S = D.summary;
+      const mode = document.getElementById('mode');
+      mode.textContent = 'Synthetic data'; mode.hidden = !S.synthetic;
+      const completed = new Date(D.completed_at).toLocaleString(undefined, { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' });
+      view.innerHTML = head(esc(D.name), dots(['Latest successful assessment', `Completed ${esc(completed)}`, S.synthetic ? '<span class="st warn">Synthetic data</span>' : '']), '<button class="btn" id="refresh">Refresh</button>')
+        + `<div class="strip"><div><span>Students</span><b>${esc(S.students)}</b></div><div><span>Questions</span><b>${esc(S.questions)}</b></div><div><span>Responses</span><b>${esc(S.responses)}</b></div><div><span>Model</span><b style="font-size:20px">${S.model_fitted ? 'Fitted' : 'Not fitted'}</b></div></div>`
+        + (!S.model_fitted ? `<p class="note" style="margin-top:16px">${esc(D.model_note || 'The model was not fitted for this assessment.')}</p>` : '')
+        + (D.questions.length ? sec('Questions to review', `<div class="list">${D.questions.map(q => `<div class="row r-review"><span class="t">${esc(q.id)}</span><span class="s">${esc(q.text)}</span><span class="num">${pct(q.average)}</span></div>`).join('')}</div>`, 'Lowest average scores · up to 3 questions') : '<p class="note">No scored questions to review yet.</p>');
+      document.getElementById('refresh').onclick = dashboard;
+    } catch (err) {
+      view.innerHTML = head('Assessment', 'Could not load the latest result') + `<p class="note" role="alert">${esc(err.message)}</p><button class="btn" id="retry">Try again</button>`;
+      document.getElementById('retry').onclick = dashboard;
+    }
   }
 
   /* ---------- course home ---------- */
@@ -192,5 +217,20 @@
   }
 
   window.addEventListener('hashchange', () => { view.onclick = null; render(); });
-  loadCourse().then(render).catch(e => { view.innerHTML = `<div class="empty">Could not load the course: ${esc(e.message)}</div>`; });
+  async function start() {
+    try {
+      // Explicit full-backend configuration continues to use the original course views.
+      if (!API.live) {
+        const result = await API.getDashboard();
+        if (result) { connected = true; await dashboard(); return; }
+      }
+      await loadCourse(); await render();
+    } catch (err) {
+      // A failing configured connection must never silently show made-up class data.
+      document.querySelector('.top-r').hidden = true;
+      view.innerHTML = head('Assessment', 'Could not load the dashboard') + `<p class="note" role="alert">${esc(err.message)}</p><button class="btn" id="retry">Try again</button>`;
+      document.getElementById('retry').onclick = start;
+    }
+  }
+  start();
 })();
